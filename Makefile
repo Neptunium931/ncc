@@ -18,7 +18,8 @@ clean:
 	rm -f ncc
 
 check: ncc
-	./ncc
+	./ncc ./exemple/empty.c
+	./ncc ./exemple/simpleMain.c
 
 distcheck:
 
