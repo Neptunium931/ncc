@@ -11,3 +11,9 @@ ncc: $(ncc_obj)
 clean:
 	rm -f $(ncc_obj)
 	rm -f ncc
+
+check:
+
+distcheck:
+
+.PHONY: clean check distcheck
