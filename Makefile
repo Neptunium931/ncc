@@ -1,6 +1,8 @@
 AS = as
 ncc_src = ./src/entry.s \
-					./src/quit.s 
+					./src/quit.s \
+					./src/openFile.s \
+					./src/closeFile.s
 
 ncc_obj = $(ncc_src:.s=.s.o) 
 
