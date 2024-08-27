@@ -2,76 +2,69 @@
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
-.global _start
+.global checkChar
 
-.section .text
+# See https: // en.cppreference.com/w/c/language/translation_phases
+#
+# The source character set is a multibyte character set which includes
+# the basic source character set as a single-byte subset
+# consisting of the following 96 characters:
+#
+# a) 5 whitespace characters
+# (space, horizontal tab, vertical tab, form feed, new-line)
+# b) 10 digit characters from '0' to '9'
+# c) 52 letters from 'a' to 'z' and from 'A' to 'Z'
+# d) 29 punctuation characters:
+# _ { } [ ] # ( ) < > % :; . ? * + - / ^ & | ~ ! =, \ " '
+#
+# char allow
+#
+# - 0x09 => horizontal tab
+# - 0x11 to 0x13 => vertical tab, form feed, new-line
+# - 0x20 to 0x23 => space, !, ", #
+# - 0x25 to 0x3F => %, &, ', (, ), *, +, ,, -, ., /, 0-9, :, ;, <, =, >, ?
+# - 0x41 to 0x5F => A-Z, [, \, ], ^, _
+# - 0x61 to 0x7E => a-z, {, |, }, ~
+# new line in linux is 0x0A => line feed
 
-_start:
-	mov rbp, rsp
+checkChar:
+# 0x09 to 0x13
+cmp byte ptr [rdi], 0x09
+jl  checkChar.error
+cmp byte ptr [rdi], 0x13
+jle checkChar.ok
 
-	cmp DWORD PTR [rbp], 2
-	jne end_error
+# 0x20 to 0x23
+cmp byte ptr [rdi], 0x20
+jl  checkChar.error
+cmp byte ptr [rdi], 0x23
+jle checkChar.ok
 
-	mov  rdi, [rbp + 16]
-	call openFile
-	mov  r12, rax
+# 0x25 to 0x3F
+cmp byte ptr [rdi], 0x25
+jl  checkChar.error
+cmp byte ptr [rdi], 0x3F
+jle checkChar.ok
 
-	mov  rdi, 1024
-	call malloc
-	mov  r13, rax
+# 0x41 to 0x5F
+cmp byte ptr [rdi], 0x41
+jl  checkChar.error
+cmp byte ptr [rdi], 0x5F
+jle checkChar.ok
 
-	mov  rdi, r12
-	mov  rsi, r13
-	mov  rdx, 1024
-	call readFd
+# 0x61 to 0x7E
+cmp byte ptr [rdi], 0x61
+jl  checkChar.error
+cmp byte ptr [rdi], 0x7E
+jle checkChar.ok
 
-	mov rdi, r13
-	xor r14, r14
+checkChar.ok:
+	xor rax, rax
+	ret
 
-checkChar.loop:
-	cmp  byte ptr [rdi], 0
-	je   checkChar.loop.end
-	call checkChar
-	cmp  rax, 0
-	jne  checkChar.loop.error
-	inc  rdi
-	inc  r14
-	jmp  checkChar.loop
-
-checkChar.loop.end:
-
-	mov  rdi, 1
-	mov  rsi, r13
-	mov  rdx, 1024
-	call writeFd
-
-	mov  rdi, r13
-	mov  rsi, 1024
-	call free
-
-	mov  rdi, r12
-	call closeFile
-
-	jmp end
-
-checkChar.loop.error:
-	mov  rdi, 1
-	mov  rsi, checkChar.error.message
-	mov  rdx, 0x20
-	call writeFd
-	jmp  end_error
-
-end_error:
-	mov  rdi, 1
-	call quit
-
-end:
-	xor  rdi, rdi
-	call quit
-
-checkChar.error.message:
-	.asciz                      "Invalid character in file.\n"
-	checkChar.error.message.len = . - checkChar.error.message
+checkChar.error:
+	mov rax, 1
+	ret
 
 # This file is part of ncc.
 #

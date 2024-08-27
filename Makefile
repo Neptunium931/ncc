@@ -7,7 +7,8 @@ ncc_src = ./src/entry.s \
 					./src/closeFile.s \
 					./src/malloc.s \
 					./src/readFd.s \
-					./src/writeFd.s
+					./src/writeFd.s \
+					./src/checkChar.s
 
 ncc_obj = $(ncc_src:.s=.s.o) 
 
@@ -24,6 +25,7 @@ clean:
 check: ncc
 	./ncc ./exemple/empty.c
 	./ncc ./exemple/simpleMain.c
+	! ./ncc ./exemple/ivalideChar.c
 
 distcheck:
 
