@@ -12,17 +12,29 @@ _start:
 	cmp DWORD PTR [rbp], 2
 	jne end_error
 
-	mov  rdi, [rbp + 8]
+	mov  rdi, [rbp + 16]
 	call openFile
+	mov  r12, rax
 
 	mov  rdi, 1024
 	call malloc
+	mov  r13, rax
 
-	mov  rdi, rax
+	mov  rdi, r12
+	mov  rsi, r13
+	mov  rdx, 1024
+	call readFd
+
+	mov  rdi, 1
+	mov  rsi, r13
+	mov  rdx, 1024
+	call writeFd
+
+	mov  rdi, r13
 	mov  rsi, 1024
 	call free
 
-	mov  rdi, rax
+	mov  rdi, r12
 	call closeFile
 
 	jmp end
