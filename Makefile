@@ -8,7 +8,9 @@ ncc_src = ./src/entry.s \
 					./src/malloc.s \
 					./src/readFd.s \
 					./src/writeFd.s \
-					./src/checkChar.s
+					./src/checkChar.s \
+					./src/lexer/lexer.s \
+					./src/lexer/endWord.s
 
 ncc_obj = $(ncc_src:.s=.s.o) 
 

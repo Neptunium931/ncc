@@ -2,86 +2,24 @@
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
-.global _start
+.global endWord
 
-.section .text
+endWord:
+	cmp byte ptr [rdi], 0x20
+	je  endWord.end.isEnd
+	cmp byte ptr [rdi], 0x09
+	je  endWord.end.isEnd
+	cmp byte ptr [rdi], 0x0a
+	je  endWord.end.isEnd
+	jmp endWord.end.notEnd
 
-_start:
-	mov rbp, rsp
+endWord.end.isEnd:
+	mov rax, 1
+	ret
 
-	cmp DWORD PTR [rbp], 2
-	jne end_error
-
-	mov  rdi, [rbp + 16]
-	call openFile
-	mov  r12, rax
-
-	mov  rdi, 1024
-	call malloc
-	mov  r13, rax
-
-	mov  rdi, r12
-	mov  rsi, r13
-	mov  rdx, 1024
-	call readFd
-
-	mov rdi, r13
-	xor r14, r14
-
-checkChar.loop:
-	cmp  byte ptr [rdi], 0
-	je   checkChar.loop.end
-	call checkChar
-	cmp  rax, 0
-	jne  checkChar.loop.error
-	inc  rdi
-	inc  r14
-	jmp  checkChar.loop
-
-checkChar.loop.end:
-
-	mov  rdi, 1024
-	call malloc
-	mov  r15, rax
-	mov  rsi, rax
-	mov  rdi, r13
-	call lexer
-	mov  rdi, r15
-	mov  rsi, 1024
-	call free
-
-	mov  rdi, 1
-	mov  rsi, r13
-	mov  rdx, 1024
-	call writeFd
-
-	mov  rdi, r13
-	mov  rsi, 1024
-	call free
-
-	mov  rdi, r12
-	call closeFile
-
-	jmp end
-
-checkChar.loop.error:
-	mov  rdi, 1
-	mov  rsi, checkChar.error.message
-	mov  rdx, 0x20
-	call writeFd
-	jmp  end_error
-
-end_error:
-	mov  rdi, 1
-	call quit
-
-end:
-	xor  rdi, rdi
-	call quit
-
-checkChar.error.message:
-	.asciz                      "Invalid character in file.\n"
-	checkChar.error.message.len = . - checkChar.error.message
+endWord.end.notEnd:
+	xor rax, rax
+	ret
 
 # This file is part of ncc.
 #

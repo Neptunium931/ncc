@@ -2,86 +2,48 @@
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
-.global _start
+.global lexer
 
-.section .text
+lexer:
+	push rbp
+	mov  rbp, rsp
+	push rbx
+	push r12
+	push r13
+	push r14
+	push r15
 
-_start:
-	mov rbp, rsp
+# rdi char *buf
+# rsi void *[char *buf]
 
-	cmp DWORD PTR [rbp], 2
-	jne end_error
+b:
+	mov r15, rsi
 
-	mov  rdi, [rbp + 16]
-	call openFile
-	mov  r12, rax
-
-	mov  rdi, 1024
-	call malloc
-	mov  r13, rax
-
-	mov  rdi, r12
-	mov  rsi, r13
-	mov  rdx, 1024
-	call readFd
-
-	mov rdi, r13
-	xor r14, r14
-
-checkChar.loop:
+lexer.loop:
 	cmp  byte ptr [rdi], 0
-	je   checkChar.loop.end
-	call checkChar
+	je   lexer.loop.end
+	call endWord
 	cmp  rax, 0
-	jne  checkChar.loop.error
-	inc  rdi
-	inc  r14
-	jmp  checkChar.loop
+	je   lexer.loop.inWord
 
-checkChar.loop.end:
+lexer.loop.endWord:
+	inc rdi
+	mov [rsi], rdi
+	add rsi, 8
+	jmp lexer.loop
 
-	mov  rdi, 1024
-	call malloc
-	mov  r15, rax
-	mov  rsi, rax
-	mov  rdi, r13
-	call lexer
-	mov  rdi, r15
-	mov  rsi, 1024
-	call free
+lexer.loop.inWord:
+	inc rdi
+	jmp lexer.loop
 
-	mov  rdi, 1
-	mov  rsi, r13
-	mov  rdx, 1024
-	call writeFd
-
-	mov  rdi, r13
-	mov  rsi, 1024
-	call free
-
-	mov  rdi, r12
-	call closeFile
-
-	jmp end
-
-checkChar.loop.error:
-	mov  rdi, 1
-	mov  rsi, checkChar.error.message
-	mov  rdx, 0x20
-	call writeFd
-	jmp  end_error
-
-end_error:
-	mov  rdi, 1
-	call quit
-
-end:
-	xor  rdi, rdi
-	call quit
-
-checkChar.error.message:
-	.asciz                      "Invalid character in file.\n"
-	checkChar.error.message.len = . - checkChar.error.message
+lexer.loop.end:
+	pop r15
+	pop r14
+	pop r13
+	pop r12
+	pop rbx
+	pop rbp
+	ret
 
 # This file is part of ncc.
 #
