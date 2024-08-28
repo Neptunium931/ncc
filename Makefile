@@ -25,7 +25,7 @@ clean:
 check: ncc
 	./ncc ./exemple/empty.c
 	./ncc ./exemple/simpleMain.c
-	! ./ncc ./exemple/ivalideChar.c
+	! ./ncc ./exemple/invalidChar.c
 
 distcheck:
 
