@@ -16,9 +16,6 @@ lexer:
 # rdi char *buf
 # rsi void *[char *buf]
 
-b:
-	mov r15, rsi
-
 lexer.loop:
 	cmp  byte ptr [rdi], 0
 	je   lexer.loop.end
