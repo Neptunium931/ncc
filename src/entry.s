@@ -46,6 +46,11 @@ checkChar.loop.end:
 	mov  rsi, rax
 	mov  rdi, r13
 	call lexer
+
+	mov  rdi, r13
+	mov  rsi, r15
+	call parser
+
 	mov  rdi, r15
 	mov  rsi, 1024
 	call free

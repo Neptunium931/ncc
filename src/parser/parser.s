@@ -1,38 +1,30 @@
 # Copyright (c) 2024, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 # See end of file for extended copyright information.
-AS = as
-ncc_src = ./src/entry.s \
-					./src/quit.s \
-					./src/openFile.s \
-					./src/closeFile.s \
-					./src/malloc.s \
-					./src/readFd.s \
-					./src/writeFd.s \
-					./src/checkChar.s \
-					./src/lexer/lexer.s \
-					./src/lexer/endWord.s \
-					./src/parser/parser.s
+.intel_syntax noprefix
 
-ncc_obj = $(ncc_src:.s=.s.o) 
+.global parser
 
-ncc: $(ncc_obj)
-	ld -o $@ $^ -g
+parser:
+	push rbp
+	mov  rbp, rsp
+	push rbx
+	push r12
+	push r13
+	push r14
+	push r15
 
-%.s.o: %.s
-	$(AS) -o $@ $< -g
+# rdi char *buf
+# rsi void *[char *buf]
+parser.loop:
 
-clean:
-	rm -f $(ncc_obj)
-	rm -f ncc
-
-check: ncc
-	./ncc ./exemple/empty.c
-	./ncc ./exemple/simpleMain.c
-	! ./ncc ./exemple/invalidChar.c
-
-distcheck:
-
-.PHONY: clean check distcheck
+parser.loop.end:
+	pop r15
+	pop r14
+	pop r13
+	pop r12
+	pop rbx
+	pop rbp
+	ret
 
 # This file is part of ncc.
 #
@@ -43,17 +35,17 @@ distcheck:
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
 #
-# 1. Redistributions of source code must retain the above copyright notice,
+# 1. Redistributions of source code must retain the above copyright notice
 # this
-#    list of conditions and the following disclaimer.
+# list of conditions and the following disclaimer.
 #
-# 2. Redistributions in binary form must reproduce the above copyright notice,
-#    this list of conditions and the following disclaimer in the documentation
-#    and/or other materials provided with the distribution.
+# 2. Redistributions in binary form must reproduce the above copyright notice
+# this list of conditions and the following disclaimer in the documentation
+# and/or other materials provided with the distribution.
 #
 # 3. Neither the name of the copyright holder nor the names of its
-#    contributors may be used to endorse or promote products derived from
-#    this software without specific prior written permission.
+# contributors may be used to endorse or promote products derived from
+# this software without specific prior written permission.
 #
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
