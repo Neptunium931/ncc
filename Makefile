@@ -11,7 +11,8 @@ ncc_src = ./src/entry.s \
 					./src/checkChar.s \
 					./src/lexer/lexer.s \
 					./src/lexer/endWord.s \
-					./src/parser/parser.s
+					./src/parser/parser.s \
+					./src/errorMessage.s
 
 ncc_obj = $(ncc_src:.s=.s.o) 
 

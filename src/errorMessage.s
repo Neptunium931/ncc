@@ -2,87 +2,13 @@
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
-.global _start
+.global checkChar.error.message
+.global checkChar.error.message.len
 
-.section .text
+checkChar.error.message:
+	.asciz "Invalid character in file.\n"
 
-_start:
-	mov rbp, rsp
-
-	cmp DWORD PTR [rbp], 2
-	jne end_error
-
-	mov  rdi, [rbp + 16]
-	call openFile
-	mov  r12, rax
-
-	mov  rdi, 1024
-	call malloc
-	mov  r13, rax
-
-	mov  rdi, r12
-	mov  rsi, r13
-	mov  rdx, 1024
-	call readFd
-
-	mov rdi, r13
-	xor r14, r14
-
-checkChar.loop:
-	cmp  byte ptr [rdi], 0
-	je   checkChar.loop.end
-	call checkChar
-	cmp  rax, 0
-	jne  checkChar.loop.error
-	inc  rdi
-	inc  r14
-	jmp  checkChar.loop
-
-checkChar.loop.end:
-
-	mov  rdi, 1024
-	call malloc
-	mov  r15, rax
-	mov  rsi, rax
-	mov  rdi, r13
-	call lexer
-
-	mov  rdi, r13
-	mov  rsi, r15
-	call parser
-
-	mov  rdi, r15
-	mov  rsi, 1024
-	call free
-
-	mov  rdi, 1
-	mov  rsi, r13
-	mov  rdx, 1024
-	call writeFd
-
-	mov  rdi, r13
-	mov  rsi, 1024
-	call free
-
-	mov  rdi, r12
-	call closeFile
-
-	jmp end
-
-checkChar.loop.error:
-	mov  rdi, 1
-	mov  rsi, OFFSET checkChar.error.message
-	mov  rdx, OFFSET checkChar.error.message.len
-	call writeFd
-	jmp  end_error
-
-end_error:
-	mov  rdi, 1
-	call quit
-
-end:
-	xor  rdi, rdi
-	call quit
+	.equ checkChar.error.message.len, . - checkChar.error.message
 
 # This file is part of ncc.
 #
