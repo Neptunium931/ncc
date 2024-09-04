@@ -26,7 +26,6 @@ _start:
 	call readFd
 
 	mov rdi, r13
-	xor r14, r14
 
 checkChar.loop:
 	cmp  byte ptr [rdi], 0
@@ -35,11 +34,9 @@ checkChar.loop:
 	cmp  rax, 0
 	jne  checkChar.loop.error
 	inc  rdi
-	inc  r14
 	jmp  checkChar.loop
 
 checkChar.loop.end:
-
 	mov  rdi, 1024
 	call malloc
 	mov  r15, rax
@@ -47,9 +44,16 @@ checkChar.loop.end:
 	mov  rdi, r13
 	call lexer
 
-	mov  rdi, r13
-	mov  rsi, r15
+	mov  rdi, 1024
+	call malloc
+	mov  r14, rax
+	mov  rdi, r15
+	mov  rsi, r14
 	call parser
+
+	mov  rdi, r14
+	mov  rsi, 1024
+	call free
 
 	mov  rdi, r15
 	mov  rsi, 1024
