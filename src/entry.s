@@ -47,8 +47,9 @@ checkChar.loop.end:
 	mov  rdi, 1024
 	call malloc
 	mov  r14, rax
-	mov  rdi, r15
-	mov  rsi, r14
+	mov  rdi, r13
+	mov  rsi, r15
+	mov  rdx, r14
 	call parser
 
 	mov  rdi, r14
