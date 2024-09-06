@@ -2,9 +2,9 @@
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
-.global parser
+.global isType
 
-parser:
+isType:
 	push rbp
 	mov  rbp, rsp
 	push rbx
@@ -13,78 +13,15 @@ parser:
 	push r14
 	push r15
 
-# rdi char *buf
-# rsi void *[char *buf]
-# rdx void  *struct ast {}
-#
-# enum {
-# INVALID = -1
-# AUTO = 0
-# BREAK = 1
-# CASE = 2
-# CHAR = 3
-# CONST = 4
-# CONTINUE = 5
-# DEFAULT = 6
-# DO = 7
-# DOUBLE = 8
-# ELSE = 9
-# ENUM = 10
-# EXTERN = 11
-# FLOAT = 12
-# FOR = 13
-# GOTO = 14
-# IF = 15
-# INT = 16
-# LONG = 17
-# REGISTER = 18
-# RETURN = 19
-# SHORT = 20
-# SIGNED = 21
-# SIZEOF = 22
-# STATIC = 23
-# STRUCT = 24
-# SWITCH = 25
-# TYPEDEF = 26
-# UNION = 27
-# UNSIGNED = 28
-# VOID = 29
-# VOLATILE = 30
-# WHILE = 31
-#} word
+isType.end.true:
+	mov rax, 1
+	jmp isType.end
 
-xor r15, r15
+isType.end.false:
+	xor rax, rax
+	jmp isType.end
 
-# 2^0 => if 1 type is in struct else type not in struct
-
-parser.loop:
-parser.loop.switch:
-	cmp  byte ptr [rsi], 0
-	je   parser.loop.end
-	call isWord
-	cmp  rax, -1
-	je   parser.loop.switch.notWord
-
-	mov r14b, r15b
-	xor r14b, 0xFE
-	cmp r14b, 0
-	je  parser.loop.switch.isType
-	jmp parser.loop.switch.end
-
-parser.loop.switch.isType:
-	call isType
-	cmp  rax, -1
-	je   parser.loop.switch.end
-	or   r15b, 0x01
-	jmp  parser.loop.switch.end
-
-parser.loop.switch.notWord:
-	jmp parser.loop.switch.end
-
-parser.loop.switch.end:
-	jmp parser.loop
-
-parser.loop.end:
+isType.end:
 	pop r15
 	pop r14
 	pop r13
