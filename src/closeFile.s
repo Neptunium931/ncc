@@ -4,6 +4,7 @@
 
 .global closeFile
 
+# rdi = int fd
 closeFile:
 	mov rax, 3
 	syscall

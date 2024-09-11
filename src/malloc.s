@@ -4,6 +4,8 @@
 .global malloc
 .global free
 
+# rdi = size
+# rax = void *
 malloc:
 	push rbp
 	mov  rbp, rsp
@@ -27,6 +29,7 @@ malloc.error:
 	mov  rdi, 2
 	call quit
 
+# rdi = void *ptr
 free:
 	push rbp
 	mov  rbp, rsp

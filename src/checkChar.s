@@ -27,6 +27,7 @@
 # - 0x61 to 0x7E => a-z, {, |, }, ~
 # new line in linux is 0x0A => line feed
 
+# rdi = char
 checkChar:
 # 0x09 to 0x13
 cmp byte ptr [rdi], 0x09

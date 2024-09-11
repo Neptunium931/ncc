@@ -4,6 +4,7 @@
 
 .global endWord
 
+# rdi = char
 endWord:
 	cmp byte ptr [rdi], 0x20
 	je  endWord.end.isEnd
