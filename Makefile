@@ -13,7 +13,11 @@ ncc_src = ./src/entry.s \
 					./src/lexer/endWord.s \
 					./src/parser/parser.s \
 					./src/errorMessage.s \
-					./src/parser/isType.s
+					./src/parser/isType.s \
+					./src/string/strcpy.s \
+					./src/string/strdup.s \
+					./src/string/strlen.s \
+					./src/memory/memcpy.s
 
 ncc_obj = $(ncc_src:.s=.s.o) 
 
