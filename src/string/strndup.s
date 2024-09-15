@@ -2,9 +2,9 @@
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
-.global lexer
+.global strndup
 
-lexer:
+strndup:
 	push rbp
 	mov  rbp, rsp
 	push rbx
@@ -14,34 +14,11 @@ lexer:
 	push r15
 
 # rdi char *buf
-# rsi void *[char **buf]
+# rsi size_t size
+# rax void *new
+strndup.body:
 
-mov [rsi], rdi
-add rsi, 8
-xor r15, r15
-mov [r14], rdi
-
-lexer.loop:
-	cmp  byte ptr [rdi], 0
-	je   lexer.loop.end
-	call endWord
-	cmp  rax, 0
-	je   lexer.loop.inWord
-
-lexer.loop.endWord:
-	inc rdi
-	mov [rsi], rdi
-	add rsi, 8
-	xor r15, r15
-	mov [r14], rdi
-	jmp lexer.loop
-
-lexer.loop.inWord:
-	inc r15
-	inc rdi
-	jmp lexer.loop
-
-lexer.loop.end:
+strndup.end:
 	pop r15
 	pop r14
 	pop r13
