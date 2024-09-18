@@ -35,6 +35,10 @@ strndup.copy:
 	mov  rdx, r12
 	call memcpy
 
+strndup.addNull:
+	mov byte ptr [r13 + r12], 0
+	mov rax, r13
+
 strndup.end:
 	pop r15
 	pop r14
