@@ -17,6 +17,23 @@ strndup:
 # rsi size_t size
 # rax void *new
 strndup.body:
+	mov r11, rdi
+
+strndup.checkLen:
+	call strnlen
+	inc  rax  # +1 for null
+	mov  r12, rax
+
+strndup.alloc:
+	mov  rdi, r12
+	call malloc
+	mov  r13, rax
+
+strndup.copy:
+	mov  rdi, r13
+	mov  rsi, r11
+	mov  rdx, r12
+	call memcpy
 
 strndup.end:
 	pop r15

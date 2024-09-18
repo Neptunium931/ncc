@@ -18,7 +18,8 @@ ncc_src = ./src/entry.s \
 					./src/string/strdup.s \
 					./src/string/strlen.s \
 					./src/memory/memcpy.s \
-					./src/string/strnlen.s
+					./src/string/strnlen.s \
+					./src/string/strndup.s
 
 ncc_obj = $(ncc_src:.s=.s.o) 
 
