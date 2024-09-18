@@ -18,8 +18,6 @@ lexer:
 
 mov [rsi], rdi
 add rsi, 8
-xor r15, r15
-mov [r14], rdi
 
 lexer.loop:
 	cmp  byte ptr [rdi], 0
@@ -32,12 +30,9 @@ lexer.loop.endWord:
 	inc rdi
 	mov [rsi], rdi
 	add rsi, 8
-	xor r15, r15
-	mov [r14], rdi
 	jmp lexer.loop
 
 lexer.loop.inWord:
-	inc r15
 	inc rdi
 	jmp lexer.loop
 
