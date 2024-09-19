@@ -9,6 +9,12 @@
 malloc:
 	push rbp
 	mov  rbp, rsp
+	push rbx
+	push r11
+	push r12
+	push r13
+	push r14
+	push r15
 
 	mov rsi, rdi
 	mov rax, 9
@@ -22,6 +28,12 @@ malloc:
 	cmp rax, -1
 	je  malloc.error
 
+	pop r15
+	pop r14
+	pop r13
+	pop r12
+	pop r11
+	pop rbx
 	pop rbp
 	ret
 
