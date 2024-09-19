@@ -16,25 +16,33 @@ lexer:
 
 # rdi char *buf
 # rsi void *[char **buf]
-
-mov [rsi], rdi
-add rsi, 8
+mov r11, rdi
+mov r12, rsi
+mov r15, rdi
+xor r14, r14
 
 lexer.loop:
-	cmp  byte ptr [rdi], 0
+	cmp  byte ptr [r11], 0
 	je   lexer.loop.end
+	mov  rdi, r11
 	call endWord
 	cmp  rax, 0
 	je   lexer.loop.inWord
 
 lexer.loop.endWord:
-	inc rdi
-	mov [rsi], rdi
-	add rsi, 8
-	jmp lexer.loop
+	inc  r11
+	mov  rdi, r15
+	mov  rsi, r14
+	call strndup
+	mov  qword ptr [r12], rax
+	add  r12, 8
+	xor  r14, r14
+	mov  r15, r11
+	jmp  lexer.loop
 
 lexer.loop.inWord:
-	inc rdi
+	inc r11
+	inc r14
 	jmp lexer.loop
 
 lexer.loop.end:
