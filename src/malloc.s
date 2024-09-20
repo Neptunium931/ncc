@@ -42,6 +42,7 @@ malloc.error:
 	call quit
 
 # rdi = void *ptr
+# rsi = size
 free:
 	push rbp
 	mov  rbp, rsp
