@@ -1,6 +1,9 @@
 # Copyright (c) 2024, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 # See end of file for extended copyright information.
-AS = as
+AS ?= as
+AS_FLAGS ?= -g
+LD ?= ld
+LD_FLAGS ?= -g
 ncc_src = ./src/entry.s \
 					./src/quit.s \
 					./src/openFile.s \
@@ -25,10 +28,10 @@ ncc_src = ./src/entry.s \
 ncc_obj = $(ncc_src:.s=.s.o) 
 
 ncc: $(ncc_obj)
-	ld -o $@ $^ -g
+	$(LD) $(LD_FLAGS) -o $@ $^
 
 %.s.o: %.s
-	$(AS) -o $@ $< -g
+	$(AS) $(AS_FLAGS) -o $@ $<
 
 clean:
 	rm -f $(ncc_obj)
