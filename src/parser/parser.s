@@ -13,11 +13,9 @@ parser:
 	push r13
 	push r14
 	push r15
-	jmp  parser.loop.end
 
-# rdi char *buf
-# rsi void *[char *buf]
-# rdx void  *struct ast {}
+# rdi void *[char *buf]
+# rsi void  *struct ast {}
 #
 # enum {
 # INVALID = -1
@@ -55,37 +53,11 @@ parser:
 # WHILE = 31
 #} word
 
-xor r15, r15
-
-# 2^0 => if 1 type is in struct else type not in struct
-
 parser.loop:
 parser.loop.switch:
-	cmp byte ptr [rsi], 0
-	je  parser.loop.end
-
-# call isWord
-cmp rax, -1
-je  parser.loop.switch.notWord
-
-	mov r14b, r15b
-	xor r14b, 0xFE
-	cmp r14b, 0
-	je  parser.loop.switch.isType
-	jmp parser.loop.switch.end
-
-parser.loop.switch.isType:
-# call isType
-	cmp rax, -1
-	je  parser.loop.switch.end
-	or  r15b, 0x01
-	jmp parser.loop.switch.end
-
-parser.loop.switch.notWord:
-	jmp parser.loop.switch.end
-
-parser.loop.switch.end:
-	jmp parser.loop
+	cmp  qword ptr [rdi], 0
+	je   parser.loop.end
+	call isType
 
 parser.loop.end:
 	pop r15

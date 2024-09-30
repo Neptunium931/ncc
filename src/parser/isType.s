@@ -14,6 +14,52 @@ isType:
 	push r14
 	push r15
 
+# rdi char *buf
+isType.body:
+	mov  r15, [rdi]
+	mov  rdi, r15
+	call isTypeChar
+	cmp  rax, 1
+	je   isType.end.true
+
+# mov  rdi, r15
+# call isTypeDouble
+# cmp  rax, 1
+# je   isType.end.true
+# mov  rdi, r15
+# call isTypeEnum
+# cmp  rax, 1
+# je   isType.end.true
+# mov  rdi, r15
+# call isTypeFloat
+# cmp  rax, 1
+# je   isType.end.true
+# call isTypeInt
+# cmp  rax, 1
+# je   isType.end.true
+# call isTypeLong
+# cmp  rax, 1
+# je   isType.end.true
+# call isTypeShort
+# cmp  rax, 1
+# je   isType.end.true
+# call isTypeSigned
+# cmp  rax, 1
+# je   isType.end.true
+# call isTypeStatic
+# cmp  rax, 1
+# je   isType.end.true
+# call isTypeStruct
+# cmp  rax, 1
+# je   isType.end.true
+# call isTypeUnion
+# cmp  rax, 1
+# je   isType.end.true
+# call isTypeUnsigned
+# cmp  rax, 1
+# je   isType.end.true
+# call isTypeVoid
+
 isType.end.true:
 	mov rax, 1
 	jmp isType.end
@@ -30,6 +76,28 @@ isType.end:
 	pop r11
 	pop rbx
 	pop rbp
+	ret
+
+isTypeChar:
+	cmp byte ptr [rdi+0], 'c'
+	jne isTypeChar.false
+	cmp byte ptr [rdi+1], 'h'
+	jne isTypeChar.false
+	cmp byte ptr [rdi+2], 'a'
+	jne isTypeChar.false
+	cmp byte ptr [rdi+3], 'r'
+	jne isTypeChar.false
+	cmp byte ptr [rdi+4], 0x00
+	jne isTypeChar.false
+
+isTypeChar.true:
+	mov rax, 1
+	ret
+
+isTypeChar.false:
+	mov r15, rdi
+	add r15, 4
+	xor rax, rax
 	ret
 
 # This file is part of ncc.
