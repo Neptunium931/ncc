@@ -22,11 +22,11 @@ strndup.body:
 
 strndup.checkLen:
 	call strnlen
+	inc  rax
 	mov  r12, rax
-	inc  rax  # +1 for null
 
 strndup.alloc:
-	mov  rdi, rax
+	mov  rdi, r12
 	call malloc
 	mov  r13, rax
 
@@ -37,7 +37,7 @@ strndup.copy:
 	call memcpy
 
 strndup.addNull:
-	mov byte ptr [r13 + r12], 0
+	mov byte ptr [r13 + r12 -1], 0
 	mov rax, r13
 
 strndup.end:
