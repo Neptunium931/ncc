@@ -22,11 +22,11 @@ strndup.body:
 
 strndup.checkLen:
 	call strnlen
-	inc  rax  # +1 for null
 	mov  r12, rax
+	inc  rax  # +1 for null
 
 strndup.alloc:
-	mov  rdi, r12
+	mov  rdi, rax
 	call malloc
 	mov  r13, rax
 
