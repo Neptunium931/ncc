@@ -30,6 +30,8 @@ lexer.loop:
 	je   lexer.loop.inWord
 
 lexer.loop.endWord:
+	cmp  r14, 0
+	je   lexer.loop.notStartWord
 	inc  r11
 	mov  rdi, r15
 	mov  rsi, r14
@@ -39,6 +41,10 @@ lexer.loop.endWord:
 	xor  r14, r14
 	mov  r15, r11
 	jmp  lexer.loop
+
+lexer.loop.notStartWord:
+	inc r11
+	jmp lexer.loop
 
 lexer.loop.inWord:
 	inc r11
