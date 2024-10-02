@@ -20,21 +20,21 @@ isType:
 # enum {
 # AUTO = 1
 # CHAR = 2
-# DOUBLE = 8
-# ENUM = 16
-# FLOAT = 32
-# INT = 64
-# STRUCT = 128
-# UNION = 256
-# VOID = 512
+# DOUBLE = 4
+# ENUM = 8
+# FLOAT = 16
+# INT = 32
+# STRUCT = 64
+# UNION = 128
+# VOID = 256
 
-# CONST = 1028
-# EXTERN = 2048
-# LONG = 4096
-# SHORT = 8192
-# SIGNED = 16384
-# STATIC = 32768
-# UNSIGNED = 65536
+# CONST = 512
+# EXTERN = 1024
+# LONG = 2048
+# SHORT = 4096
+# SIGNED = 8192
+# STATIC = 16384
+# UNSIGNED = 32768
 #} type
 
 isType.body:
@@ -64,8 +64,6 @@ isType.body.typeBase:
 	cmp  rax, 1
 	je   isType.end.true
 	call isTypeUnion
-	cmp  rax, 1
-	je   isType.end.true
 	cmp  rax, 1
 	je   isType.end.true
 	call isTypeVoid
@@ -113,7 +111,13 @@ isType.end:
 	ret
 
 isTypeAuto:
-	cmp dword ptr [rdi], 0x6f747561 #  auto
+	cmp byte ptr [rdi+0], 'a'
+	jne isType.false
+	cmp byte ptr [rdi+1], 'u'
+	jne isType.false
+	cmp byte ptr [rdi+2], 't'
+	jne isType.false
+	cmp byte ptr [rdi+3], 'o'
 	jne isType.false
 	cmp byte ptr [rdi+4], 0
 	jne isType.false
@@ -131,7 +135,7 @@ isTypeChar:
 	jne isType.false
 	cmp byte ptr [rdi+4], 0
 	jne isType.false
-	mov rbx, 1
+	mov rbx, 2
 	jmp isType.true
 
 isTypeDouble:
@@ -149,6 +153,7 @@ isTypeDouble:
 	jne isType.false
 	cmp byte ptr [rdi+6], 0
 	jne isType.false
+	mov rbx, 4
 	jmp isType.true
 
 isTypeEnum:
@@ -162,6 +167,7 @@ isTypeEnum:
 	jne isType.false
 	cmp byte ptr [rdi+4], 0
 	jne isType.false
+	mov rbx, 8
 	jmp isType.true
 
 isTypeFloat:
@@ -177,6 +183,7 @@ isTypeFloat:
 	jne isType.false
 	cmp byte ptr [rdi+5], 0
 	jne isType.false
+	mov rbx, 16
 	jmp isType.true
 
 isTypeInt:
@@ -188,6 +195,173 @@ isTypeInt:
 	jne isType.false
 	cmp byte ptr [rdi+3], 0
 	jne isType.false
+	mov rbx, 32
+	jmp isType.true
+
+isTypeStruct:
+	cmp byte ptr [rdi+0], 's'
+	jne isType.false
+	cmp byte ptr [rdi+1], 't'
+	jne isType.false
+	cmp byte ptr [rdi+2], 'r'
+	jne isType.false
+	cmp byte ptr [rdi+3], 'u'
+	jne isType.false
+	cmp byte ptr [rdi+4], 'c'
+	jne isType.false
+	cmp byte ptr [rdi+5], 't'
+	jne isType.false
+	cmp byte ptr [rdi+6], 0
+	jne isType.false
+	mov rbx, 64
+	jmp isType.true
+
+isTypeUnion:
+	cmp byte ptr [rdi+0], 'u'
+	jne isType.false
+	cmp byte ptr [rdi+1], 'n'
+	jne isType.false
+	cmp byte ptr [rdi+2], 'i'
+	jne isType.false
+	cmp byte ptr [rdi+3], 'o'
+	jne isType.false
+	cmp byte ptr [rdi+4], 'n'
+	jne isType.false
+	cmp byte ptr [rdi+5], 0
+	jne isType.false
+	mov rbx, 128
+	jmp isType.true
+
+isTypeVoid:
+	cmp byte ptr [rdi+0], 'v'
+	jne isType.false
+	cmp byte ptr [rdi+1], 'o'
+	jne isType.false
+	cmp byte ptr [rdi+2], 'i'
+	jne isType.false
+	cmp byte ptr [rdi+3], 'd'
+	jne isType.false
+	cmp byte ptr [rdi+4], 0
+	jne isType.false
+	mov rbx, 256
+	jmp isType.true
+
+isTypeConst:
+	cmp byte ptr [rdi+0], 'c'
+	jne isType.false
+	cmp byte ptr [rdi+1], 'o'
+	jne isType.false
+	cmp byte ptr [rdi+2], 'n'
+	jne isType.false
+	cmp byte ptr [rdi+3], 's'
+	jne isType.false
+	cmp byte ptr [rdi+4], 't'
+	jne isType.false
+	cmp byte ptr [rdi+5], 0
+	jne isType.false
+	mov rbx, 512
+	jmp isType.true
+
+isTypeExtern:
+	cmp byte ptr [rdi+0], 'e'
+	jne isType.false
+	cmp byte ptr [rdi+1], 'x'
+	jne isType.false
+	cmp byte ptr [rdi+2], 't'
+	jne isType.false
+	cmp byte ptr [rdi+3], 'e'
+	jne isType.false
+	cmp byte ptr [rdi+4], 'r'
+	jne isType.false
+	cmp byte ptr [rdi+5], 'n'
+	jne isType.false
+	cmp byte ptr [rdi+6], 0
+	jne isType.false
+	mov rbx, 1024
+	jmp isType.true
+
+isTypeLong:
+	cmp byte ptr [rdi+0], 'l'
+	jne isType.false
+	cmp byte ptr [rdi+1], 'o'
+	jne isType.false
+	cmp byte ptr [rdi+2], 'n'
+	jne isType.false
+	cmp byte ptr [rdi+3], 'g'
+	jne isType.false
+	cmp byte ptr [rdi+4], 0
+	jne isType.false
+	mov rbx, 2048
+	jmp isType.true
+
+isTypeShort:
+	cmp byte ptr [rdi+0], 's'
+	jne isType.false
+	cmp byte ptr [rdi+1], 'h'
+	jne isType.false
+	cmp byte ptr [rdi+2], 'o'
+	jne isType.false
+	cmp byte ptr [rdi+3], 'r'
+	jne isType.false
+	cmp byte ptr [rdi+4], 't'
+	jne isType.false
+	cmp byte ptr [rdi+5], 0
+	jne isType.false
+	mov rbx, 4096
+	jmp isType.true
+
+isTypeSigned:
+	cmp byte ptr [rdi+0], 's'
+	jne isType.false
+	cmp byte ptr [rdi+1], 'i'
+	jne isType.false
+	cmp byte ptr [rdi+2], 'g'
+	jne isType.false
+	cmp byte ptr [rdi+3], 'n'
+	jne isType.false
+	cmp byte ptr [rdi+4], 'e'
+	jne isType.false
+	cmp byte ptr [rdi+5], 'd'
+	jne isType.false
+	cmp byte ptr [rdi+6], 0
+	jne isType.false
+	mov rbx, 8192
+	jmp isType.true
+
+isTypeStatic:
+	cmp byte ptr [rdi+0], 's'
+	jne isType.false
+	cmp byte ptr [rdi+1], 't'
+	jne isType.false
+	cmp byte ptr [rdi+2], 'a'
+	jne isType.false
+	cmp byte ptr [rdi+3], 't'
+	jne isType.false
+	cmp byte ptr [rdi+4], 'i'
+	jne isType.false
+	cmp byte ptr [rdi+5], 'c'
+	jne isType.false
+	cmp byte ptr [rdi+6], 0
+	jne isType.false
+	mov rbx, 16384
+	jmp isType.true
+
+isTypeUnsigned:
+	cmp byte ptr [rdi+0], 'u'
+	jne isType.false
+	cmp byte ptr [rdi+1], 'n'
+	jne isType.false
+	cmp byte ptr [rdi+2], 's'
+	jne isType.false
+	cmp byte ptr [rdi+3], 'i'
+	jne isType.false
+	cmp byte ptr [rdi+4], 'g'
+	jne isType.false
+	cmp byte ptr [rdi+5], 'n'
+	jne isType.false
+	cmp byte ptr [rdi+6], 0
+	jne isType.false
+	mov rbx, 32768
 	jmp isType.true
 
 isType.true:
