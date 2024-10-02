@@ -38,8 +38,9 @@ isType:
 #} type
 
 isType.body:
-	mov  r15, [rdi]
-	mov  rdi, r15
+	mov r15, [rdi]
+	mov rdi, r15
+
 	call isTypeChar
 	cmp  rax, 1
 	je   isType.end.true
@@ -102,23 +103,24 @@ isType.end:
 
 isTypeChar:
 	cmp byte ptr [rdi+0], 'c'
-	jne isTypeChar.false
+	jne isType.false
 	cmp byte ptr [rdi+1], 'h'
-	jne isTypeChar.false
+	jne isType.false
 	cmp byte ptr [rdi+2], 'a'
-	jne isTypeChar.false
+	jne isType.false
 	cmp byte ptr [rdi+3], 'r'
-	jne isTypeChar.false
-	cmp byte ptr [rdi+4], 0x00
-	jne isTypeChar.false
+	jne isType.false
+	cmp byte ptr [rdi+4], 0
+	jne isType.false
+	mov rbx, 1
+	jmp isType.true
 
-isTypeChar.true:
+
+isType.true:
 	mov rax, 1
 	ret
 
-isTypeChar.false:
-	mov r15, rdi
-	add r15, 4
+isType.false:
 	xor rax, rax
 	ret
 
