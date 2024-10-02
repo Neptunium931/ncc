@@ -41,47 +41,58 @@ isType.body:
 	mov r15, [rdi]
 	mov rdi, r15
 
+isType.body.typeBase:
+	call isTypeAuto
+	cmp  rax, 1
+	je   isType.end.true
 	call isTypeChar
 	cmp  rax, 1
 	je   isType.end.true
+	call isTypeDouble
+	cmp  rax, 1
+	je   isType.end.true
+	call isTypeEnum
+	cmp  rax, 1
+	je   isType.end.true
+	call isTypeFloat
+	cmp  rax, 1
+	je   isType.end.true
+	call isTypeInt
+	cmp  rax, 1
+	je   isType.end.true
+	call isTypeStruct
+	cmp  rax, 1
+	je   isType.end.true
+	call isTypeUnion
+	cmp  rax, 1
+	je   isType.end.true
+	cmp  rax, 1
+	je   isType.end.true
+	call isTypeVoid
+	cmp  rax, 1
+	je   isType.end.true
 
-# mov  rdi, r15
-# call isTypeDouble
-# cmp  rax, 1
-# je   isType.end.true
-# mov  rdi, r15
-# call isTypeEnum
-# cmp  rax, 1
-# je   isType.end.true
-# mov  rdi, r15
-# call isTypeFloat
-# cmp  rax, 1
-# je   isType.end.true
-# call isTypeInt
-# cmp  rax, 1
-# je   isType.end.true
-# call isTypeLong
-# cmp  rax, 1
-# je   isType.end.true
-# call isTypeShort
-# cmp  rax, 1
-# je   isType.end.true
-# call isTypeSigned
-# cmp  rax, 1
-# je   isType.end.true
-# call isTypeStatic
-# cmp  rax, 1
-# je   isType.end.true
-# call isTypeStruct
-# cmp  rax, 1
-# je   isType.end.true
-# call isTypeUnion
-# cmp  rax, 1
-# je   isType.end.true
-# call isTypeUnsigned
-# cmp  rax, 1
-# je   isType.end.true
-# call isTypeVoid
+isType.body.typeModifier:
+	call isTypeConst
+	cmp  rax, 1
+	je   isType.end.true
+	call isTypeExtern
+	cmp  rax, 1
+	je   isType.end.true
+	call isTypeLong
+	cmp  rax, 1
+	je   isType.end.true
+	call isTypeShort
+	cmp  rax, 1
+	je   isType.end.true
+	call isTypeSigned
+	cmp  rax, 1
+	call isTypeStatic
+	cmp  rax, 1
+	je   isType.end.true
+	call isTypeUnsigned
+	cmp  rax, 1
+	je   isType.end.true
 
 isType.end.true:
 	mov rax, 1
