@@ -112,6 +112,14 @@ isType.end:
 	pop rbp
 	ret
 
+isTypeAuto:
+	cmp dword ptr [rdi], 0x6f747561 #  auto
+	jne isType.false
+	cmp byte ptr [rdi+4], 0
+	jne isType.false
+	mov rbx, 1
+	jmp isType.true
+
 isTypeChar:
 	cmp byte ptr [rdi+0], 'c'
 	jne isType.false
@@ -126,6 +134,61 @@ isTypeChar:
 	mov rbx, 1
 	jmp isType.true
 
+isTypeDouble:
+	cmp byte ptr [rdi+0], 'd'
+	jne isType.false
+	cmp byte ptr [rdi+1], 'o'
+	jne isType.false
+	cmp byte ptr [rdi+2], 'u'
+	jne isType.false
+	cmp byte ptr [rdi+3], 'b'
+	jne isType.false
+	cmp byte ptr [rdi+4], 'l'
+	jne isType.false
+	cmp byte ptr [rdi+5], 'e'
+	jne isType.false
+	cmp byte ptr [rdi+6], 0
+	jne isType.false
+	jmp isType.true
+
+isTypeEnum:
+	cmp byte ptr [rdi+0], 'e'
+	jne isType.false
+	cmp byte ptr [rdi+1], 'n'
+	jne isType.false
+	cmp byte ptr [rdi+2], 'u'
+	jne isType.false
+	cmp byte ptr [rdi+3], 'm'
+	jne isType.false
+	cmp byte ptr [rdi+4], 0
+	jne isType.false
+	jmp isType.true
+
+isTypeFloat:
+	cmp byte ptr [rdi+0], 'f'
+	jne isType.false
+	cmp byte ptr [rdi+1], 'l'
+	jne isType.false
+	cmp byte ptr [rdi+2], 'o'
+	jne isType.false
+	cmp byte ptr [rdi+3], 'a'
+	jne isType.false
+	cmp byte ptr [rdi+4], 't'
+	jne isType.false
+	cmp byte ptr [rdi+5], 0
+	jne isType.false
+	jmp isType.true
+
+isTypeInt:
+	cmp byte ptr [rdi+0], 'i'
+	jne isType.false
+	cmp byte ptr [rdi+1], 'n'
+	jne isType.false
+	cmp byte ptr [rdi+2], 't'
+	jne isType.false
+	cmp byte ptr [rdi+3], 0
+	jne isType.false
+	jmp isType.true
 
 isType.true:
 	mov rax, 1
