@@ -17,41 +17,6 @@ parser:
 # rdi void *[char *buf]
 # rsi void  *struct ast {}
 #
-# enum {
-# INVALID = -1
-# AUTO = 0
-# BREAK = 1
-# CASE = 2
-# CHAR = 3
-# CONST = 4
-# CONTINUE = 5
-# DEFAULT = 6
-# DO = 7
-# DOUBLE = 8
-# ELSE = 9
-# ENUM = 10
-# EXTERN = 11
-# FLOAT = 12
-# FOR = 13
-# GOTO = 14
-# IF = 15
-# INT = 16
-# LONG = 17
-# REGISTER = 18
-# RETURN = 19
-# SHORT = 20
-# SIGNED = 21
-# SIZEOF = 22
-# STATIC = 23
-# STRUCT = 24
-# SWITCH = 25
-# TYPEDEF = 26
-# UNION = 27
-# UNSIGNED = 28
-# VOID = 29
-# VOLATILE = 30
-# WHILE = 31
-#} word
 
 parser.loop:
 parser.loop.switch:

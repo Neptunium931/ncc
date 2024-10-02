@@ -15,6 +15,28 @@ isType:
 	push r15
 
 # rdi char *buf
+# rax enum type
+
+# enum {
+# AUTO = 1
+# CHAR = 2
+# DOUBLE = 8
+# ENUM = 16
+# FLOAT = 32
+# INT = 64
+# STRUCT = 128
+# UNION = 256
+# VOID = 512
+
+# CONST = 1028
+# EXTERN = 2048
+# LONG = 4096
+# SHORT = 8192
+# SIGNED = 16384
+# STATIC = 32768
+# UNSIGNED = 65536
+#} type
+
 isType.body:
 	mov  r15, [rdi]
 	mov  rdi, r15
