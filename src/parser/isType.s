@@ -93,7 +93,7 @@ isType.body.typeModifier:
 	je   isType.end.true
 
 isType.end.true:
-	mov rax, 1
+	mov rax, rbx
 	jmp isType.end
 
 isType.end.false:

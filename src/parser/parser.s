@@ -16,7 +16,6 @@ parser:
 
 # rdi void *[char *buf]
 # rsi void  *struct ast {}
-#
 
 parser.loop:
 parser.loop.switch:
