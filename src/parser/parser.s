@@ -4,6 +4,11 @@
 
 .global parser
 
+.macro checkIfPtrIsNull
+cmp    qword ptr [rdi], 0
+je     parser.loop.end
+.endm
+
 parser:
 	push rbp
 	mov  rbp, rsp
@@ -19,8 +24,7 @@ parser:
 
 parser.loop:
 parser.loop.switch:
-	cmp  qword ptr [rdi], 0
-	je   parser.loop.end
+	checkIfPtrIsNull
 	call isType
 
 parser.loop.end:
