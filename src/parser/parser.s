@@ -26,6 +26,9 @@ parser.loop:
 parser.loop.switch:
 	checkIfPtrIsNull
 	call isType
+	cmp  rax, 1
+	je   parser.NotImplemented
+	jmp  parser.NotImplemented
 
 parser.loop.end:
 	pop r15
@@ -36,6 +39,14 @@ parser.loop.end:
 	pop rbx
 	pop rbp
 	ret
+
+parser.NotImplemented:
+	mov  rdi, 1
+	mov  rsi, OFFSET notImplemented
+	mov  rdx, OFFSET notImplemented.len
+	call writeFd
+	mov  rdi, 10
+	call quit
 
 # This file is part of ncc.
 #

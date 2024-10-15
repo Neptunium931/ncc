@@ -4,11 +4,17 @@
 
 .global checkChar.error.message
 .global checkChar.error.message.len
+.global notImplemented
+.global notImplemented.len
 
 checkChar.error.message:
 	.asciz "Invalid character in file.\n"
 
 	.equ checkChar.error.message.len, . - checkChar.error.message
+
+notImplemented:
+	.asciz "Not implemented\n"
+	.equ   notImplemented.len, . - notImplemented
 
 # This file is part of ncc.
 #
