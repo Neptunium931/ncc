@@ -26,7 +26,24 @@ parser.loop:
 parser.loop.switch:
 	checkIfPtrIsNull
 	call isType
-	cmp  rax, 1
+	mov  r15, rax
+	cmp  r15, 1 # auto
+	je   parser.NotImplemented
+	cmp  r15, 2 # char
+	je   parser.NotImplemented
+	cmp  r15, 4 # double
+	je   parser.NotImplemented
+	cmp  r15, 8 # enum
+	je   parser.NotImplemented
+	cmp  r15, 16 # float
+	je   parser.NotImplemented
+	cmp  r15, 32 # int
+	je   parser.NotImplemented
+	cmp  r15, 64 # struct
+	je   parser.NotImplemented
+	cmp  r15, 128 # union
+	je   parser.NotImplemented
+	cmp  r15, 256 # void
 	je   parser.NotImplemented
 	jmp  parser.NotImplemented
 
