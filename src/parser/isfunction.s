@@ -2,14 +2,9 @@
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
-.global parser
+.global isfunction
 
-.macro checkIfPtrIsNull
-cmp    qword ptr [rdi], 0
-je     parser.end
-.endm
-
-parser:
+isfunction:
 	push rbp
 	mov  rbp, rsp
 	push rbx
@@ -19,41 +14,7 @@ parser:
 	push r14
 	push r15
 
-# rdi void *[char *buf]
-# rsi void  *struct ast {}
-
-parser.loop:
-parser.loop.switch:
-	checkIfPtrIsNull
-	call isType
-	mov  r15, rax
-	cmp  r15, 1 # auto
-	je   parser.NotImplemented
-	cmp  r15, 2 # char
-	je   parser.NotImplemented
-	cmp  r15, 4 # double
-	je   parser.NotImplemented
-	cmp  r15, 8 # enum
-	je   parser.NotImplemented
-	cmp  r15, 16 # float
-	je   parser.NotImplemented
-	cmp  r15, 32 # int
-	je   parser.switch.int
-	cmp  r15, 64 # struct
-	je   parser.NotImplemented
-	cmp  r15, 128 # union
-	je   parser.NotImplemented
-	cmp  r15, 256 # void
-	je   parser.NotImplemented
-	jmp  parser.NotImplemented
-
-parser.switch.int:
-	call isfunction
-	jmp  parser.NotImplemented
-
-parser.loop.end:
-
-parser.end:
+isfunction.end:
 	pop r15
 	pop r14
 	pop r13
@@ -62,14 +23,6 @@ parser.end:
 	pop rbx
 	pop rbp
 	ret
-
-parser.NotImplemented:
-	mov  rdi, 1
-	mov  rsi, OFFSET notImplemented
-	mov  rdx, OFFSET notImplemented.len
-	call writeFd
-	mov  rdi, 10
-	call quit
 
 # This file is part of ncc.
 #
