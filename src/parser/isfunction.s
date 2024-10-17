@@ -14,6 +14,32 @@ isfunction:
 	push r14
 	push r15
 
+	mov r15, [rdi]
+	mov rdi, r15
+
+isfunction.checkOpenParenthesis.loop:
+	cmp byte ptr [rdi], '('
+	je  isfunction.checkCloseParenthesis.loop
+	cmp byte ptr [rdi], 0
+	je  isfunction.end.false
+	inc rdi
+	jmp isfunction.checkOpenParenthesis.loop
+
+isfunction.checkCloseParenthesis.loop:
+	cmp byte ptr [rdi], ')'
+	je  isfunction.end.true
+	cmp byte ptr [rdi], 0
+	je  isfunction.end.false
+	inc rdi
+	jmp isfunction.checkCloseParenthesis.loop
+
+isfunction.end.true:
+	mov rax, 1
+	jmp isfunction.end
+
+isfunction.end.false:
+	xor rax, rax
+
 isfunction.end:
 	pop r15
 	pop r14
