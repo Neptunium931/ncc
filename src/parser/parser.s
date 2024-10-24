@@ -22,9 +22,13 @@ parser:
 # rdi void *[char *buf]
 # rsi void  *struct ast {}
 
+mov r12, rsi
+
 parser.loop:
-parser.loop.switch:
+	mov r11, rdi
 	checkIfPtrIsNull
+
+parser.loop.switch:
 	call isType
 	mov  r15, rax
 	cmp  r15, 1 # auto
@@ -48,8 +52,13 @@ parser.loop.switch:
 	jmp  parser.NotImplemented
 
 parser.switch.int:
+	mov  rdi, r11
+	add  rdi, 8
+	mov  r14, rdi
 	call isfunction
-	jmp  parser.NotImplemented
+	cmp  rax, 0
+	je   parser.variable.int
+	jmp  parser.function.int
 
 parser.loop.end:
 
@@ -63,6 +72,10 @@ parser.end:
 	pop rbp
 	ret
 
+parser.loop.next:
+	add r11, 8
+	jmp parser.loop
+
 parser.NotImplemented:
 	mov  rdi, 1
 	mov  rsi, OFFSET notImplemented
@@ -70,6 +83,18 @@ parser.NotImplemented:
 	call writeFd
 	mov  rdi, 10
 	call quit
+
+parser.variable.int:
+	jmp parser.NotImplemented
+
+parser.function.int:
+	mov  byte ptr [r12], 32
+	inc  r12
+	mov  rdi, r14
+	call getFunctionName
+	mov  qword ptr [r12], rax
+	add  r12, 8
+	jmp  parser.loop.next
 
 # This file is part of ncc.
 #

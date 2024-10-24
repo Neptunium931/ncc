@@ -24,7 +24,9 @@ ncc_src = ./src/entry.s \
 					./src/string/strnlen.s \
 					./src/string/strndup.s \
 					./src/freeArrayString.s \
-					./src/parser/isfunction.s
+					./src/parser/isfunction.s \
+					./src/string/strchr.s \
+					./src/parser/getFunctionName.s
 
 ncc_obj = $(ncc_src:.s=.s.o) 
 
