@@ -23,7 +23,8 @@ ncc_src = ./src/entry.s \
 					./src/memory/memcpy.s \
 					./src/string/strnlen.s \
 					./src/string/strndup.s \
-					./src/freeArrayString.s
+					./src/freeArrayString.s \
+					./src/openbsd.s
 
 ncc_obj = $(ncc_src:.s=.s.o) 
 
