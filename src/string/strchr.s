@@ -2,19 +2,44 @@
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
-.global checkChar.error.message
-.global checkChar.error.message.len
-.global notImplemented
-.global notImplemented.len
+.globl strchr
 
-checkChar.error.message:
-	.asciz "Invalid character in file.\n"
+strchr:
+	push rbp
+	mov  rbp, rsp
+	push rbx
+	push r11
+	push r12
+	push r13
+	push r14
+	push r15
 
-	.equ checkChar.error.message.len, . - checkChar.error.message
+# rdi char *str
+# rsi char c
+# rax int index
+xor rax, rax
 
-notImplemented:
-	.asciz "Not implemented\n"
-	.equ   notImplemented.len, . - notImplemented
+strchr.loop:
+	cmp byte ptr [rdi], 0
+	je  strchr.end.false
+	cmp byte ptr [rdi], sil
+	je  strchr.end
+	inc rdi
+	inc rax
+	jmp strchr.loop
+
+strchr.end.false:
+	xor rax, rax
+
+strchr.end:
+	pop r15
+	pop r14
+	pop r13
+	pop r12
+	pop r11
+	pop rbx
+	pop rbp
+	ret
 
 # This file is part of ncc.
 #

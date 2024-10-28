@@ -2,19 +2,53 @@
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
-.global checkChar.error.message
-.global checkChar.error.message.len
-.global notImplemented
-.global notImplemented.len
+.global isfunction
 
-checkChar.error.message:
-	.asciz "Invalid character in file.\n"
+isfunction:
+	push rbp
+	mov  rbp, rsp
+	push rbx
+	push r11
+	push r12
+	push r13
+	push r14
+	push r15
 
-	.equ checkChar.error.message.len, . - checkChar.error.message
+	mov r15, [rdi]
+	mov rdi, r15
 
-notImplemented:
-	.asciz "Not implemented\n"
-	.equ   notImplemented.len, . - notImplemented
+isfunction.checkOpenParenthesis.loop:
+	cmp byte ptr [rdi], '('
+	je  isfunction.checkCloseParenthesis.loop
+	cmp byte ptr [rdi], 0
+	je  isfunction.end.false
+	inc rdi
+	jmp isfunction.checkOpenParenthesis.loop
+
+isfunction.checkCloseParenthesis.loop:
+	cmp byte ptr [rdi], ')'
+	je  isfunction.end.true
+	cmp byte ptr [rdi], 0
+	je  isfunction.end.false
+	inc rdi
+	jmp isfunction.checkCloseParenthesis.loop
+
+isfunction.end.true:
+	mov rax, 1
+	jmp isfunction.end
+
+isfunction.end.false:
+	xor rax, rax
+
+isfunction.end:
+	pop r15
+	pop r14
+	pop r13
+	pop r12
+	pop r11
+	pop rbx
+	pop rbp
+	ret
 
 # This file is part of ncc.
 #

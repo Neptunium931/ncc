@@ -4,6 +4,11 @@
 
 .global parser
 
+.macro checkIfPtrIsNull
+cmp    qword ptr [rdi], 0
+je     parser.end
+.endm
+
 parser:
 	push rbp
 	mov  rbp, rsp
@@ -17,13 +22,47 @@ parser:
 # rdi void *[char *buf]
 # rsi void  *struct ast {}
 
+mov r12, rsi
+
 parser.loop:
+	mov r11, rdi
+	checkIfPtrIsNull
+
 parser.loop.switch:
-	cmp  qword ptr [rdi], 0
-	je   parser.loop.end
 	call isType
+	mov  r15, rax
+	cmp  r15, 1 # auto
+	je   parser.NotImplemented
+	cmp  r15, 2 # char
+	je   parser.NotImplemented
+	cmp  r15, 4 # double
+	je   parser.NotImplemented
+	cmp  r15, 8 # enum
+	je   parser.NotImplemented
+	cmp  r15, 16 # float
+	je   parser.NotImplemented
+	cmp  r15, 32 # int
+	je   parser.switch.int
+	cmp  r15, 64 # struct
+	je   parser.NotImplemented
+	cmp  r15, 128 # union
+	je   parser.NotImplemented
+	cmp  r15, 256 # void
+	je   parser.NotImplemented
+	jmp  parser.NotImplemented
+
+parser.switch.int:
+	mov  rdi, r11
+	add  rdi, 8
+	mov  r14, rdi
+	call isfunction
+	cmp  rax, 0
+	je   parser.variable.int
+	jmp  parser.function.int
 
 parser.loop.end:
+
+parser.end:
 	pop r15
 	pop r14
 	pop r13
@@ -32,6 +71,30 @@ parser.loop.end:
 	pop rbx
 	pop rbp
 	ret
+
+parser.loop.next:
+	add r11, 8
+	jmp parser.loop
+
+parser.NotImplemented:
+	mov  rdi, 1
+	mov  rsi, OFFSET notImplemented
+	mov  rdx, OFFSET notImplemented.len
+	call writeFd
+	mov  rdi, 10
+	call quit
+
+parser.variable.int:
+	jmp parser.NotImplemented
+
+parser.function.int:
+	mov  byte ptr [r12], 32
+	inc  r12
+	mov  rdi, r14
+	call getFunctionName
+	mov  qword ptr [r12], rax
+	add  r12, 8
+	jmp  parser.loop.next
 
 # This file is part of ncc.
 #

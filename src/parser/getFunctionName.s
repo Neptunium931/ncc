@@ -2,19 +2,41 @@
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
-.global checkChar.error.message
-.global checkChar.error.message.len
-.global notImplemented
-.global notImplemented.len
+.global getFunctionName
 
-checkChar.error.message:
-	.asciz "Invalid character in file.\n"
+getFunctionName:
+	push rbp
+	mov  rbp, rsp
+	push rbx
+	push r11
+	push r12
+	push r13
+	push r14
+	push r15
 
-	.equ checkChar.error.message.len, . - checkChar.error.message
+	mov r15, [rdi]
+	mov rdi, r15
 
-notImplemented:
-	.asciz "Not implemented\n"
-	.equ   notImplemented.len, . - notImplemented
+getFunctionName.body:
+	mov  rdi, r15
+	mov  rsi, '('
+	call strchr
+	cmp  rax, 0
+	je   getFunctionName.end
+	mov  r11, rax
+	mov  rdi, r15
+	mov  rsi, rax
+	call strndup
+
+getFunctionName.end:
+	pop r15
+	pop r14
+	pop r13
+	pop r12
+	pop r11
+	pop rbx
+	pop rbp
+	ret
 
 # This file is part of ncc.
 #
