@@ -79,7 +79,7 @@ checkChar.loop.end:
 
 checkChar.loop.error:
 	mov  rdi, 1
-	mov  rsi, OFFSET checkChar.error.message
+	lea  rsi, [rip + checkChar.error.message]
 	mov  rdx, OFFSET checkChar.error.message.len
 	call writeFd
 	jmp  end_error
@@ -91,7 +91,6 @@ end_error:
 end:
 	xor  rdi, rdi
 	call quit
-
 # This file is part of ncc.
 #
 # BSD 3-Clause License
