@@ -3,7 +3,7 @@
 AS ?= as
 AS_FLAGS ?= -g
 LD ?= ld
-LD_FLAGS ?= -g
+LD_FLAGS ?= -g --color-diagnostics
 ncc_src = ./src/entry.s \
 					./src/quit.s \
 					./src/openFile.s \
