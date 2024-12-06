@@ -1,9 +1,11 @@
 # Copyright (c) 2024, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 # See end of file for extended copyright information.
+OS := $(shell uname -s)
 AS ?= as
 AS_FLAGS ?= -g
 LD ?= ld
-LD_FLAGS ?= -g --color-diagnostics
+LD_FLAGS ?= -g
+
 ncc_src = ./src/entry.s \
 					./src/quit.s \
 					./src/openFile.s \
@@ -24,12 +26,15 @@ ncc_src = ./src/entry.s \
 					./src/string/strnlen.s \
 					./src/string/strndup.s \
 					./src/freeArrayString.s \
-					./src/freeArrayString.s
 					./src/freeArrayString.s \
 					./src/parser/isfunction.s \
 					./src/string/strchr.s \
-					./src/parser/getFunctionName.s \
-					./src/openbsd.s
+					./src/parser/getFunctionName.s
+
+ifeq ($(OS), OpenBSD)
+LD_FLAGS += --color-diagnostics
+ncc_src += ./src/openbsd.s
+endif
 
 ncc_obj = $(ncc_src:.s=.s.o) 
 

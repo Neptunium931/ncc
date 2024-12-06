@@ -74,6 +74,7 @@ parser.end:
 
 parser.loop.next:
 	add r11, 8
+	mov rdi, r11
 	jmp parser.loop
 
 parser.NotImplemented:
