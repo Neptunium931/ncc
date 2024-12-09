@@ -2,7 +2,6 @@
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
-
 .global _start
 
 .section .text
@@ -86,12 +85,17 @@ checkChar.loop.error:
 	jmp  end_error
 
 end_error:
+	mov  rdi, r13
+	call free
+	mov  rdi, r12
+	call closeFile
 	mov  rdi, 1
 	call quit
 
 end:
 	xor  rdi, rdi
 	call quit
+
 # This file is part of ncc.
 #
 # BSD 3-Clause License
