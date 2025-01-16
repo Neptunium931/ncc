@@ -1,4 +1,4 @@
-# Copyright (c) 2024, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2024-2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 .global malloc
@@ -17,7 +17,7 @@ malloc:
 	push r15
 
 	mov rsi, rdi
-	mov rax, 9
+	mov rax, sys_mmap
 	xor rdi, rdi
 	mov rdx, 3 # 3 = PROT_READ | PROT_WRITE
 	mov r10, 34 # 34 = MAP_PRIVATE | MAP_ANONYMOUS
@@ -47,7 +47,7 @@ free:
 	push rbp
 	mov  rbp, rsp
 
-	mov rax, 11
+	mov rax, sys_munmap
 	syscall
 
 	cmp rax, 0
@@ -64,7 +64,7 @@ free.error:
 #
 # BSD 3-Clause License
 #
-# Copyright (c) 2024, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2024-2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:

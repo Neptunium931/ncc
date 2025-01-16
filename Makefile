@@ -1,4 +1,4 @@
-# Copyright (c) 2024, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2024-2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 # See end of file for extended copyright information.
 OS := $(shell uname -s)
 AS ?= as
@@ -29,7 +29,8 @@ ncc_src = ./src/entry.s \
 					./src/freeArrayString.s \
 					./src/parser/isfunction.s \
 					./src/string/strchr.s \
-					./src/parser/getFunctionName.s
+					./src/parser/getFunctionName.s \
+					./src/syscall.s
 
 ifeq ($(OS), OpenBSD)
 LD_FLAGS += --color-diagnostics
@@ -61,7 +62,7 @@ distcheck:
 #
 # BSD 3-Clause License
 #
-# Copyright (c) 2024, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2024-2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
