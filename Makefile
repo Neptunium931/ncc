@@ -10,7 +10,7 @@ ncc_src = ./src/entry.s \
 					./src/quit.s \
 					./src/openFile.s \
 					./src/closeFile.s \
-					./src/malloc.s \
+					./src/memory/malloc.s \
 					./src/readFd.s \
 					./src/writeFd.s \
 					./src/checkChar.s \
