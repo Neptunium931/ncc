@@ -4,7 +4,7 @@
 .global quit
 
 quit:
-	mov rax, sys_exit
+	mov rax, 2
 	syscall
 
 # This file is part of ncc.

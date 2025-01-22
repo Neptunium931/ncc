@@ -5,7 +5,7 @@
 .global writeFd
 
 writeFd:
-	mov rax, sys_write
+	mov rax, 1
 	syscall
 	ret
 

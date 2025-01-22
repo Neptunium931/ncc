@@ -6,7 +6,7 @@
 
 # rdi = int fd
 closeFile:
-	mov rax, sys_close
+	mov rax, 3
 	syscall
 	ret
 

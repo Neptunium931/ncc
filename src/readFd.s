@@ -5,7 +5,7 @@
 .global readFd
 
 readFd:
-	mov rax, sys_read
+	xor rax, rax
 	syscall
 	ret
 

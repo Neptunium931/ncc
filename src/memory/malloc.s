@@ -17,7 +17,7 @@ malloc:
 	push r15
 
 	mov rsi, rdi
-	mov rax, sys_mmap
+	mov rax, 9
 	xor rdi, rdi
 	mov rdx, 3 # 3 = PROT_READ | PROT_WRITE
 	mov r10, 34 # 34 = MAP_PRIVATE | MAP_ANONYMOUS
@@ -47,7 +47,7 @@ free:
 	push rbp
 	mov  rbp, rsp
 
-	mov rax, sys_munmap
+	mov rax, 11
 	syscall
 
 	cmp rax, 0

@@ -5,7 +5,7 @@
 .global openFile
 
 openFile:
-	mov rax, sys_open
+	mov rax, 2
 	syscall
 	ret
 
