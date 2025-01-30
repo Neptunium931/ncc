@@ -9,8 +9,7 @@
 
 checkChar.error.message:
 	.asciz "Invalid character in file.\n"
-
-	.equ checkChar.error.message.len, . - checkChar.error.message
+	.equ   checkChar.error.message.len, . - checkChar.error.message
 
 notImplemented:
 	.asciz "Not implemented\n"

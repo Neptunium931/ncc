@@ -1,43 +1,25 @@
 # Copyright (c) 2024-2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 # See end of file for extended copyright information.
 .intel_syntax noprefix
-.global malloc
+.global free
 
-# rdi = size
-# rax = void *
-malloc:
+# rdi = void *ptr
+# rsi = size
+free:
 	push rbp
 	mov  rbp, rsp
-	push rbx
-	push r11
-	push r12
-	push r13
-	push r14
-	push r15
 
-	mov rsi, rdi
-	mov rax, 9
-	xor rdi, rdi
-	mov rdx, 3 # 3 = PROT_READ | PROT_WRITE
-	mov r10, 34 # 34 = MAP_PRIVATE | MAP_ANONYMOUS
-	xor r8, r8
-	xor r9, r9
+	mov rax, 11
 	syscall
 
-	cmp rax, -1
-	je  malloc.error
+	cmp rax, 0
+	jne free.error
 
-	pop r15
-	pop r14
-	pop r13
-	pop r12
-	pop r11
-	pop rbx
 	pop rbp
 	ret
 
-malloc.error:
-	mov  rdi, 2
+free.error:
+	mov  rdi, 3
 	call quit
 
 # This file is part of ncc.
