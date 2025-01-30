@@ -16,6 +16,8 @@ malloc:
 	push r15
 
 	mov rsi, rdi
+	add rsi, 8
+
 	mov rax, 9
 	xor rdi, rdi
 	mov rdx, 3 # 3 = PROT_READ | PROT_WRITE
@@ -26,6 +28,9 @@ malloc:
 
 	cmp rax, -1
 	je  malloc.error
+
+	mov qword ptr [rax], rsi
+	add rax, 8
 
 	pop r15
 	pop r14
