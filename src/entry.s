@@ -53,14 +53,12 @@ checkChar.loop.end:
 	call parser
 
 	mov  rdi, r14
-	mov  rsi, 1024
 	call free
 
 	mov  rdi, r15
 	call freeArrayOfString
 
 	mov  rdi, r15
-	mov  rsi, 1024
 	call free
 
 	mov  rdi, 1
@@ -69,7 +67,6 @@ checkChar.loop.end:
 	call writeFd
 
 	mov  rdi, r13
-	mov  rsi, 1024
 	call free
 
 	mov  rdi, r12

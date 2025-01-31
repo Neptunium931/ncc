@@ -20,9 +20,6 @@ freeArrayOfString.loop:
 	cmp  QWORD PTR [r15], 0
 	je   freeArrayOfString.end
 	mov  rdi, [r15]
-	call strlen
-	mov  rsi, rax
-	mov  rdi, [r15]
 	call free
 	add  r15, 8
 	jmp  freeArrayOfString.loop
