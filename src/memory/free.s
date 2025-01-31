@@ -4,10 +4,12 @@
 .global free
 
 # rdi = void *ptr
-# rsi = size
 free:
 	push rbp
 	mov  rbp, rsp
+
+	sub rdi, 8
+	mov rsi, [rdi]
 
 	mov rax, 11
 	syscall
