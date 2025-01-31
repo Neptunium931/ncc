@@ -30,7 +30,8 @@ ncc_src = ./src/entry.s \
 					./src/parser/isfunction.s \
 					./src/string/strchr.s \
 					./src/parser/getFunctionName.s \
-					./src/memory/free.s
+					./src/memory/free.s \
+					./src/memory/realloc.s
 
 ifeq ($(OS), OpenBSD)
 LD_FLAGS += --color-diagnostics
