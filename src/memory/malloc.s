@@ -15,6 +15,9 @@ malloc:
 	push r14
 	push r15
 
+	cmp rdi, 0
+	je  malloc.zero
+
 	mov rsi, rdi
 	add rsi, 8
 
@@ -32,6 +35,7 @@ malloc:
 	mov qword ptr [rax], rsi
 	add rax, 8
 
+malloc.success:
 	pop r15
 	pop r14
 	pop r13
@@ -40,6 +44,10 @@ malloc:
 	pop rbx
 	pop rbp
 	ret
+
+malloc.zero:
+	xor rax, rax
+	jmp malloc.success
 
 malloc.error:
 	mov  rdi, 2
