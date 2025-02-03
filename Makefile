@@ -31,7 +31,10 @@ ncc_src = ./src/entry.s \
 					./src/string/strchr.s \
 					./src/parser/getFunctionName.s \
 					./src/memory/free.s \
-					./src/memory/realloc.s
+					./src/memory/realloc.s \
+					./src/tree/createtree.s \
+					./src/tree/addleft.s \
+					./src/tree/addright.s
 
 ifeq ($(OS), OpenBSD)
 LD_FLAGS += --color-diagnostics
