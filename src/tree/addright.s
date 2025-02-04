@@ -4,9 +4,9 @@
 
 .global addright
 
-# rdi struct tree *
+# rdi struct node *
 addright:
-	call createtree
+	call createnode
 	mov  QWORD ptr [rdi+8], rax
 	ret
 

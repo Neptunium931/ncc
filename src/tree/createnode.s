@@ -2,16 +2,17 @@
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
-.global createtree
+.global createnode
 
-# struct tree {
-# struct tree *left
-# struct tree *right
+# struct node {
+# struct node *left
+# struct node *right
+# int nodeType
 # }
-# sizeof(struct tree) = 16
+# sizeof(struct node) = 16
 
 # rax = void *
-createtree:
+createnode:
 	mov  rdi, 16
 	call malloc
 	ret

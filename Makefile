@@ -32,7 +32,7 @@ ncc_src = ./src/entry.s \
 					./src/parser/getFunctionName.s \
 					./src/memory/free.s \
 					./src/memory/realloc.s \
-					./src/tree/createtree.s \
+					./src/tree/createnode.s \
 					./src/tree/addleft.s \
 					./src/tree/addright.s
 
