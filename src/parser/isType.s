@@ -1,4 +1,4 @@
-# Copyright (c) 2024, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2024-2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
@@ -92,12 +92,12 @@ isType.body.typeModifier:
 	cmp  rax, 1
 	je   isType.end.true
 
-isType.end.true:
-	mov rax, rbx
-	jmp isType.end
-
 isType.end.false:
 	xor rax, rax
+	jmp isType.end
+
+isType.end.true:
+	mov rax, rbx
 	jmp isType.end
 
 isType.end:
@@ -376,7 +376,7 @@ isType.false:
 #
 # BSD 3-Clause License
 #
-# Copyright (c) 2024, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2024-2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
