@@ -62,3 +62,19 @@ error
 pragma
 
 defined
+
+# AST
+
+```c
+struct node {
+    struct node *left;  # +0
+    struct node *right; # +8
+    int nodetype;       # +16
+    void *value;        # +24
+};
+sizeof(struct node) = 32;
+```
+
+| nodeType | type number | value            |
+| -------- | ----------- | ---------------- |
+| function | 1           | name of function |

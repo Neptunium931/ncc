@@ -1,4 +1,4 @@
-# Copyright (c) 2024, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2024-2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
@@ -20,7 +20,7 @@ parser:
 	push r15
 
 # rdi void *[char *buf]
-# rsi void  *struct ast {}
+# rsi struct node *
 
 mov r12, rsi
 
@@ -28,7 +28,7 @@ parser.loop:
 	mov r11, rdi
 	checkIfPtrIsNull
 
-parser.loop.switch:
+parser.loop.switch.type:
 	call isType
 	mov  r15, rax
 	cmp  r15, 1 # auto
@@ -49,7 +49,13 @@ parser.loop.switch:
 	je   parser.NotImplemented
 	cmp  r15, 256 # void
 	je   parser.NotImplemented
-	jmp  parser.NotImplemented
+
+parser.loop.switch.keyword:
+	mov  rdi, r11
+	call isKeyWord
+	mov  r15, rax
+
+	jmp parser.NotImplemented
 
 parser.switch.int:
 	mov  rdi, r11
@@ -88,20 +94,28 @@ parser.NotImplemented:
 parser.variable.int:
 	jmp parser.NotImplemented
 
+# r12 struct node *
 parser.function.int:
-	mov  byte ptr [r12], 32
-	inc  r12
+	mov  rdi, r12
+	call addleft
+
+	mov rdi, [r12]
+	mov qword ptr [rdi + 16], 1 # nodeType = function
+
 	mov  rdi, r14
 	call getFunctionName
-	mov  qword ptr [r12], rax
-	add  r12, 8
-	jmp  parser.loop.next
+
+	mov rdi, [r12]
+	mov qword ptr [rdi + 24], rax # value = name of function
+
+	add r12, 8
+	jmp parser.loop.next
 
 # This file is part of ncc.
 #
 # BSD 3-Clause License
 #
-# Copyright (c) 2024, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2024-2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:

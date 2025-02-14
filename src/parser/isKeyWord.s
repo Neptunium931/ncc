@@ -1,102 +1,89 @@
-# Copyright (c) 2024, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
-.global _start
+.global isKeyWord
 
-.section .text
+.macro checkIfTrue
+cmp    rax, 1
+je     isKeyWord.end.true
+.endm
 
-_start:
-	mov rbp, rsp
+isKeyWord:
+	push rbp
+	mov  rbp, rsp
+	push rbx
+	push r11
+	push r12
+	push r13
+	push r14
+	push r15
 
-	cmp DWORD PTR [rbp], 2
-	jne end_error
+# rdi char *buf
+# rax enum type
 
-	mov  rdi, [rbp + 16]
-	call openFile
-	mov  r12, rax
+mov r15, [rdi]
+mov rdi, r15
 
-	mov  rdi, 1024
-	call malloc
-	mov  r13, rax
+isKeyWord.body:
+	call isBreak
+	checkIfTrue
+	call isConstinue
+	checkIfTrue
+	call isDefault
+	checkIfTrue
+	call isDo
+	checkIfTrue
+	call isElse
+	checkIfTrue
+	call isExtern
+	checkIfTrue
+	call isFor
+	checkIfTrue
+	call isGoto
+	checkIfTrue
+	call isIf
+	checkIfTrue
+	call isInline
+	checkIfTrue
+	call isRegister
+	checkIfTrue
+	call isRestrict
+	checkIfTrue
+	call isReturn
+	checkIfTrue
+	call isSizeof
+	checkIfTrue
+	call isStatic
+	checkIfTrue
+	call isStruct
+	checkIfTrue
+	call isSwitch
+	checkIfTrue
+	call isTypedef
+	checkIfTrue
+	call isUnion
+	checkIfTrue
+	call isVolatile
+	checkIfTrue
+	call isWhile
+	checkIfTrue
 
-	mov  rdi, r12
-	mov  rsi, r13
-	mov  rdx, 1024
-	call readFd
-
-	mov rdi, r13
-
-checkChar.loop:
-	cmp  byte ptr [rdi], 0
-	je   checkChar.loop.end
-	call checkChar
-	cmp  rax, 0
-	jne  checkChar.loop.error
-	inc  rdi
-	jmp  checkChar.loop
-
-checkChar.loop.end:
-	mov  rdi, 1024
-	call malloc
-	mov  r15, rax
-	mov  rsi, rax
-	mov  rdi, r13
-	call lexer
-
-	call createnode
-	mov  r14, rax
-
-	mov  rdi, r15
-	mov  rsi, r14
-	call parser
-
-	mov  rdi, r14
-	call free
-
-	mov  rdi, r15
-	call freeArrayOfString
-
-	mov  rdi, r15
-	call free
-
-	mov  rdi, 1
-	mov  rsi, r13
-	mov  rdx, 1024
-	call writeFd
-
-	mov  rdi, r13
-	call free
-
-	mov  rdi, r12
-	call closeFile
-
-	jmp end
-
-checkChar.loop.error:
-	mov  rdi, 1
-	lea  rsi, [rip + checkChar.error.message]
-	mov  rdx, OFFSET checkChar.error.message.len
-	call writeFd
-	jmp  end_error
-
-end_error:
-	mov  rdi, r13
-	call free
-	mov  rdi, r12
-	call closeFile
-	mov  rdi, 1
-	call quit
-
-end:
-	xor  rdi, rdi
-	call quit
+isKeyWord.end:
+	pop r15
+	pop r14
+	pop r13
+	pop r12
+	pop r11
+	pop rbx
+	pop rbp
+	ret
 
 # This file is part of ncc.
 #
 # BSD 3-Clause License
 #
-# Copyright (c) 2024, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
