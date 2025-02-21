@@ -28,7 +28,7 @@ mov rdi, r15
 isKeyWord.body:
 	call isBreak
 	checkIfTrue
-	call isConstinue
+	call isContinue
 	checkIfTrue
 	call isDefault
 	checkIfTrue
@@ -77,6 +77,72 @@ isKeyWord.end:
 	pop r11
 	pop rbx
 	pop rbp
+	ret
+
+isBreak:
+	cmp byte ptr [rdi+0], 'b'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+1], 'r'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+2], 'e'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+3], 'a'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+4], 'k'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+5], 0
+	jne isKeyWord.false
+	mov rbx, 1
+	jmp isKeyWord.true
+
+isContinue:
+	cmp byte ptr [rdi+0], 'c'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+1], 'o'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+2], 'n'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+3], 't'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+4], 'i'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+5], 'n'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+6], 'u'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+7], 'e'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+8], 0
+	jne isKeyWord.false
+	mov rbx, 2
+	jmp isKeyWord.true
+
+isDefault:
+	cmp byte ptr [rdi+0], 'd'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+1], 'e'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+2], 'f'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+3], 'a'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+4], 'u'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+5], 'l'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+6], 't'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+7], 0
+	jne isKeyWord.false
+	mov rbx, 4
+	jmp isKeyWord.true
+
+isKeyWord.false:
+	xor rax, rax
+	ret
+
+isKeyWord.true:
+	mov rax, 1
 	ret
 
 # This file is part of ncc.
