@@ -137,6 +137,16 @@ isDefault:
 	mov rbx, 4
 	jmp isKeyWord.true
 
+isDo:
+	cmp byte ptr [rdi+0], 'd'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+1], 'o'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+2], 0
+	jne isKeyWord.false
+	mov rbx, 8
+	jmp isKeyWord.true
+
 isKeyWord.false:
 	xor rax, rax
 	ret
