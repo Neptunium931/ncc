@@ -255,6 +255,28 @@ isRegister:
 	mov rbx, 1024
 	jmp isKeyWord.true
 
+isRestrict:
+	cmp byte ptr [rdi+0], 'r'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+1], 'e'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+2], 's'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+3], 't'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+4], 'r'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+5], 'i'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+6], 'c'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+7], 't'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+8], 0
+	jne isKeyWord.false
+	mov rbx, 2048
+	jmp isKeyWord.true
+
 isKeyWord.false:
 	xor rax, rax
 	ret
