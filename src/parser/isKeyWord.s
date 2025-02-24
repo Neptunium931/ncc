@@ -295,6 +295,24 @@ isReturn:
 	mov rbx, 4096
 	jmp isKeyWord.true
 
+isSizeof:
+	cmp byte ptr [rdi+0], 's'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+1], 'i'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+2], 'z'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+3], 'e'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+4], 'o'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+5], 'f'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+6], 0
+	jne isKeyWord.false
+	mov rbx, 8096
+	jmp isKeyWord.true
+
 isKeyWord.false:
 	xor rax, rax
 	ret
