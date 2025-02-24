@@ -331,6 +331,24 @@ isStatic:
 	mov rbx, 16192
 	jmp isKeyWord.true
 
+isStruct:
+	cmp byte ptr [rdi+0], 's'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+1], 't'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+2], 'r'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+3], 'u'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+4], 'c'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+5], 't'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+6], 0
+	jne isKeyWord.false
+	mov rbx, 32384
+	jmp isKeyWord.true
+
 isKeyWord.false:
 	xor rax, rax
 	ret
