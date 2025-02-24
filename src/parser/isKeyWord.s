@@ -233,6 +233,28 @@ isInline:
 	mov rbx, 512
 	jmp isKeyWord.true
 
+isRegister:
+	cmp byte ptr [rdi+0], 'r'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+1], 'e'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+2], 'g'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+3], 'i'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+4], 's'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+5], 't'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+6], 'e'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+7], 'r'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+8], 0
+	jne isKeyWord.false
+	mov rbx, 1024
+	jmp isKeyWord.true
+
 isKeyWord.false:
 	xor rax, rax
 	ret
