@@ -349,6 +349,24 @@ isStruct:
 	mov rbx, 32384
 	jmp isKeyWord.true
 
+isSwitch:
+	cmp byte ptr [rdi+0], 's'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+1], 'w'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+2], 'i'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+3], 't'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+4], 'c'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+5], 'h'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+6], 0
+	jne isKeyWord.false
+	mov rbx, 64768
+	jmp isKeyWord.true
+
 isKeyWord.false:
 	xor rax, rax
 	ret
