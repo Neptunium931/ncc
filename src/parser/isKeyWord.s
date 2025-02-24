@@ -401,6 +401,28 @@ isUnion:
 	mov rbx, 259072
 	jmp isKeyWord.true
 
+isVolatile:
+	cmp byte ptr [rdi+0], 'v'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+1], 'o'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+2], 'l'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+3], 'a'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+4], 't'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+5], 'i'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+6], 'l'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+7], 'e'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+8], 0
+	jne isKeyWord.false
+	mov rbx, 518144
+	jmp isKeyWord.true
+
 isKeyWord.false:
 	xor rax, rax
 	ret
