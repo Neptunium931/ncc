@@ -423,6 +423,22 @@ isVolatile:
 	mov rbx, 518144
 	jmp isKeyWord.true
 
+isWhile:
+	cmp byte ptr [rdi+0], 'w'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+1], 'h'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+2], 'i'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+3], 'l'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+4], 'e'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+5], 0
+	jne isKeyWord.false
+	mov rbx, 1032688
+	jmp isKeyWord.true
+
 isKeyWord.false:
 	xor rax, rax
 	ret
