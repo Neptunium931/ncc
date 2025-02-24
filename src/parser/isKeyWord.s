@@ -179,6 +179,18 @@ isExtern:
 	mov rbx, 32
 	jmp isKeyWord.true
 
+isFor:
+	cmp byte ptr [rdi+0], 'f'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+1], 'o'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+2], 'r'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+3], 0
+	jne isKeyWord.false
+	mov rbx, 64
+	jmp isKeyWord.true
+
 isKeyWord.false:
 	xor rax, rax
 	ret
