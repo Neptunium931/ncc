@@ -313,6 +313,24 @@ isSizeof:
 	mov rbx, 8096
 	jmp isKeyWord.true
 
+isStatic:
+	cmp byte ptr [rdi+0], 's'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+1], 't'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+2], 'a'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+3], 't'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+4], 'i'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+5], 'c'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+6], 0
+	jne isKeyWord.false
+	mov rbx, 16192
+	jmp isKeyWord.true
+
 isKeyWord.false:
 	xor rax, rax
 	ret
