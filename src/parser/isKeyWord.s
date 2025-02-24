@@ -367,6 +367,24 @@ isSwitch:
 	mov rbx, 64768
 	jmp isKeyWord.true
 
+isTypedef:
+	cmp byte ptr [rdi+0], 't'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+1], 'y'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+2], 'p'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+3], 'e'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+4], 'd'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+5], 'e'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+6], 'f'
+	jne isKeyWord.false
+	mov rbx, 129536
+	jmp isKeyWord.true
+
 isKeyWord.false:
 	xor rax, rax
 	ret
