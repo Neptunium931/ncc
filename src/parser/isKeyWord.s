@@ -205,6 +205,16 @@ isGoto:
 	mov rbx, 128
 	jmp isKeyWord.true
 
+isIf:
+	cmp byte ptr [rdi+0], 'i'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+1], 'f'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+2], 0
+	jne isKeyWord.false
+	mov rbx, 256
+	jmp isKeyWord.true
+
 isKeyWord.false:
 	xor rax, rax
 	ret
