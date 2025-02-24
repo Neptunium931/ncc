@@ -277,6 +277,24 @@ isRestrict:
 	mov rbx, 2048
 	jmp isKeyWord.true
 
+isReturn:
+	cmp byte ptr [rdi+0], 'r'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+1], 'e'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+2], 't'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+3], 'u'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+4], 'r'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+5], 'n'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+6], 0
+	jne isKeyWord.false
+	mov rbx, 4096
+	jmp isKeyWord.true
+
 isKeyWord.false:
 	xor rax, rax
 	ret
