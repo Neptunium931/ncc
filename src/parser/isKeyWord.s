@@ -385,6 +385,22 @@ isTypedef:
 	mov rbx, 129536
 	jmp isKeyWord.true
 
+isUnion:
+	cmp byte ptr [rdi+0], 'u'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+1], 'n'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+2], 'i'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+3], 'o'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+4], 'n'
+	jne isKeyWord.false
+	cmp byte ptr [rdi+5], 0
+	jne isKeyWord.false
+	mov rbx, 259072
+	jmp isKeyWord.true
+
 isKeyWord.false:
 	xor rax, rax
 	ret
