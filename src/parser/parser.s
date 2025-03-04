@@ -54,6 +54,48 @@ parser.loop.switch.keyword:
 	mov  rdi, r11
 	call isKeyWord
 	mov  r15, rax
+	cmp  r15, 1 # break
+	je   parser.NotImplemented
+	cmp  r15, 2 # continue
+	je   parser.NotImplemented
+	cmp  r15, 4 # default
+	je   parser.NotImplemented
+	cmp  r15, 8 # do
+	je   parser.NotImplemented
+	cmp  r15, 16 # else
+	je   parser.NotImplemented
+	cmp  r15, 32 # extern
+	je   parser.NotImplemented
+	cmp  r15, 64 # for
+	je   parser.NotImplemented
+	cmp  r15, 128 # goto
+	je   parser.NotImplemented
+	cmp  r15, 256 # if
+	je   parser.NotImplemented
+	cmp  r15, 512 # inline
+	je   parser.NotImplemented
+	cmp  r15, 1024 # register
+	je   parser.NotImplemented
+	cmp  r15, 2048 # restrict
+	je   parser.NotImplemented
+	cmp  r15, 4096 # return
+	je   parser.NotImplemented
+	cmp  r15, 8192 # sizeof
+	je   parser.NotImplemented
+	cmp  r15, 16384 # static
+	je   parser.NotImplemented
+	cmp  r15, 32768 # struct
+	je   parser.NotImplemented
+	cmp  r15, 65536 # switch
+	je   parser.NotImplemented
+	cmp  r15, 131072 # typedef
+	je   parser.NotImplemented
+	cmp  r15, 262144 # union
+	je   parser.NotImplemented
+	cmp  r15, 524288 # volatile
+	je   parser.NotImplemented
+	cmp  r15, 1048576 # while
+	je   parser.NotImplemented
 
 	jmp parser.NotImplemented
 
