@@ -69,6 +69,14 @@ isKeyWord.body:
 	call isWhile
 	checkIfTrue
 
+isKeyWord.end.false:
+	xor rax, rax
+	jmp isKeyWord.end
+
+isKeyWord.end.true:
+	mov rax, rbx
+	jmp isKeyWord.end
+
 isKeyWord.end:
 	pop r15
 	pop r14
