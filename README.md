@@ -75,6 +75,7 @@ struct node {
 sizeof(struct node) = 32;
 ```
 
-| nodeType | type number | value            |
-| -------- | ----------- | ---------------- |
-| function | 1           | name of function |
+| nodeType     | type number | value            |
+| ------------ | ----------- | ---------------- |
+| return       | 1           | return code      |
+| int function | 2           | name of function |

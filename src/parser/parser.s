@@ -142,7 +142,7 @@ parser.function.int:
 	call addleft
 
 	mov rdi, [r12]
-	mov qword ptr [rdi + 16], 1 # nodeType = function
+	mov qword ptr [rdi + 16], 2 # nodeType = function
 
 	mov  rdi, r14
 	call getFunctionName
