@@ -149,7 +149,7 @@ parser.function.int:
 	call addleft
 
 	mov rdi, [r12]
-	mov qword ptr [rdi + 16], 2 # nodeType = function
+	mov qword ptr [rdi + 16], 6 # nodeType = function + int
 
 	mov  rdi, r14
 	call getFunctionName
@@ -157,9 +157,13 @@ parser.function.int:
 	mov rdi, [r12]
 	mov qword ptr [rdi + 24], rax # value = name of function
 
-	add r12, 8
-	add r11, 8
-	jmp parser.loop.next
+	add  r12, 8
+	add  r11, 8
+	cmp  qword ptr [r11], '{'
+	je   parser.loop.next
+	mov  rdi, 11
+	call quit
+	jmp  parser.loop.next
 
 # This file is part of ncc.
 #
