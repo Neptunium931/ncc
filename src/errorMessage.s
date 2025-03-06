@@ -12,7 +12,7 @@ checkChar.error.message:
 	.equ   checkChar.error.message.len, . - checkChar.error.message
 
 notImplemented:
-	.asciz "Not implemented\n"
+	.asciz "\nNot implemented\n"
 	.equ   notImplemented.len, . - notImplemented
 
 # This file is part of ncc.

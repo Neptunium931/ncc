@@ -126,6 +126,13 @@ parser.loop.next:
 	jmp parser.loop
 
 parser.NotImplemented:
+	mov  rdi, [r11]
+	call strlen
+	mov  rdi, 1
+	mov  rsi, [r11]
+	mov  rdx, rax
+	call writeFd
+
 	mov  rdi, 1
 	mov  rsi, OFFSET notImplemented
 	mov  rdx, OFFSET notImplemented.len
@@ -151,6 +158,7 @@ parser.function.int:
 	mov qword ptr [rdi + 24], rax # value = name of function
 
 	add r12, 8
+	add r11, 8
 	jmp parser.loop.next
 
 # This file is part of ncc.
