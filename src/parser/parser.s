@@ -158,8 +158,9 @@ parser.function.int:
 	mov qword ptr [rdi + 24], rax # value = name of function
 
 	add  r12, 8
-	add  r11, 8
-	cmp  qword ptr [r11], '{'
+	add  r11, 16
+	mov  rax, [r11]
+	cmp  byte ptr [rax], '{'
 	je   parser.loop.next
 	mov  rdi, 11
 	call quit
