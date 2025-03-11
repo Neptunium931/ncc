@@ -44,6 +44,7 @@ lexer.loop.endWord:
 
 lexer.loop.notStartWord:
 	inc r11
+	mov r15, r11
 	jmp lexer.loop
 
 lexer.loop.inWord:
