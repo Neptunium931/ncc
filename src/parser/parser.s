@@ -26,6 +26,7 @@ mov r12, rsi
 
 parser.loop:
 	mov r11, rdi
+	mov rbx, rdi
 	checkIfPtrIsNull
 
 parser.loop.switch.type:
@@ -79,7 +80,7 @@ parser.loop.switch.keyword:
 	cmp  r15, 2048 # restrict
 	je   parser.NotImplemented
 	cmp  r15, 4096 # return
-	je   parser.NotImplemented
+	je   parser.switch.return
 	cmp  r15, 8192 # sizeof
 	je   parser.NotImplemented
 	cmp  r15, 16384 # static
@@ -107,6 +108,15 @@ parser.switch.int:
 	cmp  rax, 0
 	je   parser.variable.int
 	jmp  parser.function.int
+
+parser.switch.return:
+	mov  rdi, rbx
+	call addright
+	mov  rax, [rbx + 16]
+	mov  qword ptr [rax + 16], 1
+	add  r11, 8
+	mov  qword ptr [rax + 24], r11
+	jmp  parser.loop.next
 
 parser.loop.end:
 
