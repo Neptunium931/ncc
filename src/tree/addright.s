@@ -17,7 +17,8 @@ addright:
 
 	mov  r15, rdi
 	call createnode
-	mov  QWORD ptr [r15+8], rax
+	mov  QWORD ptr [r15+16], rax
+	mov  QWORD ptr [rax], r15
 
 	pop r15
 	pop r14

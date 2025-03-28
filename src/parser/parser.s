@@ -112,10 +112,10 @@ parser.switch.int:
 parser.switch.return:
 	mov  rdi, rbx
 	call addright
-	mov  rax, [rbx + 16]
-	mov  qword ptr [rax + 16], 1
+	mov  rax, [rbx + 24]
+	mov  qword ptr [rax + 24], 1
 	add  r11, 8
-	mov  qword ptr [rax + 24], r11
+	mov  qword ptr [rax + 32], r11
 	jmp  parser.loop.next
 
 parser.loop.end:
@@ -159,13 +159,13 @@ parser.function.int:
 	call addleft
 
 	mov rdi, [r12]
-	mov qword ptr [rdi + 16], 6 # nodeType = function + int
+	mov qword ptr [rdi + 24], 6 # nodeType = function + int
 
 	mov  rdi, r14
 	call getFunctionName
 
 	mov rdi, [r12]
-	mov qword ptr [rdi + 24], rax # value = name of function
+	mov qword ptr [rdi + 32], rax # value = name of function
 
 	add  r12, 8
 	add  r11, 16

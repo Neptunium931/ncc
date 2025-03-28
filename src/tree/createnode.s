@@ -5,16 +5,17 @@
 .global createnode
 
 # struct node {
+# struct node *parent
 # struct node *left
 # struct node *right
 # int nodetype
 # void *value
 # }
-# sizeof(struct node) = 32
+# sizeof(struct node) = 40
 
 # rax = void *
 createnode:
-	mov  rdi, 32
+	mov  rdi, 40
 	call malloc
 	ret
 

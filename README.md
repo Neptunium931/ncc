@@ -67,12 +67,13 @@ defined
 
 ```c
 struct node {
-    struct node *left;  # +0
-    struct node *right; # +8
-    int nodetype;       # +16
-    void *value;        # +24
+    struct node *parent # +0
+    struct node *left;  # +8
+    struct node *right; # +16
+    int nodetype;       # +24
+    void *value;        # +32
 };
-sizeof(struct node) = 32;
+sizeof(struct node) = 40;
 ```
 
 | nodeType | type number | value            |
