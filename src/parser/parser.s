@@ -26,7 +26,7 @@ mov r12, rsi
 
 parser.loop:
 	mov r11, rdi
-	mov rbx, rdi
+	mov rbx, rsi
 	checkIfPtrIsNull
 
 parser.loop.switch.type:
@@ -110,13 +110,24 @@ parser.switch.int:
 	jmp  parser.function.int
 
 parser.switch.return:
+	cmp qword ptr [rbx+8], 0
+	jne parser.switch.return.addright
+
+parser.switch.return.addleft:
+	mov  rdi, rbx
+	call addleft
+	jmp  parser.switch.return.value
+
+parser.switch.return.addright:
 	mov  rdi, rbx
 	call addright
-	mov  rax, [rbx + 24]
-	mov  qword ptr [rax + 24], 1
-	add  r11, 8
-	mov  qword ptr [rax + 32], r11
-	jmp  parser.loop.next
+
+parser.switch.return.value:
+	mov rax, [rbx + 24]
+	mov qword ptr [rax + 24], 1
+	add r11, 8
+	mov qword ptr [rax + 32], r11
+	jmp parser.loop.next
 
 parser.loop.end:
 
