@@ -23,10 +23,10 @@ parser:
 # rsi struct node *
 
 mov r12, rsi
+mov rbx, rsi
 
 parser.loop:
 	mov r11, rdi
-	mov rbx, rsi
 	checkIfPtrIsNull
 
 parser.loop.switch.type:
@@ -175,7 +175,6 @@ parser.variable.int:
 # r12 struct node *
 parser.function.int:
 	mov  rdi, r12
-	call addleft
 	mov  qword ptr [r12 + 24], 6 # nodeType = function + int
 	mov  rdi, r14
 	call getFunctionName
