@@ -98,6 +98,10 @@ parser.loop.switch.keyword:
 	cmp  r15, 1048576 # while
 	je   parser.NotImplemented
 
+	mov r15, [r11]
+	cmp byte ptr [r15], '}'
+	je  parser.switch.endScope
+
 	jmp parser.NotImplemented
 
 parser.switch.int:
