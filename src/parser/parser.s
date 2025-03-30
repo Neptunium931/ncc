@@ -131,7 +131,9 @@ parser.switch.return.addright:
 parser.switch.return.value:
 	mov qword ptr [rax + 24], 1
 	add r11, 8
-	mov qword ptr [rax + 32], r11
+	mov rdi, [r11]
+	mov rdi, [rdi]
+	mov qword ptr [rax + 32], rdi
 	jmp parser.loop.next
 
 parser.switch.endScope:
