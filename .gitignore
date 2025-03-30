@@ -1,3 +1,4 @@
 ncc
 *.o
 tags
+*.vim
