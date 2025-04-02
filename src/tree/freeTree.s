@@ -22,13 +22,15 @@ freeTree.loop:
 	jne  freeTree.left
 	cmp  qword ptr [r15+16], 0
 	jne  freeTree.right
+	cmp  qword ptr [r15+32], 0
+	jne  freeTree.value
 	mov  r14, [r15]
 	mov  rdi, r15
 	call free
 	cmp  r14, 0
 	je   freeTree.loop.end
 	mov  r15, r14
-	mov  r15, r14
+	jmp  freeTree.loop
 
 freeTree.left:
 	mov r14, [r15+8]
@@ -40,6 +42,18 @@ freeTree.right:
 	mov r14, [r15+16]
 	mov qword ptr [r15+16], 0
 	mov r15, r14
+	jmp freeTree.loop
+
+freeTree.value:
+	mov  rdi, [r15+32]
+	mov  r14, [r15+24]
+	and  r14, 2
+	cmp  r14, 2
+	jne  freeTree.value.end
+	call free
+
+freeTree.value.end:
+	mov qword ptr [r15+32], 0
 	jmp freeTree.loop
 
 freeTree.loop.end:
