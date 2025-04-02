@@ -37,7 +37,6 @@ checkChar.loop:
 	jmp  checkChar.loop
 
 checkChar.loop.end:
-lexer:
 	mov  rdi, 1024
 	call malloc
 	mov  r15, rax
@@ -45,7 +44,6 @@ lexer:
 	mov  rdi, r13
 	call lexer
 
-parser:
 	call createnode
 	mov  r14, rax
 
