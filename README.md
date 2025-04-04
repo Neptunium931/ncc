@@ -82,6 +82,12 @@ sizeof(struct node) = 40;
 | function | 2           | name of function | [x]    |
 | int      | 4           | not a node type  | [ ]    |
 
+# Link elf using ld
+
+```sh
+ld -o a.out /lib/crt1.o /lib/crti.o /lib/crtn.o -lc simpleMain.o --dynamic-linker /lib64/ld-linux-x86-64.so.2
+```
+
 # TODO
 
 - fix ';' not split
