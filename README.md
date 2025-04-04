@@ -92,3 +92,33 @@ ld -o a.out /lib/crt1.o /lib/crti.o /lib/crtn.o -lc simpleMain.o --dynamic-linke
 
 - fix ';' not split
   `$r11 : 0x00007ffff7ff7028 → 0x00007ffff7ff2008 → 0x0000000a7d003b30 ("0;"?)`
+
+# open syscall
+
+## File Access Modes
+
+- O_RDONLY: 0 (0000 in octal)
+- O_WRONLY: 1 (0001 in octal)
+- O_RDWR: 2 (0002 in octal)
+
+## File Creation and Status Flags
+
+- O_CREAT: 64 (0100 in octal)
+- O_EXCL: 128 (0200 in octal)
+- O_NOCTTY: 256 (0400 in octal)
+- O_TRUNC: 512 (01000 in octal)
+
+## File Status Flags
+
+- O_APPEND: 1024 (02000 in octal)
+- O_ASYNC: 8192 (020000 in octal)
+- O_DIRECT: 16384 (040000 in octal)
+- O_DIRECTORY: 65536 (0200000 in octal)
+- O_NOATIME: 262144 (01000000 in octal)
+- O_NOFOLLOW: 131072 (0400000 in octal)
+- O_NONBLOCK or O_NDELAY: 2048 (04000 in octal)
+- O_SYNC: 129024 (04010000 in octal)
+- O_DSYNC: 4096 (010000 in octal)
+- O_RSYNC: 1052672 (04010000 in octal)
+- O_CLOEXEC: 524288 (02000000 in octal)
+- O_TMPFILE: 4294967296 (010000000000 in octal)
