@@ -36,7 +36,9 @@ ncc_src = ./src/entry.s \
 					./src/tree/addleft.s \
 					./src/tree/addright.s \
 					./src/parser/isKeyWord.s \
-					./src/tree/freeTree.s
+					./src/tree/freeTree.s \
+					./src/codegen/codegen.s \
+					./src/codegen/initFile.s
 
 ifeq ($(OS), OpenBSD)
 LD_FLAGS += --color-diagnostics
