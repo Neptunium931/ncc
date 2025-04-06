@@ -75,17 +75,33 @@ mov    rdx, OFFSET endLine.len
 call   writeFd
 .endm
 
+.macro writeColon
+mov    rdi, r14
+mov    rsi, OFFSET colon
+mov    rdx, OFFSET colon.len
+call   writeFd
+.endm
+
 codegen.function:
 	writeGlobal
 
 	mov  rdi, [r15+32]
 	call strlen
-	mov  rdx, rax
+	mov  r12, rax
+	mov  rdx, r12
 	mov  rdi, r14
 	mov  rsi, [r15+32]
 	call writeFd
 	writeEndOfLine
-	jmp  codegen.loop.next
+
+	mov  rdx, r12
+	mov  rdi, r14
+	mov  rsi, [r15+32]
+	call writeFd
+	writeColon
+	writeEndOfLine
+
+	jmp codegen.loop.next
 
 code.global.str:
 	.asciz "global "
@@ -94,6 +110,10 @@ code.global.str:
 endLine:
 	.asciz "\n"
 	.equ   endLine.len, . - endLine
+
+colon:
+	.asciz ":"
+	.equ   colon.len, . - colon
 
 # This file is part of ncc.
 #
