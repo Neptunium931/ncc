@@ -19,6 +19,36 @@ codegen:
 	call initFile
 	mov  r14, rax
 
+codegen.loop:
+	mov rax, [r15+24]
+	and rax, 2
+	cmp rax, 2
+	je  codegen.function
+	jmp codegen.loop.next
+
+codegen.loop.next:
+	cmp qword ptr [r15+16], 0
+	jne codegen.loop.next.right
+	cmp qword ptr [r15+8], 0
+	jne codegen.loop.next.left
+	cmp qword ptr [r15], 0
+	je  codegen.end
+	mov r15, [r15]
+	jmp codegen.loop.next
+
+codegen.loop.next.left:
+	mov rax, [r15+8]
+	mov qword ptr [r15+8], 0
+	mov r15, rax
+	jmp codegen.loop
+
+codegen.loop.next.right:
+	mov rax, [r15+16]
+	mov qword ptr [r15+16], 0
+	mov r15, rax
+	jmp codegen.loop
+
+codegen.end:
 	mov  rdi, r14
 	call closeFile
 
@@ -31,9 +61,39 @@ codegen:
 	pop rbp
 	ret
 
+.macro writeGlobal
+mov    rdi, r14
+mov    rsi, OFFSET code.global.str
+mov    rdx, OFFSET code.global.str.len
+call   writeFd
+.endm
+
+.macro writeEndOfLine
+mov    rdi, r14
+mov    rsi, OFFSET endLine
+mov    rdx, OFFSET endLine.len
+call   writeFd
+.endm
+
+codegen.function:
+	writeGlobal
+
+	mov  rdi, [r15+32]
+	call strlen
+	mov  rdx, rax
+	mov  rdi, r14
+	mov  rsi, [r15+32]
+	call writeFd
+	writeEndOfLine
+	jmp  codegen.loop.next
+
 code.global.str:
-	.asciz "global"
-	.equ   global.len, . - code.global.str
+	.asciz "global "
+	.equ   code.global.str.len, . - code.global.str
+
+endLine:
+	.asciz "\n"
+	.equ   endLine.len, . - endLine
 
 # This file is part of ncc.
 #
