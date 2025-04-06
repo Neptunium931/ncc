@@ -22,9 +22,16 @@ initFile:
 	xor  rsi, rsi
 	mov  rsi, 1 # O_WRONLY
 	add  rsi, 64 # O_CREAT
-	xor  rdx, rdx
+	mov  rdx, 420 # mode 0644
 	call openFile
 	mov  r14, rax
+
+	mov  rdi, r14
+	mov  rsi, OFFSET code.intel.str
+	mov  rdx, OFFSET code.intel.str.len
+	call writeFd
+
+	mov rax, r14
 
 	pop r15
 	pop r14
@@ -34,6 +41,10 @@ initFile:
 	pop rbx
 	pop rbp
 	ret
+
+code.intel.str:
+	.asciz ".intel_syntax noprefix\n"
+	.equ   code.intel.str.len, . - code.intel.str
 
 # This file is part of ncc.
 #

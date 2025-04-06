@@ -15,8 +15,11 @@ codegen:
 	push r14
 	push r15
 
+	mov  r15, rdi
 	call initFile
-	mov  rdi, rax
+	mov  r14, rax
+
+	mov  rdi, r14
 	call closeFile
 
 	pop r15
@@ -27,6 +30,10 @@ codegen:
 	pop rbx
 	pop rbp
 	ret
+
+code.global.str:
+	.asciz "global"
+	.equ   global.len, . - code.global.str
 
 # This file is part of ncc.
 #
