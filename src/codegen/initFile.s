@@ -43,7 +43,7 @@ initFile:
 	ret
 
 code.intel.str:
-	.asciz ".intel_syntax noprefix\n"
+	.ascii ".intel_syntax noprefix\n"
 	.equ   code.intel.str.len, . - code.intel.str
 
 # This file is part of ncc.

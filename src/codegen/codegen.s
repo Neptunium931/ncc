@@ -155,31 +155,31 @@ codegen.return:
 	jmp codegen.loop.next
 
 code.global.str:
-	.asciz ".global "
+	.ascii ".global "
 	.equ   code.global.str.len, . - code.global.str
 
 endLine:
-	.asciz "\n"
+	.ascii "\n"
 	.equ   endLine.len, . - endLine
 
 colon:
-	.asciz ":"
+	.ascii ":"
 	.equ   colon.len, . - colon
 
 comma:
-	.asciz ","
+	.ascii ","
 	.equ   comma.len, . - comma
 
 mov:
-	.asciz "mov "
+	.ascii "mov "
 	.equ   mov.len, . - mov
 
 ret:
-	.asciz "ret"
+	.ascii "ret"
 	.equ   ret.len, . - ret
 
 rax.str:
-	.asciz "rax"
+	.ascii "rax"
 	.equ   rax.len, . - rax.str
 
 # This file is part of ncc.
