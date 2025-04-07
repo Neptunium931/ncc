@@ -24,6 +24,10 @@ codegen.loop:
 	and rax, 2
 	cmp rax, 2
 	je  codegen.function
+	mov rax, [r15+24]
+	and rax, 1
+	cmp rax, 1
+	je  codegen.return
 	jmp codegen.loop.next
 
 codegen.loop.next:
@@ -82,6 +86,34 @@ mov    rdx, OFFSET colon.len
 call   writeFd
 .endm
 
+.macro writeComma
+mov    rdi, r14
+mov    rsi, OFFSET comma
+mov    rdx, OFFSET comma.len
+call   writeFd
+.endm
+
+.macro writeMov
+mov    rdi, r14
+mov    rsi, OFFSET mov
+mov    rdx, OFFSET mov.len
+call   writeFd
+.endm
+
+.macro writeRax
+mov    rdi, r14
+mov    rsi, OFFSET rax.str
+mov    rdx, OFFSET rax.len
+call   writeFd
+.endm
+
+.macro writeRet
+mov    rdi, r14
+mov    rsi, OFFSET ret
+mov    rdx, OFFSET ret.len
+call   writeFd
+.endm
+
 codegen.function:
 	writeGlobal
 
@@ -103,8 +135,27 @@ codegen.function:
 
 	jmp codegen.loop.next
 
+codegen.return:
+	writeMov
+	writeRax
+	writeComma
+
+	mov  rdi, r15
+	add  rdi, 32
+	call strlen
+	mov  rdx, rax
+	mov  rdi, r14
+	mov  rsi, r15
+	add  rsi, 32
+	call writeFd
+	writeEndOfLine
+	writeRet
+	writeEndOfLine
+
+	jmp codegen.loop.next
+
 code.global.str:
-	.asciz "global "
+	.asciz ".global "
 	.equ   code.global.str.len, . - code.global.str
 
 endLine:
@@ -114,6 +165,22 @@ endLine:
 colon:
 	.asciz ":"
 	.equ   colon.len, . - colon
+
+comma:
+	.asciz ","
+	.equ   comma.len, . - comma
+
+mov:
+	.asciz "mov "
+	.equ   mov.len, . - mov
+
+ret:
+	.asciz "ret"
+	.equ   ret.len, . - ret
+
+rax.str:
+	.asciz "rax"
+	.equ   rax.len, . - rax.str
 
 # This file is part of ncc.
 #
