@@ -90,8 +90,7 @@ ld -o a.out /lib/crt1.o /lib/crti.o /lib/crtn.o -lc simpleMain.o --dynamic-linke
 
 # TODO
 
-- fix ';' not split
-  `$r11 : 0x00007ffff7ff7028 → 0x00007ffff7ff2008 → 0x0000000a7d003b30 ("0;"?)`
+- test if end of explretion if ';'
 
 # open syscall
 

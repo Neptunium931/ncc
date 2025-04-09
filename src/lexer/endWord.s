@@ -1,4 +1,4 @@
-# Copyright (c) 2024, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2024-2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
@@ -11,6 +11,8 @@ endWord:
 	cmp byte ptr [rdi], 0x09
 	je  endWord.end.isEnd
 	cmp byte ptr [rdi], 0x0a
+	je  endWord.end.isEnd
+	cmp byte ptr [rdi], ';'
 	je  endWord.end.isEnd
 	jmp endWord.end.notEnd
 
@@ -26,7 +28,7 @@ endWord.end.notEnd:
 #
 # BSD 3-Clause License
 #
-# Copyright (c) 2024, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2024-2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
