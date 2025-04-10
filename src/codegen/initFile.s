@@ -18,7 +18,24 @@ initFile:
 
 	mov r15, rdi
 
+b:
 	mov  rdi, [r15+32]
+	call strdup
+	mov  rdi, rax
+	mov  rdi, r14
+	call strlen
+
+	mov  rdi, r14
+	mov  rsi, rax
+	add  rsi, 2
+	call realloc
+
+	mov  rdi, rax
+	mov  rsi, 0x2E73
+	call strcat
+
+	mov rdi, rax
+
 	xor  rsi, rsi
 	mov  rsi, 1 # O_WRONLY
 	add  rsi, 64 # O_CREAT

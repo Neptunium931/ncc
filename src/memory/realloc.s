@@ -5,6 +5,7 @@
 
 # rdi = void *ptr
 # rsi = size
+# rax = void *ptr
 realloc:
 	push rbp
 	mov  rbp, rsp
