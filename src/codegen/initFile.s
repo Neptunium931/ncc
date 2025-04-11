@@ -18,20 +18,21 @@ initFile:
 
 	mov r15, rdi
 
-b:
 	mov  rdi, [r15+32]
 	call strdup
 	mov  rdi, rax
-	mov  rdi, r14
+	mov  r14, rdi
 	call strlen
 
-	mov  rdi, r14
-	mov  rsi, rax
-	add  rsi, 2
+	mov rdi, r14
+	mov rsi, rax
+	add rsi, 2
+
+b:
 	call realloc
 
 	mov  rdi, rax
-	mov  rsi, 0x2E73
+	mov  rsi, OFFSET fileExt.str
 	call strcat
 
 	mov rdi, rax
@@ -62,6 +63,10 @@ b:
 code.intel.str:
 	.ascii ".intel_syntax noprefix\n"
 	.equ   code.intel.str.len, . - code.intel.str
+
+fileExt.str:
+	.asciz ".s"
+	.equ   fileExt.len, . - fileExt.str
 
 # This file is part of ncc.
 #
