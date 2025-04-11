@@ -18,6 +18,7 @@ memcpy:
 # rsi void *src
 # rdx size_t size
 # rax void *
+mov r15, rdi
 
 memcpy.loop:
 	cmp rdx, 0
@@ -30,7 +31,7 @@ memcpy.loop:
 	jmp memcpy.loop
 
 memcpy.end:
-	mov rax, rdi
+	mov rax, r15
 
 	pop r15
 	pop r14
