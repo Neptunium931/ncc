@@ -22,11 +22,13 @@ realloc:
 	mov r15, rdi
 	mov r14, rsi
 
+	mov  rdi, rsi
 	call malloc
 
-	mov  rdi, r15
-	mov  rsi, rax
+	mov  rdi, rax
+	mov  rsi, r15
 	mov  rdx, [r15-8]
+	sub  rdx, 8
 	call memcpy
 
 	mov  r13, rax
