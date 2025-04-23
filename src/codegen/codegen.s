@@ -15,6 +15,9 @@ codegen:
 	push r14
 	push r15
 
+	cmp qword ptr [rdi+32], 0
+	je  codegen.end.failed
+
 	mov  r15, rdi
 	call initFile
 	mov  r14, rax
@@ -36,7 +39,7 @@ codegen.loop.next:
 	cmp qword ptr [r15+8], 0
 	jne codegen.loop.next.left
 	cmp qword ptr [r15], 0
-	je  codegen.end
+	je  codegen.end.succes
 	mov r15, [r15]
 	jmp codegen.loop.next
 
@@ -52,10 +55,16 @@ codegen.loop.next.right:
 	mov r15, rax
 	jmp codegen.loop
 
-codegen.end:
+codegen.end.failed:
+	mov rax, 1
+	jmp codegen.end
+
+codegen.end.succes:
 	mov  rdi, r14
 	call closeFile
+	xor  rax, rax
 
+codegen.end:
 	pop r15
 	pop r14
 	pop r13
