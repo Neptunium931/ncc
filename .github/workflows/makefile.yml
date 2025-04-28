@@ -2,23 +2,22 @@ name: Makefile CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ["*"]
   pull_request:
-    branches: [ "master" ]
+    branches: ["master"]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Build
-      run: make
+      - name: Build
+        run: make
 
-    - name: Run check
-      run: make check
+      - name: Run check
+        run: make check
 
-    - name: Run distcheck
-      run: make distcheck
+      - name: Run distcheck
+        run: make distcheck
