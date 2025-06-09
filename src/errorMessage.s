@@ -6,6 +6,8 @@
 .global checkChar.error.message.len
 .global notImplemented
 .global notImplemented.len
+.global semiColon
+.global semiColon.len
 
 checkChar.error.message:
 	.asciz "Invalid character in file.\n"
@@ -14,6 +16,10 @@ checkChar.error.message:
 notImplemented:
 	.asciz "\nNot implemented\n"
 	.equ   notImplemented.len, . - notImplemented
+
+semiColon:
+	.asciz "missing semiColon\n"
+	.equ   semiColon.len, . - semiColon
 
 # This file is part of ncc.
 #

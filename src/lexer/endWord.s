@@ -12,8 +12,6 @@ endWord:
 	je  endWord.end.isEnd
 	cmp byte ptr [rdi], 0x0a
 	je  endWord.end.isEnd
-	cmp byte ptr [rdi], ';'
-	je  endWord.end.isEnd
 	jmp endWord.end.notEnd
 
 endWord.end.isEnd:
