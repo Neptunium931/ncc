@@ -6,11 +6,11 @@
 
 # rdi = char
 endWord:
-	cmp byte ptr [rdi], 0x20
+	cmp byte ptr [rdi], ' '
 	je  endWord.end.isEnd
-	cmp byte ptr [rdi], 0x09
+	cmp byte ptr [rdi], '\t'
 	je  endWord.end.isEnd
-	cmp byte ptr [rdi], 0x0a
+	cmp byte ptr [rdi], '\n'
 	je  endWord.end.isEnd
 	jmp endWord.end.notEnd
 
