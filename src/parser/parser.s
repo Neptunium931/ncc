@@ -9,6 +9,12 @@ cmp    qword ptr [rdi], 0
 je     parser.end
 .endm
 
+.macro checkIFNextIsSemiColon offset
+mov    rdi, [r11+8*\offset]
+cmp    byte ptr [rdi], ';'
+jne    parser.error.semiColon
+.endm
+
 parser:
 	push rbp
 	mov  rbp, rsp
@@ -101,43 +107,7 @@ parser.loop.switch.keyword:
 	mov r15, [r11]
 	cmp byte ptr [r15], '}'
 	je  parser.switch.endScope
-
 	jmp parser.NotImplemented
-
-parser.switch.int:
-	mov  rdi, r11
-	add  rdi, 8
-	mov  r14, rdi
-	call isfunction
-	cmp  rax, 0
-	je   parser.variable.int
-	jmp  parser.function.int
-
-parser.switch.return:
-	cmp qword ptr [rbx+8], 0
-	jne parser.switch.return.addright
-
-parser.switch.return.addleft:
-	mov  rdi, rbx
-	call addleft
-	mov  rax, [rbx + 8]
-	jmp  parser.switch.return.value
-
-parser.switch.return.addright:
-	mov  rdi, rbx
-	call addright
-	mov  rax, [rbx + 16]
-
-parser.switch.return.value:
-	mov qword ptr [rax + 24], 1
-	add r11, 8
-	mov rdi, [r11]
-	mov rdi, [rdi]
-	mov qword ptr [rax + 32], rdi
-	jmp parser.loop.next
-
-parser.switch.endScope:
-	jmp parser.loop.next
 
 parser.loop.end:
 
@@ -159,17 +129,34 @@ parser.loop.next:
 parser.NotImplemented:
 	mov  rdi, [r11]
 	call strlen
-	mov  rdi, 1
+	mov  rdi, 2
 	mov  rsi, [r11]
 	mov  rdx, rax
 	call writeFd
 
-	mov  rdi, 1
+	mov  rdi, 2
 	mov  rsi, OFFSET notImplemented
 	mov  rdx, OFFSET notImplemented.len
 	call writeFd
 	mov  rdi, 10
 	call quit
+
+parser.error.semiColon:
+	mov  rdi, 2
+	mov  rsi, OFFSET semiColon
+	mov  rdx, OFFSET semiColon.len
+	call writeFd
+	mov  rdi, 10
+	call quit
+
+parser.switch.int:
+	mov  rdi, r11
+	add  rdi, 8
+	mov  r14, rdi
+	call isfunction
+	cmp  rax, 0
+	je   parser.variable.int
+	jmp  parser.function.int
 
 parser.variable.int:
 	jmp parser.NotImplemented
@@ -189,6 +176,33 @@ parser.function.int:
 	mov  rdi, 11
 	call quit
 	jmp  parser.loop.next
+
+parser.switch.return:
+	checkIFNextIsSemiColon 2
+	cmp                    qword ptr [rbx+8], 0
+	jne                    parser.switch.return.addright
+
+parser.switch.return.addleft:
+	mov  rdi, rbx
+	call addleft
+	mov  rax, [rbx + 8]
+	jmp  parser.switch.return.value
+
+parser.switch.return.addright:
+	mov  rdi, rbx
+	call addright
+	mov  rax, [rbx + 16]
+
+parser.switch.return.value:
+	mov qword ptr [rax + 24], 1
+	mov rdi, [r11+8]
+	mov rdi, [rdi]
+	mov qword ptr [rax + 32], rdi
+	add r11, 16
+	jmp parser.loop.next
+
+parser.switch.endScope:
+	jmp parser.loop.next
 
 # This file is part of ncc.
 #

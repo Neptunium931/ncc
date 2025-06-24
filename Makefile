@@ -62,6 +62,7 @@ check: ncc
 	./ncc ./exemple/empty.c
 	./ncc ./exemple/simpleMain.c
 	! ./ncc ./exemple/invalidChar.c
+	! ./ncc ./exemple/invalidSimpleMain.c
 	./ncc ./exemple/hello.c
 
 distcheck:
