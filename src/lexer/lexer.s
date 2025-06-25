@@ -1,4 +1,4 @@
-# Copyright (c) 2024, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2024-2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
@@ -25,6 +25,10 @@ lexer.loop:
 	cmp  byte ptr [r11], 0
 	je   lexer.loop.end
 	mov  rdi, r11
+	call simpleToken
+	cmp  rax, 0
+	je   lexer.loop.simpleToken
+	mov  rdi, r11
 	call endWord
 	cmp  rax, 0
 	je   lexer.loop.inWord
@@ -42,6 +46,18 @@ lexer.loop.endWord:
 	mov  r15, r11
 	jmp  lexer.loop
 
+lexer.loop.simpleToken:
+	cmp  r14, 0
+	je   lexer.loop.notStartWord
+	inc  r11
+	mov  rdi, r15
+	mov  rsi, r14
+	call strndup
+	mov  qword ptr [r12], rax
+	add  r12, 8
+	xor  r14, r14
+	mov  r15, r11
+
 lexer.loop.notStartWord:
 	inc r11
 	mov r15, r11
@@ -57,6 +73,7 @@ lexer.loop.end:
 	pop r14
 	pop r13
 	pop r12
+
 	pop r11
 	pop rbx
 	pop rbp
@@ -66,7 +83,7 @@ lexer.loop.end:
 #
 # BSD 3-Clause License
 #
-# Copyright (c) 2024, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2024-2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
