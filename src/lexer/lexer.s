@@ -26,7 +26,7 @@ lexer.loop:
 	je   lexer.loop.end
 	mov  rdi, r11
 	call simpleToken
-	cmp  rax, 0
+	cmp  rax, 1
 	je   lexer.loop.simpleToken
 	mov  rdi, r11
 	call endWord
@@ -63,6 +63,7 @@ lexer.loop.simpleToken.isolate:
 	call strndup
 	mov  qword ptr [r12], rax
 	add  r12, 8
+	inc  r11
 	inc  r15
 	jmp  lexer.loop
 
