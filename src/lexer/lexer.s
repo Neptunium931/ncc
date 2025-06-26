@@ -48,8 +48,7 @@ lexer.loop.endWord:
 
 lexer.loop.simpleToken:
 	cmp  r14, 0
-	je   lexer.loop.notStartWord
-	inc  r11
+	je   lexer.loop.simpleToken.isolate
 	mov  rdi, r15
 	mov  rsi, r14
 	call strndup
@@ -57,6 +56,15 @@ lexer.loop.simpleToken:
 	add  r12, 8
 	xor  r14, r14
 	mov  r15, r11
+
+lexer.loop.simpleToken.isolate:
+	mov  rdi, r15
+	mov  rsi, 1
+	call strndup
+	mov  qword ptr [r12], rax
+	add  r12, 8
+	inc  r15
+	jmp  lexer.loop
 
 lexer.loop.notStartWord:
 	inc r11
