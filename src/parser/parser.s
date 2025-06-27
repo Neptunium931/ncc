@@ -165,8 +165,7 @@ parser.variable.int:
 parser.function.int:
 	mov  rdi, r12
 	mov  qword ptr [r12 + 24], 6 # nodeType = function + int
-	mov  rdi, r14
-	call getFunctionName
+	mov  rax, [r14]
 	mov  qword ptr [r12 + 32], rax # value = name of function
 	add  r12, 8
 	add  r11, 16
