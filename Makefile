@@ -29,7 +29,6 @@ ncc_src = ./src/entry.s \
 					./src/freeArrayString.s \
 					./src/parser/isfunction.s \
 					./src/string/strchr.s \
-					./src/parser/getFunctionName.s \
 					./src/memory/free.s \
 					./src/memory/realloc.s \
 					./src/tree/createnode.s \
