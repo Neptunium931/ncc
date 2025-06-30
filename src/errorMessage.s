@@ -2,12 +2,9 @@
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
-.global checkChar.error.message
-.global checkChar.error.message.len
-.global notImplemented
-.global notImplemented.len
-.global semiColon
-.global semiColon.len
+.global checkChar.error.message, checkChar.error.message.len
+.global notImplemented, notImplemented.len
+.global semiColon, semiColon.len
 
 checkChar.error.message:
 	.asciz "Invalid character in file.\n"
