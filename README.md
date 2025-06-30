@@ -76,11 +76,11 @@ struct node {
 sizeof(struct node) = 40;
 ```
 
-| nodeType | type number | value            | is ptr |
-| -------- | ----------- | ---------------- | ------ |
-| return   | 1           | return code      | [ ]    |
-| function | 2           | name of function | [x]    |
-| int      | 4           | not a node type  | [ ]    |
+| nodeType | type number | value            | value is ptr |
+| -------- | ----------- | ---------------- | ------------ |
+| return   | 1           | return code      | [ ]          |
+| function | 2           | name of function | [x]          |
+| int      | 4           | not a node type  | [ ]          |
 
 # Link elf using ld
 

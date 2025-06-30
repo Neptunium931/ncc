@@ -1,33 +1,76 @@
-# Copyright (c) 2024, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
-.global checkChar.error.message, checkChar.error.message.len
-.global notImplemented, notImplemented.len
-.global semiColon, semiColon.len
-.global parseArgs.errorMsg, parseArgs.errorMsg.len
+.global parseArgs
 
-checkChar.error.message:
-	.asciz "Invalid character in file.\n"
-	.equ   checkChar.error.message.len, . - checkChar.error.message
+# rdi void *[char *buf]
+# rsi struct node *
+# rax number of args
+parseArgs:
+	push rbp
+	mov  rbp, rsp
+	push rbx
+	push r11
+	push r12
+	push r13
+	push r14
+	push r15
 
-notImplemented:
-	.asciz "\nNot implemented\n"
-	.equ   notImplemented.len, . - notImplemented
+	mov r11, rdi
+	mov r12, rsi
+	xor r13, r13 # number of args
 
-semiColon:
-	.asciz "missing semiColon\n"
-	.equ   semiColon.len, . - semiColon
+	mov rax, [r11]
+	cmp byte ptr [rax], '('
+	jne parseArgs.error
 
-parseArgs.errorMsg:
-	.asciz " : invalid args\n"
-	.equ   parseArgs.errorMsg.len, . - parseArgs.errorMsg
+parseArgs.loop:
+	mov  r11, [r11+8]
+	mov  rax, [r11]
+	cmp  byte ptr [rax], ')'
+	je   parseArgs.end
+	mov  rdi, r11
+	call isType
+	cmp  rax, 0
+	je   parseArgs.error
+	mov  rdi, r12
+	call addleft
+	mov  r12, [r12+12]
+	mov  rdi, [r11+8]
+	call strdup
+	mov  qword ptr [r12+32], rax # name of args
+	mov  qword ptr [r12+24], 4 # nodeType # TODO
+
+parseArgs.end:
+	pop r15
+	pop r14
+	pop r13
+	pop r12
+	pop r11
+	pop rbx
+	pop rbp
+	ret
+
+parseArgs.error:
+	mov  rdi, [r11-8]
+	call strlen
+	mov  rdi, 2
+	mov  rsi, [r11-8]
+	mov  rdx, rax
+	call writeFd
+	mov  rdi, 2
+	mov  rsi, OFFSET parseArgs.errorMsg
+	mov  rdx, OFFSET parseArgs.errorMsg.len
+	call writeFd
+	mov  rdi, 100
+	call quit
 
 # This file is part of ncc.
 #
 # BSD 3-Clause License
 #
-# Copyright (c) 2024, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:

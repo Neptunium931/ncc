@@ -169,7 +169,10 @@ parser.function.int:
 	mov  qword ptr [r12 + 32], rax # value = name of function
 	add  r12, 8
 	add  r11, 16
-	mov  rax, [r11]
+	mov  rdi, r11
+	mov  rsi, r12 # struct node *
+	call parseArgs
+	mov  rax, [r11+rax]
 	cmp  byte ptr [rax], '{'
 	je   parser.loop.next
 	mov  rdi, 11
