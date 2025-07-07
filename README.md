@@ -91,8 +91,6 @@ ld -o a.out /lib/crt1.o /lib/crti.o /lib/crtn.o -lc simpleMain.o --dynamic-linke
 
 # TODO
 
-- test if end of expression if ';'
-
 # open syscall
 
 ## File Access Modes
