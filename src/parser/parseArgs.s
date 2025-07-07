@@ -17,17 +17,18 @@ parseArgs:
 	push r14
 	push r15
 
-	mov r11, rdi
+	mov r14, rdi
 	mov r12, rsi
 	xor r13, r13 # number of args
 
-	mov rax, [r11]
+	mov rax, [r14]
 	cmp byte ptr [rax], '('
 	jne parseArgs.error
+	add r14, 8
 
 parseArgs.loop:
-	mov  r11, [r11+8]
-	mov  rax, [r11]
+	mov  r11, [r14+8*r13]
+	mov  rax, r11
 	cmp  byte ptr [rax], ')'
 	je   parseArgs.end
 	mov  rdi, r11
@@ -36,13 +37,18 @@ parseArgs.loop:
 	je   parseArgs.error
 	mov  rdi, r12
 	call addleft
-	mov  r12, [r12+12]
-	mov  rdi, [r11+8]
+
+b:
+	mov  r12, [r12+8]
+	mov  rdi, r11
 	call strdup
 	mov  qword ptr [r12+32], rax # name of args
-	mov  qword ptr [r12+24], 4 # nodeType # TODO
+	mov  qword ptr [r12+24], 0 # nodeType # void
+	inc  r13
+	jmp  parseArgs.loop
 
 parseArgs.end:
+	mov rax, r13
 	pop r15
 	pop r14
 	pop r13

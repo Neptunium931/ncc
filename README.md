@@ -78,6 +78,7 @@ sizeof(struct node) = 40;
 
 | nodeType | type number | value            | value is ptr |
 | -------- | ----------- | ---------------- | ------------ |
+| null     | 0           | null             | [ ]          |
 | return   | 1           | return code      | [ ]          |
 | function | 2           | name of function | [x]          |
 | int      | 4           | not a node type  | [ ]          |

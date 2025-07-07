@@ -4,8 +4,8 @@
 
 .global parser
 
-.macro checkIfPtrIsNull
-cmp    qword ptr [rdi], 0
+.macro checkIfPtrIsNull r
+cmp    qword ptr [\r], 0
 je     parser.end
 .endm
 
@@ -32,8 +32,9 @@ mov r12, rsi
 mov rbx, rsi
 
 parser.loop:
-	mov r11, rdi
-	checkIfPtrIsNull
+	mov              r11, rdi
+	checkIfPtrIsNull rdi
+	mov              rdi, [rdi]
 
 parser.loop.switch.type:
 	call isType
@@ -165,14 +166,17 @@ parser.variable.int:
 parser.function.int:
 	mov  rdi, r12
 	mov  qword ptr [r12 + 24], 6 # nodeType = function + int
-	mov  rax, [r14]
+	mov  rdi, [r14]
+	call strdup
 	mov  qword ptr [r12 + 32], rax # value = name of function
-	add  r12, 8
 	add  r11, 16
 	mov  rdi, r11
 	mov  rsi, r12 # struct node *
 	call parseArgs
-	mov  rax, [r11+rax]
+	add  rax, 2
+	imul rax, 8
+	add  r11, rax
+	mov  rax, [r11]
 	cmp  byte ptr [rax], '{'
 	je   parser.loop.next
 	mov  rdi, 11
