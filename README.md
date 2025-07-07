@@ -82,6 +82,7 @@ sizeof(struct node) = 40;
 | return   | 1           | return code      | [ ]          |
 | function | 2           | name of function | [x]          |
 | int      | 4           | not a node type  | [ ]          |
+| call     | 8           | name of function | [x]          |
 
 # Link elf using ld
 

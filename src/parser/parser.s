@@ -108,7 +108,32 @@ parser.loop.switch.keyword:
 	mov r15, [r11]
 	cmp byte ptr [r15], '}'
 	je  parser.switch.endScope
-	jmp parser.NotImplemented
+
+parser.callFunction:
+	mov  rdi, r11
+	call isfunction
+	cmp  rax, 0
+	je   parser.NotImplemented
+	cmp  qword ptr [rbx+8], 0
+	jne  parser.callFunction.addright
+
+parser.callFunction.addleft:
+	mov  rdi, rbx
+	call addleft
+	mov  rax, [rbx + 8]
+
+parser.callFunction.addright:
+	mov  rdi, rbx
+	call addright
+	mov  rax, [rbx + 16]
+
+parser.callFunction.value:
+	mov  r15, rax
+	mov  qword ptr [r15+24], 8
+	mov  rdi, r11
+	call strdup
+	mov  qword ptr [r15+32], rax
+	jmp  parser.NotImplemented
 
 parser.loop.end:
 

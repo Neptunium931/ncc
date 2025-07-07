@@ -47,9 +47,9 @@ freeTree.right:
 freeTree.value:
 	mov  rdi, [r15+32]
 	mov  r14, [r15+24]
-	and  r14, 2
-	cmp  r14, 2
-	jne  freeTree.value.end
+	and  r14, 0b1010 # mask for 2 or 8
+	cmp  r14, 0
+	je   freeTree.value.end
 	call free
 
 freeTree.value.end:
