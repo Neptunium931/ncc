@@ -5,7 +5,7 @@
 .global checkChar.error.message, checkChar.error.message.len
 .global notImplemented, notImplemented.len
 .global semiColon, semiColon.len
-.global parseArgs.errorMsg, parseArgs.errorMsg.len
+.global parseArgsValue.errorMsg, parseArgsValue.errorMsg.len
 
 checkChar.error.message:
 	.asciz "Invalid character in file.\n"
@@ -19,9 +19,9 @@ semiColon:
 	.asciz "missing semiColon\n"
 	.equ   semiColon.len, . - semiColon
 
-parseArgs.errorMsg:
+parseArgsValue.errorMsg:
 	.asciz " : invalid args\n"
-	.equ   parseArgs.errorMsg.len, . - parseArgs.errorMsg
+	.equ   parseArgsValue.errorMsg.len, . - parseArgsValue.errorMsg
 
 # This file is part of ncc.
 #
