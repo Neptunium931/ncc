@@ -37,8 +37,6 @@ parseArgsType.loop:
 	je   parseArgsType.error
 	mov  rdi, r12
 	call addleft
-
-b:
 	mov  r12, [r12+8]
 	mov  rdi, r11
 	call strdup
