@@ -2,12 +2,12 @@
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
-.global parseArgsValue
+.global parseArgsType
 
 # rdi void *[char *buf]
 # rsi struct node *
 # rax number of args
-parseArgsValue:
+parseArgsType:
 	push rbp
 	mov  rbp, rsp
 	push rbx
@@ -23,18 +23,18 @@ parseArgsValue:
 
 	mov rax, [r14]
 	cmp byte ptr [rax], '('
-	jne parseArgsValue.error
+	jne parseArgsType.error
 	add r14, 8
 
-parseArgsValue.loop:
+parseArgsType.loop:
 	mov  r11, [r14+8*r13]
 	mov  rax, r11
 	cmp  byte ptr [rax], ')'
-	je   parseArgsValue.end
+	je   parseArgsType.end
 	mov  rdi, r11
 	call isType
 	cmp  rax, 0
-	je   parseArgsValue.error
+	je   parseArgsType.error
 	mov  rdi, r12
 	call addleft
 
@@ -45,9 +45,9 @@ b:
 	mov  qword ptr [r12+32], rax # name of args
 	mov  qword ptr [r12+24], 0 # nodeType # void
 	inc  r13
-	jmp  parseArgsValue.loop
+	jmp  parseArgsType.loop
 
-parseArgsValue.end:
+parseArgsType.end:
 	mov rax, r13
 	pop r15
 	pop r14
@@ -58,7 +58,7 @@ parseArgsValue.end:
 	pop rbp
 	ret
 
-parseArgsValue.error:
+parseArgsType.error:
 	mov  rdi, [r11-8]
 	call strlen
 	mov  rdi, 2
@@ -66,8 +66,8 @@ parseArgsValue.error:
 	mov  rdx, rax
 	call writeFd
 	mov  rdi, 2
-	mov  rsi, OFFSET parseArgsValue.errorMsg
-	mov  rdx, OFFSET parseArgsValue.errorMsg.len
+	mov  rsi, OFFSET parseArgsType.errorMsg
+	mov  rdx, OFFSET parseArgsType.errorMsg.len
 	call writeFd
 	mov  rdi, 100
 	call quit

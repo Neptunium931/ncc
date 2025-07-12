@@ -197,7 +197,7 @@ parser.function.int:
 	add  r11, 16
 	mov  rdi, r11
 	mov  rsi, r12 # struct node *
-	call parseArgsValue
+	call parseArgsType
 	add  rax, 2
 	imul rax, 8
 	add  r11, rax

@@ -1,11 +1,11 @@
-# Copyright (c) 2024, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2024-2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
 .global checkChar.error.message, checkChar.error.message.len
 .global notImplemented, notImplemented.len
 .global semiColon, semiColon.len
-.global parseArgsValue.errorMsg, parseArgsValue.errorMsg.len
+.global parseArgsType.errorMsg, parseArgsType.errorMsg.len
 
 checkChar.error.message:
 	.asciz "Invalid character in file.\n"
@@ -19,15 +19,15 @@ semiColon:
 	.asciz "missing semiColon\n"
 	.equ   semiColon.len, . - semiColon
 
-parseArgsValue.errorMsg:
-	.asciz " : invalid args\n"
-	.equ   parseArgsValue.errorMsg.len, . - parseArgsValue.errorMsg
+parseArgsType.errorMsg:
+	.asciz " : args definition is invalid\n"
+	.equ   parseArgsType.errorMsg.len, . - parseArgsType.errorMsg
 
 # This file is part of ncc.
 #
 # BSD 3-Clause License
 #
-# Copyright (c) 2024, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2024-2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
