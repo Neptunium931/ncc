@@ -6,8 +6,6 @@
 
 # rdi = char
 simpleToken:
-	cmp byte ptr [rdi], '"' #"
-	je  simpleToken.end.true
 	cmp byte ptr [rdi], '('
 	je  simpleToken.end.true
 	cmp byte ptr [rdi], ')'
