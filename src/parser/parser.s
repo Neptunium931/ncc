@@ -133,6 +133,10 @@ parser.callFunction.value:
 	mov  rdi, r11
 	call strdup
 	mov  qword ptr [r15+32], rax
+	add  r11, 8
+	mov  rdi, r11
+	mov  rsi, r15
+	call parseArgsValue
 	jmp  parser.NotImplemented
 
 parser.loop.end:

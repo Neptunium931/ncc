@@ -40,7 +40,8 @@ ncc_src = ./src/entry.s \
 					./src/codegen/initFile.s \
 					./src/string/strcat.s \
 					./src/lexer/simpleToken.s \
-					./src/parser/parseArgsType.s
+					./src/parser/parseArgsType.s \
+					./src/parser/parseArgsValue.s
 
 ifeq ($(OS), OpenBSD)
 LD_FLAGS += --color-diagnostics
