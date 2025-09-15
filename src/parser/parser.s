@@ -121,6 +121,7 @@ parser.callFunction.addleft:
 	mov  rdi, rbx
 	call addleft
 	mov  rax, [rbx + 8]
+	jmp  parser.callFunction.value
 
 parser.callFunction.addright:
 	mov  rdi, rbx
@@ -128,16 +129,20 @@ parser.callFunction.addright:
 	mov  rax, [rbx + 16]
 
 parser.callFunction.value:
-	mov  r15, rax
-	mov  qword ptr [r15+24], 8
-	mov  rdi, r11
-	call strdup
-	mov  qword ptr [r15+32], rax
-	add  r11, 8
-	mov  rdi, r11
-	mov  rsi, r15
-	call parseArgsValue
-	jmp  parser.NotImplemented
+	mov                    r15, rax
+	mov                    qword ptr [r15+24], 8
+	mov                    rdi, [r11]
+	call                   strdup
+	mov                    qword ptr [r15+32], rax
+	add                    r11, 8
+	mov                    rdi, r11
+	mov                    rsi, r15
+	call                   parseArgsValue
+	add                    rax, 2
+	imul                   rax, 8
+	add                    r11, rax
+	checkIFNextIsSemiColon 0
+	jmp                    parser.loop.next
 
 parser.loop.end:
 

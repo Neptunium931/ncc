@@ -27,6 +27,7 @@ parseArgsValue:
 	add r14, 8
 
 parseArgsValue.loop:
+parser.callFunction.value:
 	mov  r11, [r14+8*r13]
 	mov  rax, r11
 	cmp  byte ptr [rax], ')'
