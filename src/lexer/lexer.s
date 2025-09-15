@@ -97,7 +97,16 @@ lexer.string:
 	jne lexer.string
 	inc r11
 	inc r14
-	jmp lexer.loop.endWord
+
+lexer.string.end:
+	mov  rdi, r15
+	mov  rsi, r14
+	call strndup
+	mov  qword ptr [r12], rax
+	add  r12, 8
+	xor  r14, r14
+	mov  r15, r11
+	jmp  lexer.loop
 
 # This file is part of ncc.
 #

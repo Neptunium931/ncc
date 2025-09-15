@@ -28,7 +28,6 @@ initFile:
 	mov rsi, rax
 	add rsi, 2
 
-b:
 	call realloc
 
 	mov  rdi, rax

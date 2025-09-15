@@ -2,14 +2,24 @@
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
+# PT_NOTE
+# {
+# long	namesz // size of name
+# long	descsz // size of desc
+# long	type // ABI type?
+# char	name // ABI/vendor name
+# long	desc // description
+# }
+
 .section ".note.openbsd.ident", "a"
 .p2align 2
 .long    0x8
 .long    0x4
 .long    0x1
-.ascii    "OpenBSD\0"
+.ascii   "OpenBSD\0"
 .long    0x0
 .p2align 2
+
 # This file is part of ncc.
 #
 # BSD 3-Clause License

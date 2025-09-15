@@ -31,6 +31,12 @@ codegen.loop:
 	and rax, 1
 	cmp rax, 1
 	je  codegen.return
+
+b:
+	mov rax, [r15+24]
+	and rax, 8
+	cmp rax, 8
+	je  codegen.call
 	jmp codegen.loop.next
 
 codegen.loop.next:
@@ -123,6 +129,13 @@ mov    rdx, OFFSET ret.len
 call   writeFd
 .endm
 
+.macro writeCall
+mov    rdi, r14
+mov    rsi, OFFSET call.str
+mov    rdx, OFFSET call.len
+call   writeFd
+.endm
+
 codegen.function:
 	writeGlobal
 
@@ -163,6 +176,23 @@ codegen.return:
 
 	jmp codegen.loop.next
 
+codegen.call:
+	cmp qword ptr [r15+8], 0
+	je  codegen.call.callFunction
+
+codegen.call.args:
+
+codegen.call.callFunction:
+	writeCall
+	mov  rdi, [r15+32]
+	call strlen
+	mov  rdx, rax
+	mov  rsi, [r15+32]
+	add  rsi, 32
+	call writeFd
+	writeEndOfLine
+	jmp  codegen.loop.next
+
 code.global.str:
 	.ascii ".global "
 	.equ   code.global.str.len, . - code.global.str
@@ -190,6 +220,10 @@ ret:
 rax.str:
 	.ascii "rax"
 	.equ   rax.len, . - rax.str
+
+call.str:
+	.ascii "call "
+	.equ   call.len, . - call.str
 
 # This file is part of ncc.
 #
