@@ -186,7 +186,7 @@ codegen.call.callFunction:
 	call strlen
 	mov  rdx, rax
 	mov  rsi, [r15+32]
-	add  rsi, 32
+	mov  rdi, r14
 	call writeFd
 	writeEndOfLine
 	jmp  codegen.loop.next
