@@ -31,8 +31,6 @@ codegen.loop:
 	and rax, 1
 	cmp rax, 1
 	je  codegen.return
-
-b:
 	mov rax, [r15+24]
 	and rax, 8
 	cmp rax, 8
@@ -40,10 +38,10 @@ b:
 	jmp codegen.loop.next
 
 codegen.loop.next:
-	cmp qword ptr [r15+16], 0
-	jne codegen.loop.next.right
 	cmp qword ptr [r15+8], 0
 	jne codegen.loop.next.left
+	cmp qword ptr [r15+16], 0
+	jne codegen.loop.next.right
 	cmp qword ptr [r15], 0
 	je  codegen.end.succes
 	mov r15, [r15]
