@@ -1,60 +1,42 @@
-# Copyright (c) 2024-2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
-.global strndup
+.global simpleToken
 
-strndup:
-	push rbp
-	mov  rbp, rsp
-	push rbx
-	push r11
-	push r12
-	push r13
-	push r14
-	push r15
+# rdi = char
+simpleToken:
+	cmp byte ptr [rdi], '('
+	je  simpleToken.end.true
+	cmp byte ptr [rdi], ')'
+	je  simpleToken.end.true
+	cmp byte ptr [rdi], '['
+	je  simpleToken.end.true
+	cmp byte ptr [rdi], ']'
+	je  simpleToken.end.true
+	cmp byte ptr [rdi], '\''
+	je  simpleToken.end.true
+	cmp byte ptr [rdi], '{'
+	je  simpleToken.end.true
+	cmp byte ptr [rdi], '}'
+	je  simpleToken.end.true
+	cmp byte ptr [rdi], ';'
+	je  simpleToken.end.true
+	jmp simpleToken.end.false
 
-# rdi char *buf
-# rsi size_t size
-# rax void *new
-strndup.body:
-	mov r11, rdi
+simpleToken.end.true:
+	mov rax, 1
+	ret
 
-strndup.checkLen:
-	call strnlen
-	mov  r12, rax
-	inc  rax
-
-strndup.alloc:
-	mov  rdi, rax
-	call malloc
-	mov  r13, rax
-
-strndup.copy:
-	mov  rdi, r13
-	mov  rsi, r11
-	mov  rdx, r12
-	call memcpy
-
-strndup.addNull:
-	mov byte ptr [r13 + r12], 0
-	mov rax, r13
-
-strndup.end:
-	pop r15
-	pop r14
-	pop r13
-	pop r12
-	pop r11
-	pop rbx
-	pop rbp
+simpleToken.end.false:
+	xor rax, rax
 	ret
 
 # This file is part of ncc.
 #
 # BSD 3-Clause License
 #
-# Copyright (c) 2024-2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:

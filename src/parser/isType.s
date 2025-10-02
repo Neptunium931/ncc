@@ -38,9 +38,6 @@ isType:
 #} type
 
 isType.body:
-	mov r15, [rdi]
-	mov rdi, r15
-
 isType.body.typeBase:
 	call isTypeAuto
 	cmp  rax, 1

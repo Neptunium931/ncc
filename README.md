@@ -76,11 +76,13 @@ struct node {
 sizeof(struct node) = 40;
 ```
 
-| nodeType | type number | value            | is ptr |
-| -------- | ----------- | ---------------- | ------ |
-| return   | 1           | return code      | [ ]    |
-| function | 2           | name of function | [x]    |
-| int      | 4           | not a node type  | [ ]    |
+| nodeType | type number | value            | value is ptr |
+| -------- | ----------- | ---------------- | ------------ |
+| null     | 0           | null             | [ ]          |
+| return   | 1           | return code      | [ ]          |
+| function | 2           | name of function | [x]          |
+| int      | 4           | not a node type  | [ ]          |
+| call     | 8           | name of function | [x]          |
 
 # Link elf using ld
 
@@ -89,8 +91,6 @@ ld -o a.out /lib/crt1.o /lib/crti.o /lib/crtn.o -lc simpleMain.o --dynamic-linke
 ```
 
 # TODO
-
-- test if end of expression if ';'
 
 # open syscall
 

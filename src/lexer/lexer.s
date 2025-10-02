@@ -1,4 +1,4 @@
-# Copyright (c) 2024, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2024-2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
@@ -24,6 +24,12 @@ xor r14, r14
 lexer.loop:
 	cmp  byte ptr [r11], 0
 	je   lexer.loop.end
+	cmp  byte ptr [r11], '"' #"
+	je   lexer.string
+	mov  rdi, r11
+	call simpleToken
+	cmp  rax, 1
+	je   lexer.loop.simpleToken
 	mov  rdi, r11
 	call endWord
 	cmp  rax, 0
@@ -42,6 +48,27 @@ lexer.loop.endWord:
 	mov  r15, r11
 	jmp  lexer.loop
 
+lexer.loop.simpleToken:
+	cmp  r14, 0
+	je   lexer.loop.simpleToken.isolate
+	mov  rdi, r15
+	mov  rsi, r14
+	call strndup
+	mov  qword ptr [r12], rax
+	add  r12, 8
+	xor  r14, r14
+	mov  r15, r11
+
+lexer.loop.simpleToken.isolate:
+	mov  rdi, r15
+	mov  rsi, 1
+	call strndup
+	mov  qword ptr [r12], rax
+	add  r12, 8
+	inc  r11
+	inc  r15
+	jmp  lexer.loop
+
 lexer.loop.notStartWord:
 	inc r11
 	mov r15, r11
@@ -57,16 +84,35 @@ lexer.loop.end:
 	pop r14
 	pop r13
 	pop r12
+
 	pop r11
 	pop rbx
 	pop rbp
 	ret
 
+lexer.string:
+	inc r11
+	inc r14
+	cmp byte ptr [r11], '"' #"
+	jne lexer.string
+	inc r11
+	inc r14
+
+lexer.string.end:
+	mov  rdi, r15
+	mov  rsi, r14
+	call strndup
+	mov  qword ptr [r12], rax
+	add  r12, 8
+	xor  r14, r14
+	mov  r15, r11
+	jmp  lexer.loop
+
 # This file is part of ncc.
 #
 # BSD 3-Clause License
 #
-# Copyright (c) 2024, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2024-2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:

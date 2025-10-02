@@ -29,7 +29,6 @@ ncc_src = ./src/entry.s \
 					./src/freeArrayString.s \
 					./src/parser/isfunction.s \
 					./src/string/strchr.s \
-					./src/parser/getFunctionName.s \
 					./src/memory/free.s \
 					./src/memory/realloc.s \
 					./src/tree/createnode.s \
@@ -39,7 +38,11 @@ ncc_src = ./src/entry.s \
 					./src/tree/freeTree.s \
 					./src/codegen/codegen.s \
 					./src/codegen/initFile.s \
-					./src/string/strcat.s
+					./src/string/strcat.s \
+					./src/lexer/simpleToken.s \
+					./src/parser/parseArgsType.s \
+					./src/parser/parseArgsValue.s \
+					./src/codegen/writeRegisterArg.s
 
 ifeq ($(OS), OpenBSD)
 LD_FLAGS += --color-diagnostics
@@ -63,6 +66,7 @@ check: ncc
 	./ncc ./exemple/simpleMain.c
 	! ./ncc ./exemple/invalidChar.c
 	! ./ncc ./exemple/invalidSimpleMain.c
+	./ncc ./exemple/hello.c
 
 distcheck:
 
