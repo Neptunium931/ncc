@@ -66,7 +66,17 @@ check: ncc
 	./ncc ./exemple/simpleMain.c
 	! ./ncc ./exemple/invalidChar.c
 	! ./ncc ./exemple/invalidSimpleMain.c
-	./ncc ./exemple/hello.c
+	./ncc ./exemple/putc.c
+	as -g -o main.o main.s
+	ls -l /
+	ld -o a.out /lib/crt1.o /lib/crti.o /lib/crtn.o -lc main.o --dynamic-linker /lib64/ld-linux-x86-64.so.2
+	@bash -c '\
+		commandOutput=$$(./a.out); \
+		if [[ $$commandOutput != "(" ]]; then \
+			echo "output : #$$commandOutput#";  \
+			echo "expected : #(#"; \
+			exit 1; \
+		fi'
 
 distcheck:
 
