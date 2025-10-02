@@ -178,7 +178,29 @@ codegen.call:
 	cmp qword ptr [r15+8], 0
 	je  codegen.call.callFunction
 
+	xor r13, r13
+	mov r12, [r15+8]
+	cmp r12, 0
+	je  codegen.call.callFunction
+
 codegen.call.args:
+	writeMov
+	mov  rdi, r14
+	mov  rsi, r13
+	call writeRegisterArg
+	writeComma
+	mov  rdi, [r12+32]
+	call strlen
+	mov  rdx, rax
+	mov  rsi, [r12+32]
+	mov  rdi, r14
+	call writeFd
+	writeEndOfLine
+	cmp  qword ptr [r12+8], 0
+	je   codegen.call.callFunction
+	inc  r13
+	mov  r12, [r12+8]
+	jmp  codegen.call.args
 
 codegen.call.callFunction:
 	writeCall
