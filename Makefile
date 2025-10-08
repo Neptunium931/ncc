@@ -61,6 +61,8 @@ clean:
 	rm -f $(ncc_obj)
 	rm -f ncc
 
+lib64 ?= /lib64
+
 check: ncc
 	./ncc ./exemple/empty.c
 	./ncc ./exemple/simpleMain.c
@@ -68,8 +70,7 @@ check: ncc
 	! ./ncc ./exemple/invalidSimpleMain.c
 	./ncc ./exemple/putc.c
 	as -g -o main.o main.s
-	ls -l /
-	ld -o a.out /lib/crt1.o /lib/crti.o /lib/crtn.o -lc main.o --dynamic-linker /lib64/ld-linux-x86-64.so.2
+	ld -o a.out $(lib64)/crt1.o $(lib64)/crti.o $(lib64)/crtn.o -lc main.o --dynamic-linker /lib64/ld-linux-x86-64.so.2
 	@bash -c '\
 		commandOutput=$$(./a.out); \
 		if [[ $$commandOutput != "(" ]]; then \
