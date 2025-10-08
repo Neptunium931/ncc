@@ -190,8 +190,7 @@ parser.switch.int:
 	mov  r14, rdi
 	call isfunction
 	cmp  rax, 0
-	je   parser.variable.int
-	jmp  parser.function.int
+	jne  parser.function.int
 
 parser.variable.int:
 	jmp parser.NotImplemented
