@@ -142,6 +142,7 @@ parser.callFunction.value:
 	imul                   rax, 8
 	add                    r11, rax
 	checkIFNextIsSemiColon 0
+	mov                    rbx, r15
 	jmp                    parser.loop.next
 
 parser.loop.end:
@@ -237,6 +238,7 @@ parser.switch.return.value:
 	mov rdi, [r11+8]
 	mov rdi, [rdi]
 	mov qword ptr [rax + 32], rdi
+	mov rbx, rax
 	add r11, 16
 	jmp parser.loop.next
 
