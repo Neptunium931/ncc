@@ -78,6 +78,7 @@ check: ncc
 			echo "expected : #(#"; \
 			exit 1; \
 		fi'
+	./ncc ./exemple/var.c
 
 distcheck:
 

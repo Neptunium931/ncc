@@ -15,6 +15,12 @@ cmp    byte ptr [rdi], ';'
 jne    parser.error.semiColon
 .endm
 
+.macro checkIFNextIsEqual offset
+mov    rdi, [r11+8*\offset]
+cmp    byte ptr [rdi], ';'
+jne    parser.error.equal
+.endm
+
 parser:
 	push rbp
 	mov  rbp, rsp
@@ -194,7 +200,43 @@ parser.switch.int:
 	jne  parser.function.int
 
 parser.variable.int:
-	jmp parser.NotImplemented
+	cmp qword ptr [r12+8], 0
+	jne parser.switch.return.addright
+
+parser.variable.int.addleft:
+	mov  rdi, rbx
+	call addleft
+	jmp  parser.variable.int.value
+
+parser.variable.int.addright:
+	mov  rdi, rbx
+	call addright
+
+parser.variable.int.value:
+	mov  r15, rax
+	mov  qword ptr [r15+ 24], 20 # nodeType = variable + int
+	mov  rdi, [r11 + 8]
+	call strdup
+	mov  qword ptr [rbx+32], r15
+	mov  rdi, [r11 + 8 * 2]
+	cmp  byte ptr [rdi], '='
+	jne  parser.variable.int.end
+
+parser.variable.int.assigne:
+	mov  rdi, r15
+	call addleft
+	mov  qword ptr [rax + 24], 64
+	mov  r13, rax
+	mov  rdi, [r11 + 8 * 3]
+	call strdup
+	mov  qword ptr [r13 + 32], rax
+	add  r11, 16
+
+parser.variable.int.end:
+	checkIFNextIsSemiColon 2
+	mov                    rbx, r15
+	add                    r11, 16
+	jmp                    parser.loop.next
 
 # r12 struct node *
 parser.function.int:

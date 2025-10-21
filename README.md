@@ -76,13 +76,16 @@ struct node {
 sizeof(struct node) = 40;
 ```
 
-| nodeType | type number | value            | value is ptr |
-| -------- | ----------- | ---------------- | ------------ |
-| null     | 0           | null             | [ ]          |
-| return   | 1           | return code      | [ ]          |
-| function | 2           | name of function | [x]          |
-| int      | 4           | not a node type  | [ ]          |
-| call     | 8           | name of function | [x]          |
+| nodeType          | type number | value                          | value is ptr |
+| ----------------- | ----------- | ------------------------------ | ------------ |
+| null              | 0           | null                           | [ ]          |
+| return            | 1           | return code                    | [ ]          |
+| function          | 2           | name of function               | [x]          |
+| int               | 4           | not a node type                | [ ]          |
+| call              | 8           | name of function               | [x]          |
+| define variable   | 16          | name of variable defined       | [x]          |
+| assing variable   | 32          | left of node value of variable | [x]          |
+| value of variable | 64          | value of variable              | [x]          |
 
 # Link elf using ld
 
