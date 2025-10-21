@@ -217,7 +217,7 @@ parser.variable.int.value:
 	mov  qword ptr [r15+ 24], 20 # nodeType = variable + int
 	mov  rdi, [r11 + 8]
 	call strdup
-	mov  qword ptr [rbx+32], r15
+	mov  qword ptr [r15+32], rax
 	mov  rdi, [r11 + 8 * 2]
 	cmp  byte ptr [rdi], '='
 	jne  parser.variable.int.end
