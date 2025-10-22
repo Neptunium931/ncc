@@ -222,8 +222,10 @@ parser.variable.int.value:
 	cmp  byte ptr [rdi], '='
 	jne  parser.variable.int.end
 
+# TODO: use clasic assignment
+# assignment in new node
 parser.variable.int.assigne:
-	add  qword ptr [r15 + 24], 32
+  add  qword ptr [r15 + 24], 32
 	mov  rdi, r15
 	call addleft
 	mov  qword ptr [rax + 24], 64

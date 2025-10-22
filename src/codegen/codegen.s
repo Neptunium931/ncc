@@ -35,6 +35,18 @@ codegen.loop:
 	and rax, 8
 	cmp rax, 8
 	je  codegen.call
+	mov rax, [r15+24]
+	and rax, 16
+	cmp rax, 16
+	je  codegen.define.variable
+	mov rax, [r15+24]
+	and rax, 32
+	cmp rax, 32
+	je  codegen.assign.variable
+	mov rax, [r15+24]
+	and rax, 64
+	cmp rax, 64
+	je  codegen.value.variable
 	jmp codegen.loop.next
 
 codegen.loop.next:
@@ -212,6 +224,26 @@ codegen.call.callFunction:
 	call writeFd
 	writeEndOfLine
 	jmp  codegen.loop.next
+
+codegen.define.variable:
+	mov  rdi, r15
+	call newVariable
+	jmp  codegen.loop.next
+
+codegen.assign.variable:
+	jmp codegen.loop.next
+
+codegen.value.variable:
+	jmp codegen.loop.next
+
+.section .bss
+
+.global variable.list
+
+variable.list:
+	.quad 0
+
+	.section .rodata
 
 code.global.str:
 	.ascii ".global "
