@@ -223,6 +223,7 @@ parser.variable.int.value:
 	jne  parser.variable.int.end
 
 parser.variable.int.assigne:
+	add  qword ptr [r15 + 24], 32
 	mov  rdi, r15
 	call addleft
 	mov  qword ptr [rax + 24], 64
