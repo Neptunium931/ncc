@@ -234,6 +234,8 @@ codegen.assign.variable:
 codegen.value.variable:
 	jmp codegen.loop.next
 
+	.section .rodata
+
 code.global.str:
 	.ascii ".global "
 	.equ   code.global.str.len, . - code.global.str
