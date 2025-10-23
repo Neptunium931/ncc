@@ -226,13 +226,21 @@ codegen.call.callFunction:
 	jmp  codegen.loop.next
 
 codegen.define.variable:
-	jmp codegen.loop.next
+	call newVariable
+	jmp  codegen.loop.next
 
 codegen.assign.variable:
 	jmp codegen.loop.next
 
 codegen.value.variable:
 	jmp codegen.loop.next
+
+.section .bss
+
+.global variable.list
+
+variable.list:
+	.quad 0
 
 	.section .rodata
 
