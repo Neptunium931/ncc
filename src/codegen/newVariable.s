@@ -15,17 +15,32 @@ newVariable:
 	push r14
 	push r15
 
+	mov r14, rdi
 	mov r15, [variable.list]
 
 newVariable.loop:
 	cmp r15, 0
-	jne newVariable.new
+	je  newVariable.new
 	mov r15, qword ptr [r15]
 	jmp newVariable.loop
 
 newVariable.new:
-	mov  rdi, 30
-	call malloc
+	mov    rdi, 30
+	call   malloc
+	cmp    r15, 0
+	cmovne rbx, r15
+	jne    skip
+	lea    rbx, [variable.list]
+
+skip:
+	mov qword ptr [rbx], rax
+
+	mov  r15, rax
+	mov  rdi, r14
+	call strdup
+	mov  qword ptr [r15+8], rax
+
+	mov rax, r15
 
 newVariable.end:
 	pop r15
