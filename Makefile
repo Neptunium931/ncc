@@ -80,6 +80,7 @@ check: ncc
 			exit 1; \
 		fi'
 	./ncc ./exemple/var.c
+	./ncc ./exemple/useReturn.c
 
 distcheck:
 
