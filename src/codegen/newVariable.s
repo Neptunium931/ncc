@@ -1,4 +1,4 @@
-# Copyright (c) 2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2025-2026, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
@@ -27,7 +27,7 @@ newVariable.loop:
 	jmp newVariable.loop
 
 newVariable.new:
-	mov    rdi, 30
+	mov    rdi, 32
 	call   malloc
 	cmp    r15, 0
 	cmovne rbx, r15
@@ -42,15 +42,15 @@ newVariable.initNode:
 	call   strdup
 	mov    qword ptr [r15+8], rax
 	mov    qword ptr [r15+16], 0
-	cmp    qword ptr [r14+24], 4
-	mov    rdi, 1    # int
-	mov    rsi, 4    # sizeof(int)
-	cmovz  r12, rdi  # if int r12 = 1 else r12 = 0
-	cmovnz rcx, rsi  # if int r13 = 4 else r13 = 0
+	cmp    qword ptr [r14+24], 4 # test if int
+	mov    edi, 1    # int
+	mov    esi, 4    # sizeof(int)
+	cmovz  r12d, edi  # if int r12 = 1 else r12 = 0
+	cmovnz ecx, esi  # if int r13 = 4 else r13 = 0
 
-	mov qword ptr [r15+24], r12
-	add r13, rcx
-	mov qword ptr [r15+28], r13
+	mov dword ptr [r15+24], r12d # type
+	add r13d, ecx
+	mov dword ptr [r15+28], r13d # offset
 
 	mov rax, r15
 
@@ -68,7 +68,7 @@ newVariable.end:
 #
 # BSD 3-Clause License
 #
-# Copyright (c) 2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2025-2026, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
