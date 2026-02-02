@@ -24,7 +24,7 @@ xor r14, r14
 lexer.loop:
 	cmp  byte ptr [r11], 0
 	je   lexer.loop.end
-	cmp  byte ptr [r11], '"' #"
+	cmp  byte ptr [r11], '"'
 	je   lexer.string
 	mov  rdi, r11
 	call simpleToken

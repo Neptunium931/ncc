@@ -93,7 +93,7 @@ sizeof(struct node) = 40;
 struct variable {
     struct variable *next; # +0
     char *name;            # +8
-    void *value;           # +16
+    void *value;           # +16 default value
     int type;              # +24
     int offset;            # +28
 };

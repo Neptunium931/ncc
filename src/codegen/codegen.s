@@ -228,7 +228,23 @@ codegen.call.callFunction:
 codegen.define.variable:
 	mov  rdi, r15
 	call newVariable
-	jmp  codegen.loop.next
+
+	mov rdi, qword ptr [r15+8]
+	mov rsi, qword ptr [rdi+24]
+	and rsi, 32
+	cmp rsi, 32
+	jne codegen.define.variable.generate
+	mov edi, dword ptr [rdi+32]
+	mov dword ptr [rax+16], edi
+
+codegen.define.variable.generate:
+	mov rdi, qword ptr [r15+8]
+	mov rax, qword ptr [rdi+24]
+	and rax, 16
+	cmp rax, 16
+	je  codegen.loop.next
+
+	jmp codegen.loop.next
 
 codegen.assign.variable:
 	jmp codegen.loop.next
@@ -237,13 +253,13 @@ codegen.value.variable:
 	jmp codegen.loop.next
 
 .section .bss
-
-.global variable.list
+.global  variable.list
 
 variable.list:
 	.quad 0
 
-	.section .rodata
+#
+.section .rodata
 
 code.global.str:
 	.ascii ".global "

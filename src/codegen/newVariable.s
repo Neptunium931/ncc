@@ -23,7 +23,7 @@ newVariable.loop:
 	cmp r15, 0
 	je  newVariable.new
 	mov r15, qword ptr [r15]
-	add r13, qword ptr [r15+24]
+	add r13d, dword  ptr [r15+24]
 	jmp newVariable.loop
 
 newVariable.new:
@@ -35,6 +35,8 @@ newVariable.new:
 	lea    rbx, [variable.list]
 
 newVariable.initNode:
+	xor r12d, r12d
+	xor r13d, r13d
 	mov qword ptr [rbx], rax
 
 	mov    r15, rax
