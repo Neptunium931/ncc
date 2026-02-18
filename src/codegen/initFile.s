@@ -1,4 +1,4 @@
-# Copyright (c) 2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2025-2026, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
@@ -39,6 +39,7 @@ initFile:
 	xor  rsi, rsi
 	mov  rsi, 1 # O_WRONLY
 	add  rsi, 64 # O_CREAT
+	add  rsi, 512 # O_TRUNC
 	mov  rdx, 420 # mode 0644
 	call openFile
 	mov  r14, rax
@@ -71,7 +72,7 @@ fileExt.str:
 #
 # BSD 3-Clause License
 #
-# Copyright (c) 2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2025-2026, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
