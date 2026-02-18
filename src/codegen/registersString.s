@@ -1,93 +1,66 @@
-# Copyright (c) 2025-2026, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2026, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
-.global writeRegisterArg
+.section .rodata
 
-# rdi fd *
-# rsi number of args
-writeRegisterArg:
-	push rbp
-	mov  rbp, rsp
-	push rbx
-	push r11
-	push r12
-	push r13
-	push r14
-	push r15
+.macro  generateRegisterString name
+.global \name\().str
+.global \name\().len
 
-	mov r15, rdi
-	mov r14, rsi
+\name\().str:
+	.asciz "\name"
+	.equ   \name\().len, . - \name\().str
+	.endm
 
-	cmp r14, 0
-	je  arg0
-	cmp r14, 1
-	je  arg1
-	cmp r14, 2
-	je  arg2
-	cmp r14, 3
-	je  arg3
-	cmp r14, 4
-	je  arg4
-	cmp r14, 5
-	jne NotImplemented
+#
 
-# ARG0 (rdi) 	ARG1 (rsi) 	ARG2 (rdx) 	ARG3 (rcx) 	ARG4 (r8) 	ARG5 (r9)
-arg5:
-	mov rsi, OFFSET r9.str
-	mov rdx, OFFSET r9.len
-	jmp writeRegisterArg.write
+generateRegisterString rax
+generateRegisterString rbx
+generateRegisterString rcx
+generateRegisterString rdx
+generateRegisterString rsi
+generateRegisterString rdi
+generateRegisterString rsp
+generateRegisterString rbp
+generateRegisterString r8
+generateRegisterString r9
+generateRegisterString r10
+generateRegisterString r11
+generateRegisterString r12
+generateRegisterString r13
+generateRegisterString r14
+generateRegisterString r15
 
-arg4:
-	mov rsi, OFFSET r8.str
-	mov rdx, OFFSET r8.len
-	jmp writeRegisterArg.write
-
-arg3:
-	mov rsi, OFFSET rcx.str
-	mov rdx, OFFSET rcx.len
-	jmp writeRegisterArg.write
-
-arg2:
-	mov rsi, OFFSET rdx.str
-	mov rdx, OFFSET rdx.len
-	jmp writeRegisterArg.write
-
-arg1:
-	mov rsi, OFFSET rsi.str
-	mov rdx, OFFSET rsi.len
-	jmp writeRegisterArg.write
-
-arg0:
-	mov rsi, OFFSET rdi.str
-	mov rdx, OFFSET rdi.len
-
-writeRegisterArg.write:
-	mov  rdi, r15
-	call writeFd
-
-	pop r15
-	pop r14
-	pop r13
-	pop r12
-	pop r11
-	pop rbx
-	pop rbp
-	ret
-
-NotImplemented:
-	mov  rdi, 2
-	mov  rsi, OFFSET notImplemented
-	mov  rdx, OFFSET notImplemented.len
-	call writeFd
-	mov  rdi, 10
-	call quit
+# rdi.str:
+# .ascii "rdi"
+# .equ   rdi.len, . - rdi.str
+#
+# rsi.str:
+# .ascii "rsi"
+# .equ   rsi.len, . - rsi.str
+#
+# rdx.str:
+# .ascii "rdx"
+# .equ   rdx.len, . - rdx.str
+#
+# rcx.str:
+# .ascii "rcx"
+# .equ   rcx.len, . - rcx.str
+#
+# r8.str:
+# .ascii "r8"
+# .equ   r8.len, . - r8.str
+#
+# r9.str:
+# .ascii "r9"
+# .equ   r9.len, . - r9.str
 
 # This file is part of ncc.
 #
 # BSD 3-Clause License
 #
-# Copyright (c) 2025-2026, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2026, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
