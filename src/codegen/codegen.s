@@ -1,4 +1,4 @@
-# Copyright (c) 2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2025-2026, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
@@ -125,13 +125,6 @@ mov    rdx, OFFSET mov.len
 call   writeFd
 .endm
 
-.macro writeRax
-mov    rdi, r14
-mov    rsi, OFFSET rax.str
-mov    rdx, OFFSET rax.len
-call   writeFd
-.endm
-
 .macro writeRet
 mov    rdi, r14
 mov    rsi, OFFSET ret
@@ -143,6 +136,53 @@ call   writeFd
 mov    rdi, r14
 mov    rsi, OFFSET call.str
 mov    rdx, OFFSET call.len
+call   writeFd
+.endm
+
+.macro writePush
+mov    rdi, r14
+mov    rsi, OFFSET push.str
+mov    rdx, OFFSET push.len
+call   writeFd
+.endm
+
+.macro writeSub
+mov    rdi, r14
+mov    rsi, OFFSET sub.str
+mov    rdx, OFFSET sub.len
+call   writeFd
+.endm
+
+.macro writeRax
+mov    rdi, r14
+mov    rsi, OFFSET rax.str
+mov    rdx, OFFSET rax.len
+call   writeFd
+.endm
+
+.macro writeRbp
+mov    rdi, r14
+mov    rsi, OFFSET rbp.str
+mov    rdx, OFFSET rbp.len
+call   writeFd
+.endm
+
+.macro writeRsp
+mov    rdi, r14
+mov    rsi, OFFSET rsp.str
+mov    rdx, OFFSET rsp.len
+call   writeFd
+.endm
+
+.macro writeUInt64 reg
+mov    rdi, \reg
+call   itoa
+mov    rdi, rax
+push   rdi
+call   strlen
+pop    rsi
+mov    rdi, r14
+mov    rdx, rax
 call   writeFd
 .endm
 
@@ -244,6 +284,20 @@ codegen.define.variable.generate:
 	cmp rax, 16
 	je  codegen.loop.next
 
+	writePush
+	writeRbp
+	writeEndOfLine
+	writeMov
+	writeRbp
+	writeComma
+	writeRsp
+	writeEndOfLine
+
+	writeSub
+	writeRbp
+	writeComma
+	writeUInt64 rax
+
 	jmp codegen.loop.next
 
 codegen.assign.variable:
@@ -285,19 +339,23 @@ ret:
 	.ascii "ret"
 	.equ   ret.len, . - ret
 
-rax.str:
-	.ascii "rax"
-	.equ   rax.len, . - rax.str
-
 call.str:
 	.ascii "call "
 	.equ   call.len, . - call.str
+
+push.str:
+	.ascii "push "
+	.equ   push.len, . - push.str
+
+sub.str:
+	.ascii "sub "
+	.equ   sub.len, . - sub.str
 
 # This file is part of ncc.
 #
 # BSD 3-Clause License
 #
-# Copyright (c) 2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2025-2026, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
