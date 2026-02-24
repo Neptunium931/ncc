@@ -9,7 +9,7 @@
 .global \name\().len
 
 \name\().str:
-	.asciz "\name"
+	.ascii "\name"
 	.equ   \name\().len, . - \name\().str
 	.endm
 
