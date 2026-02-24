@@ -32,30 +32,6 @@ generateRegisterString r13
 generateRegisterString r14
 generateRegisterString r15
 
-# rdi.str:
-# .ascii "rdi"
-# .equ   rdi.len, . - rdi.str
-#
-# rsi.str:
-# .ascii "rsi"
-# .equ   rsi.len, . - rsi.str
-#
-# rdx.str:
-# .ascii "rdx"
-# .equ   rdx.len, . - rdx.str
-#
-# rcx.str:
-# .ascii "rcx"
-# .equ   rcx.len, . - rcx.str
-#
-# r8.str:
-# .ascii "r8"
-# .equ   r8.len, . - r8.str
-#
-# r9.str:
-# .ascii "r9"
-# .equ   r9.len, . - r9.str
-
 # This file is part of ncc.
 #
 # BSD 3-Clause License
