@@ -11,75 +11,75 @@ lenUInt64:
 	mov    rdx, 10
 	cmp    rdi, rdx
 	mov    rsi, 2
-	cmovge rax, rsi
+	cmovae rax, rsi
 	mov    rdx, 100
 	cmp    rdi, rdx
 	mov    rsi, 3
-	cmovge rax, rsi
+	cmovae rax, rsi
 	mov    rdx, 1000
 	cmp    rdi, rdx
 	mov    rsi, 4
-	cmovge rax, rsi
+	cmovae rax, rsi
 	mov    rdx, 10000
 	cmp    rdi, rdx
 	mov    rsi, 5
-	cmovge rax, rsi
+	cmovae rax, rsi
 	mov    rdx, 100000
 	cmp    rdi, rdx
 	mov    rsi, 6
-	cmovge rax, rsi
+	cmovae rax, rsi
 	mov    rdx, 1000000
 	cmp    rdi, rdx
 	mov    rsi, 7
-	cmovge rax, rsi
+	cmovae rax, rsi
 	mov    rdx, 10000000
 	cmp    rdi, rdx
 	mov    rsi, 8
-	cmovge rax, rsi
+	cmovae rax, rsi
 	mov    rdx, 100000000
 	cmp    rdi, rdx
 	mov    rsi, 9
-	cmovge rax, rsi
+	cmovae rax, rsi
 	mov    rdx, 1000000000
 	cmp    rdi, rdx
 	mov    rsi, 10
-	cmovge rax, rsi
+	cmovae rax, rsi
 	mov    rdx, 10000000000
 	cmp    rdi, rdx
 	mov    rsi, 11
-	cmovge rax, rsi
+	cmovae rax, rsi
 	mov    rdx, 100000000000
 	cmp    rdi, rdx
 	mov    rsi, 12
-	cmovge rax, rsi
+	cmovae rax, rsi
 	mov    rdx, 1000000000000
 	cmp    rdi, rdx
 	mov    rsi, 13
-	cmovge rax, rsi
+	cmovae rax, rsi
 	mov    rdx, 10000000000000
 	cmp    rdi, rdx
 	mov    rsi, 14
-	cmovge rax, rsi
+	cmovae rax, rsi
 	mov    rdx, 100000000000000
 	cmp    rdi, rdx
 	mov    rsi, 15
-	cmovge rax, rsi
+	cmovae rax, rsi
 	mov    rdx, 1000000000000000
 	cmp    rdi, rdx
 	mov    rsi, 16
-	cmovge rax, rsi
+	cmovae rax, rsi
 	mov    rdx, 10000000000000000
 	cmp    rdi, rdx
 	mov    rsi, 17
-	cmovge rax, rsi
+	cmovae rax, rsi
 	mov    rdx, 100000000000000000
 	cmp    rdi, rdx
 	mov    rsi, 18
-	cmovge rax, rsi
+	cmovae rax, rsi
 	mov    rdx, 1000000000000000000
 	cmp    rdi, rdx
 	mov    rsi, 19
-	cmovge rax, rsi
+	cmovae rax, rsi
 	mov    rdx, 10000000000000000000
 	cmp    rdi, rdx
 	mov    rsi, 20
