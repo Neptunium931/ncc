@@ -83,7 +83,7 @@ lenUInt64:
 	mov    rdx, 10000000000000000000
 	cmp    rdi, rdx
 	mov    rsi, 20
-	cmovge rax, rsi
+	cmovae rax, rsi
 	ret
 
 # This file is part of ncc.

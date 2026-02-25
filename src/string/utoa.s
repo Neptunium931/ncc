@@ -2,9 +2,9 @@
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
-.global itoa
+.global utoa
 
-itoa:
+utoa:
 	push rbp
 	mov  rbp, rsp
 	push rbx
@@ -19,11 +19,33 @@ itoa:
 mov  r15, rdi
 call lenUInt64
 mov  rdi, rax
+mov  r13, rax
 call malloc
+mov  r14, rax
 
-itoa.loop:
+mov   rax, r15
+cmp   r13, 1
+xor   r12, r12
+cmove r13, r12
+je    utoa.end
+mov   r15, 10
 
-itoa.end:
+utoa.loop:
+	xor rdx, rdx
+	div r15
+
+	add dl, '0'
+	mov byte ptr [r14+r13], dl
+	dec r13
+	mov r15, rax
+	cmp r13, 0
+	jne utoa.loop
+
+utoa.end:
+	add al, '0'
+	mov byte ptr [r14+r13], al
+	mov rax, r14
+
 	pop r15
 	pop r14
 	pop r13

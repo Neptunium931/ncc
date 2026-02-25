@@ -176,7 +176,7 @@ call   writeFd
 
 .macro writeUInt64 reg
 mov    rdi, \reg
-call   itoa
+call   utoa
 mov    rdi, rax
 push   rdi
 call   strlen
@@ -296,7 +296,11 @@ codegen.define.variable.generate:
 	writeSub
 	writeRbp
 	writeComma
+
+	call        getLastVariable
+	mov         eax, dword ptr [rax+28]
 	writeUInt64 rax
+	writeEndOfLine
 
 	jmp codegen.loop.next
 

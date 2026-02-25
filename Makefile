@@ -1,4 +1,4 @@
-# Copyright (c) 2024-2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2024-2026, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 # See end of file for extended copyright information.
 OS := $(shell uname -s)
 AS ?= as
@@ -45,8 +45,9 @@ ncc_src = ./src/entry.s \
 					./src/codegen/writeRegisterArg.s \
 					./src/codegen/newVariable.s \
 					./src/codegen/registersString.s \
-					./src/string/itoa.s \
-					./src/string/lenUInt64.s
+					./src/string/utoa.s \
+					./src/string/lenUInt64.s \
+					./src/codegen/getLastVariable.s
 
 ifeq ($(OS), OpenBSD)
 LD_FLAGS += --color-diagnostics
@@ -92,7 +93,7 @@ distcheck:
 #
 # BSD 3-Clause License
 #
-# Copyright (c) 2024-2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2024-2026, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:

@@ -1,11 +1,11 @@
-# Copyright (c) 2025-2026, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2026, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
-.global newVariable
+.global getLastVariable
 
-# rdi struct node *
-newVariable:
+# rax int
+getLastVariable:
 	push rbp
 	mov  rbp, rsp
 	push rbx
@@ -15,51 +15,18 @@ newVariable:
 	push r14
 	push r15
 
-	xor r13, r13
-	mov r14, rdi
 	mov r15, [variable.list]
 
-	cmp r15, 0
-	je  newVariable.new
-
-newVariable.loop:
-	mov r12, qword ptr [r15]
-	cmp r12, 0
-	je  newVariable.new
+getLastVariable.loop:
+	mov r14, qword ptr [r15]
+	cmp r14, 0
+	je  getLastVariable.end
 	mov r15, qword ptr [r15]
-	add r13d, dword  ptr [r15+28]
-	jmp newVariable.loop
+	jmp getLastVariable.loop
 
-newVariable.new:
-	mov    rdi, 32
-	call   malloc
-	cmp    r15, 0
-	cmovne rbx, r15
-	jne    newVariable.initNode
-	lea    rbx, [variable.list]
-
-newVariable.initNode:
-	xor r12d, r12d
-	mov qword ptr [rbx], rax
-
-	mov    r15, rax
-	mov    rdi, [r14+32]
-	call   strdup
-	mov    qword ptr [r15+8], rax
-	mov    qword ptr [r15+16], 0
-	cmp    qword ptr [r14+24], 4 # test if int
-	mov    edi, 1    # int
-	mov    esi, 4    # sizeof(int)
-	cmovz  r12d, edi  # if int r12 = 1 else r12 = 0
-	cmovnz ecx, esi  # if int r13 = 4 else r13 = 0
-
-	mov dword ptr [r15+24], r12d # type
-	add r13d, ecx
-	mov dword ptr [r15+28], r13d # offset
-
+getLastVariable.end:
 	mov rax, r15
 
-newVariable.end:
 	pop r15
 	pop r14
 	pop r13
@@ -73,7 +40,7 @@ newVariable.end:
 #
 # BSD 3-Clause License
 #
-# Copyright (c) 2025-2026, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2026, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:

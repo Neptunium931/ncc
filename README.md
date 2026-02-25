@@ -94,8 +94,8 @@ struct variable {
     struct variable *next; # +0
     char *name;            # +8
     void *value;           # +16 default value
-    int type;              # +24
-    int offset;            # +28
+    uint type;              # +24
+    uint offset;            # +28
 };
 sizeof(struct variable) = 32;
 ```
