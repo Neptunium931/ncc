@@ -212,14 +212,18 @@ codegen.return:
 	writeRax
 	writeComma
 
-	mov  rdi, r15
-	add  rdi, 32
+codegen.return.immediateValue:
+	mov  rdi, [r15+32]
 	call strlen
 	mov  rdx, rax
 	mov  rdi, r14
-	mov  rsi, r15
-	add  rsi, 32
+	mov  rsi, [r15+32]
 	call writeFd
+	jmp  codegen.return.end
+
+codegen.return.variable:
+
+codegen.return.end:
 	writeEndOfLine
 	writeRet
 	writeEndOfLine

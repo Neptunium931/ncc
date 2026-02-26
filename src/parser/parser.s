@@ -1,4 +1,4 @@
-# Copyright (c) 2024-2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2024-2026, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
@@ -225,7 +225,7 @@ parser.variable.int.value:
 # TODO: use clasic assignment
 # assignment in new node
 parser.variable.int.assigne:
-  add  qword ptr [r15 + 24], 32
+	add  qword ptr [r15 + 24], 32
 	mov  rdi, r15
 	call addleft
 	mov  qword ptr [rax + 24], 64
@@ -279,13 +279,16 @@ parser.switch.return.addright:
 	mov  rax, [rbx + 16]
 
 parser.switch.return.value:
-	mov qword ptr [rax + 24], 1
-	mov rdi, [r11+8]
-	mov rdi, [rdi]
-	mov qword ptr [rax + 32], rdi
-	mov rbx, rax
-	add r11, 16
-	jmp parser.loop.next
+	mov  qword ptr [rax + 24], 1
+	mov  rdi, [r11+8]
+	push rax
+	call strdup
+	mov  rdi, rax
+	pop  rax
+	mov  qword ptr [rax + 32], rdi
+	mov  rbx, rax
+	add  r11, 16
+	jmp  parser.loop.next
 
 parser.switch.endScope:
 	jmp parser.loop.next
@@ -294,7 +297,7 @@ parser.switch.endScope:
 #
 # BSD 3-Clause License
 #
-# Copyright (c) 2024-2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2024-2026, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
