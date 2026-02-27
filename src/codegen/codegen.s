@@ -212,6 +212,11 @@ codegen.return:
 	writeRax
 	writeComma
 
+	mov  rdi, [r15+32]
+	call isImmediateValue
+	cmp  rax, 0
+	je   codegen.return.variable
+
 codegen.return.immediateValue:
 	mov  rdi, [r15+32]
 	call strlen
