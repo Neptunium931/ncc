@@ -49,7 +49,9 @@ ncc_src = ./src/entry.s \
 					./src/string/lenUInt64.s \
 					./src/codegen/getLastVariable.s \
 					./src/codegen/isImmediateValue.s \
-					./src/string/strIsInt.s
+					./src/string/strIsInt.s \
+					./src/codegen/getVariableByName.s \
+					./src/string/strcmp.s
 
 ifeq ($(OS), OpenBSD)
 LD_FLAGS += --color-diagnostics
