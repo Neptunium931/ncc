@@ -16,15 +16,15 @@ strIsInt:
 	push r15
 
 strIsInt.loop:
-	mov rax, [rdi]
-	cmp rax, 0
-	je  strIsInt.true
-	cmp rax, '0'
-	jl  strIsInt.false
-	cmp rax, '9'
-	jg  strIsInt.false
-	inc rdi
-	jmp strIsInt.loop
+	movzx rax, byte ptr [rdi]
+	cmp   rax, 0
+	je    strIsInt.true
+	cmp   rax, '0'
+	jl    strIsInt.false
+	cmp   rax, '9'
+	jg    strIsInt.false
+	inc   rdi
+	jmp   strIsInt.loop
 
 strIsInt.true:
 	mov rax, 1

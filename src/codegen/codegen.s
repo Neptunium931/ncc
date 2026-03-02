@@ -214,7 +214,7 @@ codegen.return:
 
 	mov  rdi, [r15+32]
 	call isImmediateValue
-	cmp  rax, 0
+	cmp  rax, 1
 	jne  codegen.return.variable
 
 codegen.return.immediateValue:
