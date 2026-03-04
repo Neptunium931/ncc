@@ -19,9 +19,9 @@ strcmp:
 # rax int
 strcmp.body:
 	cmp   byte ptr [rdi], 0
-	je    strcmp.endS1
+	je    strcmp.end
 	cmp   byte ptr [rsi], 0
-	je    strcmp.endS2
+	je    strcmp.end
 	movzx rax, byte ptr [rdi]
 	movzx rbx, byte ptr [rsi]
 	cmp   rax, rbx
