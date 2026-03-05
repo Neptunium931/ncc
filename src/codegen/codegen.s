@@ -227,6 +227,10 @@ codegen.return.immediateValue:
 	jmp  codegen.return.end
 
 codegen.return.variable:
+	mov  rdi, [r15+32]
+	call getVariableByName
+	cmp  rax, 0
+	je   codegen.return.variable.notFound
 
 codegen.return.end:
 	writeEndOfLine
@@ -234,6 +238,14 @@ codegen.return.end:
 	writeEndOfLine
 
 	jmp codegen.loop.next
+
+codegen.return.variable.notFound:
+	mov  rdi, 2
+	mov  rsi, OFFSET variable.notDefined
+	mov  rdx, OFFSET variable.notDefined.len
+	call writeFd
+	mov  rdi, 100
+	call quit
 
 codegen.call:
 	cmp qword ptr [r15+8], 0

@@ -7,6 +7,7 @@
 .global semiColon, semiColon.len
 .global parseArgsType.errorMsg, parseArgsType.errorMsg.len
 .global parseArgsValue.errorMsg, parseArgsValue.errorMsg.len
+.global variable.notDefined, variable.notDefined.len
 
 checkChar.error.message:
 	.asciz "Invalid character in file.\n"
@@ -27,6 +28,10 @@ parseArgsType.errorMsg:
 parseArgsValue.errorMsg:
 	.asciz " : invalid args\n"
 	.equ   parseArgsValue.errorMsg.len, . - parseArgsValue.errorMsg
+
+variable.notDefined:
+	.asciz "Variable not defined\n"
+	.equ   variable.notDefined.len, . - variable.notDefined
 
 # This file is part of ncc.
 #

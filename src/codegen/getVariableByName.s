@@ -26,9 +26,16 @@ getVariableByName.loop:
 	cmp  rax, 0
 	je   getVariableByName.find
 	mov  r15, qword ptr [r15]
+	cmp  r15, 0
+	je   getVariableByName.failed
+	jmp  getVariableByName.loop
 
 getVariableByName.find:
 	mov rax, r15
+	jmp getVariableByName.end
+
+getVariableByName.failed:
+	xor rax, rax
 
 getVariableByName.end:
 	pop r15
