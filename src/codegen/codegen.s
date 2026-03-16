@@ -267,11 +267,11 @@ codegen.return.variable:
 	writeMinus
 	writeUInt64 rbx
 	writeRightSquareBracket
-
-codegen.return.end:
 	writeEndOfLine
 	writePop
 	writeRbp
+
+codegen.return.end:
 	writeEndOfLine
 	writeRet
 	writeEndOfLine
