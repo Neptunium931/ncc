@@ -186,6 +186,34 @@ mov    rdx, rax
 call   writeFd
 .endm
 
+.macro writeLeftSquareBracket
+mov    rdi, r14
+mov    rsi, OFFSET leftSquareBracket
+mov    rdx, OFFSET leftSquareBracket.len
+call   writeFd
+.endm
+
+.macro writeRightSquareBracket
+mov    rdi, r14
+mov    rsi, OFFSET rightSquareBracket
+mov    rdx, OFFSET rightSquareBracket.len
+call   writeFd
+.endm
+
+.macro writeMinus
+mov    rdi, r14
+mov    rsi, OFFSET minus
+mov    rdx, OFFSET minus.len
+call   writeFd
+.endm
+
+.macro writePop
+mov    rdi, r14
+mov    rsi, OFFSET pop.str
+mov    rdx, OFFSET pop.len
+call   writeFd
+.endm
+
 codegen.function:
 	writeGlobal
 
@@ -232,7 +260,18 @@ codegen.return.variable:
 	cmp  rax, 0
 	je   codegen.return.variable.notFound
 
+	mov rbx, [rax+28]
+
+	writeLeftSquareBracket
+	writeRbp
+	writeMinus
+	writeUInt64 rbx
+	writeRightSquareBracket
+
 codegen.return.end:
+	writeEndOfLine
+	writePop
+	writeRbp
 	writeEndOfLine
 	writeRet
 	writeEndOfLine
@@ -375,6 +414,34 @@ push.str:
 sub.str:
 	.ascii "sub "
 	.equ   sub.len, . - sub.str
+
+leftSquareBracket:
+	.ascii "["
+	.equ   leftSquareBracket.len, . - leftSquareBracket
+
+rightSquareBracket:
+	.ascii "]"
+	.equ   rightSquareBracket.len, . - rightSquareBracket
+
+minus:
+	.ascii "-"
+	.equ   minus.len, . - minus
+
+pop.str:
+	.ascii "pop "
+	.equ   pop.len, . - pop.str
+
+qword.str:
+	.ascii "qword "
+	.equ   qword.len, . - qword.str
+
+dword.str:
+	.ascii "dword "
+	.equ   dword.len, . - dword.str
+
+ptr.str:
+	.ascii "ptr "
+	.equ   ptr.len, . - ptr.str
 
 # This file is part of ncc.
 #
