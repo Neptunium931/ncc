@@ -1,0 +1,12 @@
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: codeberg-tiny
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: make
+      - name: Test
+        run: make check lib64=/usr/lib/x86_64-linux-gnu
+      - name: Distcheck
+        run: make distcheck
