@@ -233,6 +233,15 @@ codegen.function:
 	writeColon
 	writeEndOfLine
 
+	writePush
+	writeRbp
+	writeEndOfLine
+	writeMov
+	writeRbp
+	writeComma
+	writeRsp
+	writeEndOfLine
+
 	jmp codegen.loop.next
 
 codegen.return:
@@ -267,11 +276,12 @@ codegen.return.variable:
 	writeMinus
 	writeUInt64 rbx
 	writeRightSquareBracket
+
+codegen.return.end:
 	writeEndOfLine
 	writePop
 	writeRbp
 
-codegen.return.end:
 	writeEndOfLine
 	writeRet
 	writeEndOfLine
@@ -343,15 +353,6 @@ codegen.define.variable.generate:
 	and rax, 16
 	cmp rax, 16
 	je  codegen.loop.next
-
-	writePush
-	writeRbp
-	writeEndOfLine
-	writeMov
-	writeRbp
-	writeComma
-	writeRsp
-	writeEndOfLine
 
 	writeSub
 	writeRbp
