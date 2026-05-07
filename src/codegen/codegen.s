@@ -339,13 +339,12 @@ codegen.define.variable:
 	mov  rdi, r15
 	call newVariable
 
-	mov rdi, qword ptr [r15+8]
-	mov rsi, qword ptr [rdi+24]
-	and rsi, 32
-	cmp rsi, 32
+	mov rdi, qword ptr [r15+24]
+	and rdi, 32
+	cmp rdi, 32
 	jne codegen.define.variable.generate
-	mov edi, dword ptr [rdi+32]
-	mov dword ptr [rax+16], edi
+	mov rdi, qword ptr [rdi+32]
+	mov qword ptr [rax+16], rdi
 
 codegen.define.variable.generate:
 	mov rdi, qword ptr [r15+8]
