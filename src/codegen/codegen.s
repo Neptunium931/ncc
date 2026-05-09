@@ -214,6 +214,21 @@ mov    rdx, OFFSET pop.len
 call   writeFd
 .endm
 
+.macro writePtr
+mov    rdi, r14
+mov    rsi, OFFSET ptr.str
+mov    rdx, OFFSET ptr.len
+call   writeFd
+.endm
+
+.macro writeDwordPtr
+mov    rdi, r14
+mov    rsi, OFFSET dword.str
+mov    rdx, OFFSET dword.len
+call   writeFd
+writePtr
+.endm
+
 codegen.function:
 	writeGlobal
 
@@ -343,9 +358,11 @@ codegen.define.variable:
 	and rdi, 32
 	cmp rdi, 32
 	jne codegen.define.variable.generate
+	mov rdi, qword ptr [r15+8]
 	mov rdi, qword ptr [rdi+32]
 	mov qword ptr [rax+16], rdi
 
+# not OK if variable as value
 codegen.define.variable.generate:
 	mov rdi, qword ptr [r15+8]
 	mov rax, qword ptr [rdi+24]
@@ -362,6 +379,32 @@ codegen.define.variable.generate:
 	writeUInt64 rax
 	writeEndOfLine
 
+codegen.define.variable.generate.loop:
+	mov r12, [variable.list]
+	writeMov
+
+	writeDwordPtr # FIXME: select size
+	writeLeftSquareBracket
+	writeRbp
+	writeMinus
+	xor           rax, rax
+	mov           eax, dword ptr [r12+28]
+	writeUInt64   rax
+	writeRightSquareBracket
+	writeComma
+	mov           rdi, qword ptr [r12+16]
+	call          strlen
+	mov           rdx, rax
+	mov           rsi, qword ptr [r12+16]
+	mov           rdi, r14
+	call          writeFd
+	writeEndOfLine
+	cmp           qword ptr [r12], 0
+	je            codegen.define.variable.generate.loop.end
+	mov           r12, [r12]
+	jmp           codegen.define.variable.generate.loop
+
+codegen.define.variable.generate.loop.end:
 	jmp codegen.loop.next
 
 codegen.assign.variable:
