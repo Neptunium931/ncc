@@ -80,14 +80,11 @@ check: ncc
 	./ncc ./exemple/putc.c
 	as -g -o main.o main.s
 	ld -o a.out $(lib64)/crt1.o $(lib64)/crti.o $(lib64)/crtn.o -lc main.o --dynamic-linker /lib64/ld-linux-x86-64.so.2
-	@bash -c '\
-		commandOutput=$$(./a.out); \
-		if [[ $$commandOutput != "(" ]]; then \
-			echo "output : #$$commandOutput#";  \
-			echo "expected : #(#"; \
-			exit 1; \
-		fi'
+	./checkProgRetrun.sh -p ./a.out -r 0 -o "(" -e ""
 	./ncc ./exemple/var.c
+	as -g -o main.o main.s
+	ld -o a.out $(lib64)/crt1.o $(lib64)/crti.o $(lib64)/crtn.o -lc main.o --dynamic-linker /lib64/ld-linux-x86-64.so.2
+	./checkProgRetrun.sh -p ./a.out -r 1
 
 distcheck:
 
