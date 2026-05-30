@@ -201,7 +201,7 @@ parser.switch.int:
 
 parser.variable.int:
 	cmp qword ptr [r12+8], 0
-	jne parser.switch.return.addright
+	jne parser.variable.int.addright
 
 parser.variable.int.addleft:
 	mov  rdi, rbx
