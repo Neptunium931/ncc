@@ -85,7 +85,7 @@ check: ncc
 	as -g -o main.o main.s
 	ld -o a.out $(lib64)/crt1.o $(lib64)/crti.o $(lib64)/crtn.o -lc main.o --dynamic-linker /lib64/ld-linux-x86-64.so.2
 	./checkProgRetrun.sh -p ./a.out -r 1
-	./ncc ./exemple/towvar.c
+	./ncc ./exemple/2var.c
 	as -g -o main.o main.s
 	ld -o a.out $(lib64)/crt1.o $(lib64)/crti.o $(lib64)/crtn.o -lc main.o --dynamic-linker /lib64/ld-linux-x86-64.so.2
 	./checkProgRetrun.sh -p ./a.out -r 1
