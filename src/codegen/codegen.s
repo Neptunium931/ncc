@@ -357,14 +357,16 @@ codegen.define.variable:
 	mov rdi, qword ptr [r15+24]
 	and rdi, 32
 	cmp rdi, 32
+	mov rdi, qword ptr [r15+8]
 	jne codegen.define.variable.generate
 	mov rdi, qword ptr [r15+8]
 	mov rdi, qword ptr [rdi+32]
 	mov qword ptr [rax+16], rdi
 
+	mov rdi, qword ptr [r15+16]
+
 # not OK if variable as value
 codegen.define.variable.generate:
-	mov rdi, qword ptr [r15+8]
 	mov rax, qword ptr [rdi+24]
 	and rax, 16
 	cmp rax, 16
@@ -379,8 +381,9 @@ codegen.define.variable.generate:
 	writeUInt64 rax
 	writeEndOfLine
 
-codegen.define.variable.generate.loop:
 	mov r12, [variable.list]
+
+codegen.define.variable.generate.loop:
 	writeMov
 
 	writeDwordPtr # FIXME: select size
@@ -392,10 +395,15 @@ codegen.define.variable.generate.loop:
 	writeUInt64   rax
 	writeRightSquareBracket
 	writeComma
-	mov           rdi, qword ptr [r12+16]
+	mov           rdi, OFFSET variable.defaultValue
+	cmp           qword ptr [r12+16], 0
+	cmovne        rdi, qword ptr [r12+16]
 	call          strlen
 	mov           rdx, rax
-	mov           rsi, qword ptr [r12+16]
+	mov           rsi, OFFSET variable.defaultValue
+	cmp           qword ptr [r12+16], 0
+	cmove         rsi, rsi
+	cmovne        rsi, qword ptr [r12+16]
 	mov           rdi, r14
 	call          writeFd
 	writeEndOfLine
@@ -485,6 +493,12 @@ dword.str:
 ptr.str:
 	.ascii "ptr "
 	.equ   ptr.len, . - ptr.str
+
+	.global variable.defaultValue
+
+variable.defaultValue:
+	.asciz "0"
+	.equ   variable.defaultValue.len, . - variable.defaultValue
 
 # This file is part of ncc.
 #

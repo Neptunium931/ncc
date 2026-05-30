@@ -23,11 +23,11 @@ newVariable:
 	je  newVariable.new
 
 newVariable.loop:
+	add r13d, dword  ptr [r15+28]
 	mov r12, qword ptr [r15]
 	cmp r12, 0
 	je  newVariable.new
 	mov r15, qword ptr [r15]
-	add r13d, dword  ptr [r15+28]
 	jmp newVariable.loop
 
 newVariable.new:
