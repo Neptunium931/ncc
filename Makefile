@@ -51,7 +51,8 @@ ncc_src = ./src/entry.s \
 					./src/codegen/isImmediateValue.s \
 					./src/string/strIsInt.s \
 					./src/codegen/getVariableByName.s \
-					./src/string/strcmp.s
+					./src/string/strcmp.s \
+					./src/parser/isvariable.s
 
 ifeq ($(OS), OpenBSD)
 LD_FLAGS += --color-diagnostics
@@ -93,6 +94,10 @@ check: ncc
 	as -g -o main.o main.s
 	ld -o a.out $(lib64)/crt1.o $(lib64)/crti.o $(lib64)/crtn.o -lc main.o --dynamic-linker /lib64/ld-linux-x86-64.so.2
 	./checkProgRetrun.sh -p ./a.out -r 5
+	./ncc ./exemple/varAssignment.c
+	as -g -o main.o main.s
+	ld -o a.out $(lib64)/crt1.o $(lib64)/crti.o $(lib64)/crtn.o -lc main.o --dynamic-linker /lib64/ld-linux-x86-64.so.2
+	./checkProgRetrun.sh -p ./a.out -r 2
 
 distcheck:
 

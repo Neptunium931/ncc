@@ -115,6 +115,12 @@ parser.loop.switch.keyword:
 	cmp byte ptr [r15], '}'
 	je  parser.switch.endScope
 
+parser.isVariable:
+    mov  rdi, r11
+    call isvariable
+    cmp rax, 1
+    je parser.variable
+
 parser.callFunction:
 	mov  rdi, r11
 	call isfunction
@@ -292,6 +298,9 @@ parser.switch.return.value:
 
 parser.switch.endScope:
 	jmp parser.loop.next
+
+parser.variable:
+  jmp parser.NotImplemented
 
 # This file is part of ncc.
 #

@@ -365,7 +365,6 @@ codegen.define.variable:
 
 	mov rdi, qword ptr [r15+16]
 
-# not OK if variable as value
 codegen.define.variable.generate:
 	mov rax, qword ptr [rdi+24]
 	and rax, 16
