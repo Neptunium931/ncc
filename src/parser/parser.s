@@ -300,7 +300,30 @@ parser.switch.endScope:
 	jmp parser.loop.next
 
 parser.variable:
-  jmp parser.NotImplemented
+  checkIFNextIsSemiColon 3
+  cmp qword ptr [rbx+8], 0
+  jne parser.variable.addright
+
+parser.variable.addleft:
+  mov  rdi, rbx
+  call addleft
+  mov  rax, [rbx + 8]
+  jmp  parser.variable.assignment
+
+parser.variable.addright:
+  mov  rdi, rbx
+  call addright
+  mov  rax, [rbx + 16]
+
+parser.variable.assignment:
+  mov r15, rax
+  mov qword ptr [r15 + 24], 32
+  mov rdi, [r11 + 8 * 2]
+  call strdup
+  mov qword ptr [r15 + 32], rax
+  add r11, 24
+  mov rbx, r15
+  jmp parser.loop.next
 
 # This file is part of ncc.
 #
