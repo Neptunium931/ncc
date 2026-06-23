@@ -72,8 +72,10 @@ codegen.loop.next.right:
 	jmp codegen.loop
 
 codegen.end.failed:
-	mov rax, 1
-	jmp codegen.end
+	mov  rdi, r14
+	call closeFile
+	mov  rax, 1
+	jmp  codegen.end
 
 codegen.end.succes:
 	mov  rdi, r14
