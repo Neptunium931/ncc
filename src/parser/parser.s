@@ -318,9 +318,19 @@ parser.variable.addright:
 parser.variable.assignment:
   mov r15, rax
   mov qword ptr [r15 + 24], 32
-  mov rdi, [r11 + 8 * 2]
+  mov rdi, [r11]
   call strdup
   mov qword ptr [r15 + 32], rax
+
+  mov rdi, r15
+  call addleft
+  mov rax, [r15 + 8]
+  mov qword ptr [rax + 24], 64
+  mov rdi, [r11 + 8 * 2]
+  call strdup
+  mov rsi, [r15 + 8]
+  mov qword ptr [rsi + 32], rax
+
   add r11, 24
   mov rbx, r15
   jmp parser.loop.next

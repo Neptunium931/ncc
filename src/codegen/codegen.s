@@ -231,6 +231,15 @@ call   writeFd
 writePtr
 .endm
 
+.macro writeStr reg
+mov    rdi, \reg
+call   strlen
+mov    rdx, rax
+mov    rsi, \reg
+mov    rdi, r14
+call   writeFd
+.endm
+
 codegen.function:
 	writeGlobal
 
@@ -284,7 +293,7 @@ codegen.return.variable:
 	mov  rdi, [r15+32]
 	call getVariableByName
 	cmp  rax, 0
-	je   codegen.return.variable.notFound
+	je   codegen.variable.notFound
 
 	mov rbx, [rax+28]
 
@@ -305,7 +314,7 @@ codegen.return.end:
 
 	jmp codegen.loop.next
 
-codegen.return.variable.notFound:
+codegen.variable.notFound:
 	mov  rdi, 2
 	mov  rsi, OFFSET variable.notDefined
 	mov  rdx, OFFSET variable.notDefined.len
@@ -417,6 +426,36 @@ codegen.define.variable.generate.loop.end:
 	jmp codegen.loop.next
 
 codegen.assign.variable:
+	writeMov
+
+	mov  rdi, [r15+32]
+	call getVariableByName
+	cmp  rax, 0
+	je   codegen.variable.notFound
+	mov  r12, rax
+
+	mov rbx, [r12+24]
+	and rbx, 0b1
+	cmp rbx, 0
+	jne codegen.assign.variable.4bytes
+
+codegen.assign.variable.4bytes:
+	writeDwordPtr
+
+codegen.assign.variable.end:
+	writeLeftSquareBracket
+	writeRbp
+	writeMinus
+	mov         rbx, [r12+28]
+	writeUInt64 rbx
+	writeRightSquareBracket
+	writeComma
+
+	mov      rbx, [r15+8]
+	mov      rbx, [rbx+32]
+	writeStr rbx
+	writeEndOfLine
+
 	jmp codegen.loop.next
 
 codegen.value.variable:
