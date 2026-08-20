@@ -116,12 +116,16 @@ parser.loop.switch.keyword:
 	je  parser.switch.endScope
 
 parser.isVariable:
-    mov  rdi, r11
-    call isvariable
-    cmp rax, 1
-    je parser.variable
+	mov  rdi, r11
+	call isvariable
+	cmp  rax, 1
+	je   parser.variable
 
 parser.callFunction:
+	call parser.callFunction.call
+	jmp  parser.loop.next
+
+parser.callFunction.call:
 	mov  rdi, r11
 	call isfunction
 	cmp  rax, 0
@@ -155,7 +159,7 @@ parser.callFunction.value:
 	add                    r11, rax
 	checkIFNextIsSemiColon 0
 	mov                    rbx, r15
-	jmp                    parser.loop.next
+	ret
 
 parser.loop.end:
 
@@ -300,40 +304,49 @@ parser.switch.endScope:
 	jmp parser.loop.next
 
 parser.variable:
-  checkIFNextIsSemiColon 3
-  cmp qword ptr [rbx+8], 0
-  jne parser.variable.addright
+	mov                    rdi, r11
+	add                    rdi, 8 * 2
+	call                   isfunction
+	cmp                    rax, 1
+	je                     parser.variable.value.call
+	checkIFNextIsSemiColon 3
+	cmp                    qword ptr [rbx+8], 0
+	jne                    parser.variable.addright
 
 parser.variable.addleft:
-  mov  rdi, rbx
-  call addleft
-  mov  rax, [rbx + 8]
-  jmp  parser.variable.assignment
+	mov  rdi, rbx
+	call addleft
+	mov  rax, [rbx + 8]
+	jmp  parser.variable.assignment
 
 parser.variable.addright:
-  mov  rdi, rbx
-  call addright
-  mov  rax, [rbx + 16]
+	mov  rdi, rbx
+	call addright
+	mov  rax, [rbx + 16]
 
 parser.variable.assignment:
-  mov r15, rax
-  mov qword ptr [r15 + 24], 32
-  mov rdi, [r11]
-  call strdup
-  mov qword ptr [r15 + 32], rax
+	mov  r15, rax
+	mov  qword ptr [r15 + 24], 32
+	mov  rdi, [r11]
+	call strdup
+	mov  qword ptr [r15 + 32], rax
 
-  mov rdi, r15
-  call addleft
-  mov rax, [r15 + 8]
-  mov qword ptr [rax + 24], 64
-  mov rdi, [r11 + 8 * 2]
-  call strdup
-  mov rsi, [r15 + 8]
-  mov qword ptr [rsi + 32], rax
+	mov  rdi, r15
+	call addleft
+	mov  rax, [r15 + 8]
+	mov  qword ptr [rax + 24], 64
+	mov  rdi, [r11 + 8 * 2]
+	call strdup
+	mov  rsi, [r15 + 8]
+	mov  qword ptr [rsi + 32], rax
 
-  add r11, 24
-  mov rbx, r15
-  jmp parser.loop.next
+	add r11, 24
+	mov rbx, r15
+	jmp parser.loop.next
+
+parser.variable.value.call:
+	int3
+	jmp parser.NotImplemented
 
 # This file is part of ncc.
 #
