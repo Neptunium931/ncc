@@ -15,7 +15,7 @@ isImmediateValue:
 	push r14
 	push r15
 
-	mov  r15, [rdi+32]
+	int3
 	call strIsInt
 
 isImmediateValue.end:

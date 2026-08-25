@@ -345,8 +345,28 @@ parser.variable.assignment:
 	jmp parser.loop.next
 
 parser.variable.value.call:
-	int3
-	jmp parser.NotImplemented
+  mov r12, r11
+  add r11, 16
+  call parser.callFunction.call
+
+parser.variable.value.call.addleft:
+	mov  rdi, rbx
+	call addleft
+	mov  rax, [rbx + 8]
+
+parser.variable.value.call.returnCode:
+  mov r15, rax
+  mov qword ptr [r15 + 24], 32
+  mov rdi, [r12]
+  call strdup
+  mov qword ptr [r15 + 32], rax
+  mov rdi, r15
+  call addleft
+  mov rax, [r15 + 8]
+  mov qword ptr [rax + 24], 64
+  mov rdi, OFFSET rax.str
+  mov qword ptr [rax + 32], rdi
+	jmp parser.loop.next
 
 # This file is part of ncc.
 #

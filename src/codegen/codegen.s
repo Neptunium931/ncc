@@ -275,7 +275,7 @@ codegen.return:
 	writeRax
 	writeComma
 
-	mov  rdi, [r15+32]
+	mov  rdi, r15
 	call isImmediateValue
 	cmp  rax, 1
 	jne  codegen.return.variable
@@ -322,6 +322,14 @@ codegen.variable.notFound:
 	mov  rdi, 100
 	call quit
 
+codegen.variable.size.notFound:
+	mov  rdi, 2
+	mov  rsi, OFFSET variable.notDefined.size
+	mov  rdx, OFFSET variable.notDefined.size.len
+	call writeFd
+	mov  rdi, 110
+	call quit
+
 codegen.call:
 	cmp qword ptr [r15+8], 0
 	je  codegen.call.callFunction
@@ -337,6 +345,14 @@ codegen.call.args:
 	mov  rsi, r13
 	call writeRegisterArg
 	writeComma
+
+	mov  rdi, r12
+	int3
+	call isImmediateValue
+	cmp  rax, 1
+	jne  codegen.call.args.variable
+
+codegen.call.args.immediateValue:
 	mov  rdi, [r12+32]
 	call strlen
 	mov  rdx, rax
@@ -350,7 +366,37 @@ codegen.call.args:
 	mov  r12, [r12+8]
 	jmp  codegen.call.args
 
+codegen.call.args.variable:
+	mov  rdi, [r12+32]
+	call getVariableByName
+	cmp  rax, 0
+	je   codegen.variable.notFound
+	mov  r12, rax
+
+	mov rbx, [r12+24]
+	and rbx, 0b1
+	cmp rbx, 0
+	jne codegen.assign.variable.4bytes
+
+codegen.call.args.variable.4bytes:
+	writeDwordPtr
+
+	writeLeftSquareBracket
+	writeRbp
+	writeMinus
+	mov         rbx, [r12+28]
+	writeUInt64 rbx
+	writeRightSquareBracket
+
+	writeEndOfLine
+	cmp qword ptr [r12+8], 0
+	je  codegen.call.callFunction
+	inc r13
+	mov r12, [r12+8]
+	jmp codegen.call.args
+
 codegen.call.callFunction:
+	int3
 	writeCall
 	mov  rdi, [r15+32]
 	call strlen

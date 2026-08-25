@@ -1,4 +1,4 @@
-# Copyright (c) 2024-2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2024-2026, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 # See end of file for extended copyright information.
 .intel_syntax noprefix
 
@@ -8,6 +8,7 @@
 .global parseArgsType.errorMsg, parseArgsType.errorMsg.len
 .global parseArgsValue.errorMsg, parseArgsValue.errorMsg.len
 .global variable.notDefined, variable.notDefined.len
+.global variable.notDefined.size, variable.notDefined.size.len
 
 checkChar.error.message:
 	.asciz "Invalid character in file.\n"
@@ -33,11 +34,15 @@ variable.notDefined:
 	.asciz "Variable not defined\n"
 	.equ   variable.notDefined.len, . - variable.notDefined
 
+variable.notDefined.size:
+	.asciz "Variable size not defined\n"
+	.equ   variable.notDefined.size.len, . - variable.notDefined.size
+
 # This file is part of ncc.
 #
 # BSD 3-Clause License
 #
-# Copyright (c) 2024-2025, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
+# Copyright (c) 2024-2026, Tymothé BILLEREY <tymothe_billerey@fastmail.fr>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
