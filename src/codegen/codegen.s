@@ -371,9 +371,9 @@ codegen.call.args.variable:
 	call getVariableByName
 	cmp  rax, 0
 	je   codegen.variable.notFound
-	mov  r12, rax
+	mov  rcx, rax
 
-	mov rbx, [r12+24]
+	mov rbx, [rcx+24]
 	and rbx, 0b1
 	cmp rbx, 0
 	jne codegen.assign.variable.4bytes
@@ -384,11 +384,11 @@ codegen.call.args.variable.4bytes:
 	writeLeftSquareBracket
 	writeRbp
 	writeMinus
-	mov         rbx, [r12+28]
+	mov         rbx, [rcx+28]
 	writeUInt64 rbx
 	writeRightSquareBracket
-
 	writeEndOfLine
+
 	cmp qword ptr [r12+8], 0
 	je  codegen.call.callFunction
 	inc r13

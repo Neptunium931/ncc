@@ -364,8 +364,10 @@ parser.variable.value.call.returnCode:
   call addleft
   mov rax, [r15 + 8]
   mov qword ptr [rax + 24], 64
-  mov rdi, OFFSET rax.str
+  int3
+  lea rdi, rax.str
   mov qword ptr [rax + 32], rdi
+  checkIFNextIsSemiColon 0
 	jmp parser.loop.next
 
 # This file is part of ncc.
